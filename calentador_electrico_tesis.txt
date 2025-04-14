@@ -1,0 +1,12146 @@
+UNIVERSIDAD NACIONAL DE TRUJILLO
+FACULTAD DE INGENIERIA QUIMICA
+ESCUELA PROFESIONAL DE INGENIERIA QUIMICA
+Modelado y simulación de un calentador de agua eléctrico de
+temperatura variable basado en un controlador proporcional
+integral derivativo
+TESIS
+Para optar el Título Profesional de Ingeniero Químico
+Autor:
+Uceda Pérez, Juan Manuel
+Asesor:
+Dr. Loyola Carranza, Wilber Alamiro
+Trujillo - Perú
+2021
+
+JURADO DICTAMINADOR
+ng. Ernesto S. AVong Lope
+/CIP, 4077
+Ms. Ernesto Wong López
+Presidente
+Ms. Walter Moreno Eustaquio
+Secretario
+Ms. Paul Henry Esquerre Pereyra
+Miembro
+Dr. Wilber Alamiro Loyola Carranza
+Asesor
+
+AGRADECIMIENTOS
+En primer lugar, agradezco a mi familia por su amor incondicional y apoyo
+constante. A mi padre, Juan C. Uceda Vargas, quien con su ejemplo, sacrificio y
+dedicación me ayuda en mi formación personal y profesional. Asimismo, a mi
+madre Rosario P. Pérez Azahuanche; a mi hermano, Juan Carlos, y a mi tío,
+Santiago A. Uceda Duclós.
+Asimismo, agradezco a mi asesor, el Dr. Wilber A. Loyola Carranza, por
+sus enseñanzas y su apoyo en el desarrollo de la presente investigación.
+Finalmente, manifiesto un agradecimiento especial al Ing. Carlos Herrera
+de la Universidad Peruana de Ciencias Aplicadas por su aporte en el desarrollo
+tecnológico de la presente tesis.
+
+ÍNDICE
+RESUMEN
+ABSTRACT
+INTRODUCCIÓN
+1.1.
+Realidad problemática
+1.2.
+Antecedentes
+1.3.
+Marco Teórico
+1.3.1.
+Hervidor de Agua Eléctrico ...
+1.3.2.
+Controlador On-Off
+1.3.3.
+Control Proporcional Integral Derivativo (PID) ..
+1.3.4.
+Efecto Windup...
+1.3.5.
+Placa Arduino Uno
+1.3.6.
+Sensor DS18B20
+1.3.7.
+Métodos de Sintonización Controladores PID
+1.3.7.1. Método de la Respuesta en Escalón de Ziegler y Nichols..
+1.3.7.2.
+Métodos de Visioli
+1.3.7.3.
+Método de Síntesis Directa
+1.3.7.4. Método de Ali y Majhi ...
+1.3.7.5. Método de Arrieta, Vilanova y Visioli ..
+1.4.
+Problemas
+1.4.1. Problema General
+1.4.2. Problemas Específicos.
+1.5.
+Objetivos
+1.5.1. Objetivo General
+1.5.2. Objetivos Específicos.
+1.6. Hipótesis
+1.6.1. Hipótesis General ...
+1.6.2. Hipótesis Específicas...
+1.7. Importancia del Problema
+II. MATERIALES Y MÉTODOS
+2.1. Modelado de un Hervidor de Agua Eléctrico
+2.1.1. Objeto de estudio............
+2.1.2. Métodos y técnicas....
+2.1.2.1. Análisis Termodinámico ...
+2.1.2.2. Prueba de Escalón Abierto
+2.1.2.3. Técnicas matemáticas..
+2.1.2.4. Métodos computacionales.
+2.1.3. Equipos e instrumentación..
+2.1.4. Procedimiento experimental.
+3
+.11
+..12
+12
+.. 12
+13
+17
+... 17
+18
+20
+..21
+22
+22
+22
+22
+...24
+25
+26
+27
+29
+29
+29
+29
+29
+29
+29
+... 29
+30
+30
+31
+.. 31
+31
+31
+31
+32
+34
+35
+35
+35
+
+2.2.
+Diseño del Lazo de Control PID de Temperatura.
+2.2.1.
+Métodos y técnicas ....
+2.3.
+Diseño del Controlador PID
+2.3.1.
+Métodos y técnicas .
+2.3.1.1. Modelado de ajuste.....
+2.3.1.2. Fórmulas de sintonización.
+2.3.1.3. Esquema anti-windup...
+2.3.1.4. Setpoint weighting .....
+2.3.1.5. Caracterización dinámica..
+2.3.1.6. Técnicas computacionales
+III.
+RESULTADOS
+3.1.
+Modelo Matemático del Hervidor de Agua Eléctrico..
+3.2.
+Diseño Propuesto del Lazo de Control PID
+3.3.
+Diseño del Controlador PID ....
+IV.
+DISCUSIÓN DE RESULTADOS..
+4.1.
+Modelado Teórico y Fenomenología.
+4.2. Propuesta Tecnológica ....
+4.3. Rendimiento del Controlador PID.
+V. CONCLUSIONES...
+VI. RECOMENDACIONES ...
+VII. REFERENCIAS BIBLIOGRÁFICAS
+ANEXOS ..
+36
+.. 36
+36
+. 36
+36
+37
+37
+37
+..37
+37
+..41
+41
+..46
+47
+... 60
+.. 60
+63
+... 64
+67
+.. 67
+68
+..77
+
+ÍNDICE DE FIGURAS
+Fig. 1.1. Ejemplar de un hervidor de agua eléctrico metálico
+. 18
+Fig. 1.2. Termostato bimetálico para hervidor de agua eléctrico
+. 19
+Fig. 1.3. Formas de un controlador on-off: a) ideal, b) con histéresis y c) con
+banda muerta
+. 20
+Fig. 1.4. Fluctuación de la temperatura alrededor del valor de consigna
+...20
+Fig. 1.5. Placa Arduino Uno con microcontrolador
+23
+Fig. 1.6. Sensor DS18B20.
+23
+Fig. 1.7. Parámetros característicos de una curva de reacción según el método
+de la respuesta en escalón de Ziegler y Nichols
+.24
+Fig. 2.1. Algoritmo de análisis termodinámico.
+.33
+Fig. 2.2. Diseño de lazo abierto..
+. 33
+Fig. 2.3. Diagrama de conexiones entre el sensor DS18B20 y la placa Arduino
+Uno..
+..34
+Fig. 2.4. Diagrama de bloques de la prueba de lazo abierto ...
+...34
+Fig. 3.1. Conceptualización de un hervidor de agua eléctrico: objeto real (a) y
+concepto mental de este (b)..
+..42
+Fig. 3.2. Diagrama de bloques del hervidor de agua eléctrico.
+.45
+Fig. 3.3. Gráfico temperatura vs tiempo para el hervidor de agua eléctrico
+.....45
+Fig. 3.4. Gráfico de potencia vs tiempo para el hervidor de agua eléctrico
+..46
+Fig. 3.5. Curvas de reacción de la planta y de ajuste FOPDT
+..46
+Fig. 3.6. Componentes del lazo de control PID: el sensor de temperatura
+DS18B20 (1), el potenciómetro 10 kOhm (2), el microcontrolador en la placa
+Arduino Uno (3) y el sistema de calefacción (bloque de línea discontinua) basado
+en un relé en estado sólido (4) y su disipador de calor (5).
+..47
+Fig. 3.7. Diagrama de bloques en Simulink de un calentador de agua eléctrico
+con control PID de temperatura, setpoint weighting y un circuito anti-windup... 48
+Fig. 3.8. Respuestas de lazo obtenidas a partir del método de respuesta en
+escalón de Ziegler y Nichols con setpoint weighting y anti-windup para cambios
+del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C..
+...49
+Fig. 3.9. Respuestas de salida del controlador PID sintonizado por el método de
+respuesta en escalón de Ziegler y Nichols con setpoint weighting y anti-windup
+para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C
+..49
+5
+
+Fig. 3.10. Respuestas dinámicas obtenidas a partir del método de Visioli basado
+en el criterio ISE para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d)
+60°C.
+.. 51
+Fig. 3.11. Respuestas de salida del controlador PID sintonizado por el método
+de Visioli basado en el criterio ISE para cambios del setpoint de a) 20°C, b) 30°C,
+c) 40°C y d) 60°C
+... 51
+Fig. 3.12. Respuestas del lazo obtenidas a partir del método de Visioli basado en
+el criterio de minimización del índice ITSE para cambios del setpoint de a) 20°C,
+b) 30°C, c) 40°C y d) 60°C
+..52
+Fig. 3.13. Respuestas de salida del controlador PID sintonizado por el método
+de Visioli basado en el criterio de minimización del índice ITSE para cambios del
+setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C
+52
+Fig. 3.14. Respuestas del lazo obtenidas a partir del método de Visioli basado en
+el criterio ISTE para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C
+... 53
+Fig. 3.15. Respuestas de salida del controlador PID sintonizado por el método
+de Visioli basado en el criterio ISTE para cambios del setpoint de a) 20°C, b)
+30°C, c) 40°C y d) 60°C
+.54
+Fig. 3.16. Respuestas de lazo del controlador PID sintonizado por el método de
+síntesis directa con setpoint weighting y anti-windup para cambios del setpoint
+de a) 20°C, b) 30°C, c) 40°C y d) 60°C.
+.55
+Fig. 3.17. Respuestas de salida del controlador PID sintonizado por el método
+de síntesis directa con setpoint weighting y anti-windup para cambios del setpoint
+de a) 20°C, b) 30°C, c) 40°C y d) 60°C.
+..55
+Fig. 3.18. Efecto del factor 2 sobre la dinámica del lazo de control para cambios
+del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C
+56
+Fig. 3.19. Respuestas del lazo obtenidas a partir del método de Ali y Majhi con
+anti-windup para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C57
+Fig. 3.20. Respuestas de salida del controlador PID sintonizado por el método
+de Ali y Majhi con anti-windup para cambios del setpoint de a) 20°C, b) 30°C, c)
+40°C y d) 60°C .
+57
+Fig. 3.21. Efecto del filtro derivativo sobre la dinámica del proceso según el
+método de Ali y Majhi con anti-windup: a) con filtro derivativo y b) sin filtro
+derivativo..
+58
+6
+
+Fig. 3.22. Respuestas del lazo obtenidas a partir del método de Arrieta, Vilanova
+y Visioli con anti-windup para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C
+y d) 60°C
+. 59
+Fig. 3.23. Respuestas de salida del controlador PID sintonizado por el método
+de Arrieta, Vilanova y Visioli con anti-windup para cambios del setpoint de a)
+20°C, b) 30°C, c) 40°C y d) 60°C .........
+... 60
+Fig. 3.24. Efecto del setpoint weight sobre la dinámica del lazo según el método
+de Arrieta, Vilanova y Visioli con anti-windup: a) con setpoint weight y b) sin
+setpoint weight
+60
+7
+
+INDICE DE TABLAS
+Tabla 1.1. Fórmulas de sintonización de Ziegler y Nichols para una prueba de
+escalón de lazo abierto.
+. 26
+Tabla 1.2. Fórmulas de sintonización de controladores PID de Visioli (2001)
+según los índices de desempeño integrales ISE, ITSE e ISTE
+.27
+Tabla 1.3. Valores de los parámetros 2 para sistemas integrantes según el factor
+de balance
+30
+Tabla 2.1. Características del hervidor de agua eléctrico.
+34
+Tabla 2.2. Conexiones entre el sensor DS18B20 y la placa Arduino Uno
+. 36
+Tabla 2.3. Metodologías de diseño del controlador PID para procesos integrantes
+.40
+Tabla 3.1. Parámetros de ajuste según un modelo FOPDT
+.47
+Tabla 3.2. Características de las respuestas dinámicas de salida para un control
+PID sintonizado según el método de lazo abierto de Ziegler y Nichols
+…...... 50
+Tabla 3.3. Parámetros de sintonización de un controlador PID según el método
+de Visioli y los índices de desempeño integrales ISE, ITSE e ISTE
+... 50
+Tabla 3.4. Características de las respuestas dinámicas de salida para un control
+PID sintonizado según el método de Visioli y un mínimo índice ISE.
+.. 51
+Tabla 3.5. Características de las respuestas dinámicas de salida para un control
+PID sintonizado según el método de Visioli y un mínimo índice ITSE
+..53
+Tabla 3.6. Características de las respuestas dinámicas de salida para un control
+PID sintonizado según el método de Visioli y un mínimo índice ISTE
+...54
+Tabla 3.7. Características de las respuestas dinámicas de salida para un control
+PID sintonizado según el método de síntesis directa ..
+.. 56
+Tabla 3.8. Características de las respuestas dinámicas de salida para un control
+PID sintonizado según el método de Ali y Majhi con anti-windup
+58
+Tabla 3.9. Efecto del filtro derivativo sobre las respuestas dinámicas para un
+controlador PID sintonizado por el método de Ali y Majhi con anti-windup ...... 58
+Tabla 3.10. Características de las respuestas dinámicas de salida para un control
+PID sintonizado según el método de Arrieta, Vilanova y Visioli con setpoint
+weighting y anti-windup
+. 60
+Tabla 3.11. Efecto del setpoint weight sobre las respuestas dinámicas para un
+controlador PID sintonizado por el método de Arrieta, Vilanova y Visioli con anti-
+windup.
+61
+8
+
+Tabla 3.12. Energía consumida (kW) por el calentador durante la primera hora
+de su funcionamiento
+Tabla B.1. Primer grupo de datos experimentales
+Tabla B.2. Segundo grupo de datos experimentales
+Tabla B.3. Tercer grupo de datos experimentales.
+Tabla B.4. Cuarto grupo de datos experimentales
+Tabla B.5. Quinto grupo de datos experimentales
+Tabla B.6. Sexto grupo de datos experimentales
+.. 62
+.. 79
+.84
+. 89
+94
+.. 99
+104
+
+RESUMEN
+La presente investigación tuvo como propósito desarrollar el modelo y la
+simulación computacional de un calentador de agua eléctrico, con control
+variable de temperatura basado en la implementación de un controlador PID, con
+anti-windup a un hervidor eléctrico. El modelado se llevó a cabo mediante la
+aplicación de balances de materia y energía, así como en una prueba de lazo
+abierto. Para esto último, se ensambló un sistema de medición de la temperatura
+con una placa Arduino Uno y un sensor DS18B20, obteniéndose un modelo
+FOPDT mediante ajuste por mínimos cuadrados de las curvas de reacción.
+Posteriormente, se propuso el diseño del lazo de control PID y se realizó la
+sintonización del controlador basada en la aplicación de cinco metodologías
+diferentes y anti-windup. Los resultados de la simulación demostraron que la
+metodología basada en Ali y Majhi (2010) proporcionaron las respuestas
+dinámicas con menores sobrepasos y tiempos de estabilización, asimismo un
+menor consumo energético durante la primera hora de funcionamiento del
+aparato.
+Palabras claves: Hervidor de agua eléctrico, controlador PID, anti-windup y setpoint weighting.
+10
+
+ABSTRACT
+The purpose of this research was to develop the model and computational
+simulation of an electric water heater with variable temperature control, based on
+the implementation of a PID controller with anti-windup to an electric kettle. The
+modeling was carried out by applying mass and energy balances, as well as in
+an open loop test. For the latter, a temperature measurement system was
+assembled with an Arduino Uno
+board and a DS18B20 sensor, obtaining a
+FOPDT model by means of least squares adjustment of the reaction curves.
+Subsequently, the design of the PID control loop was proposed and the controller
+tuning was carried out based on the application of five different and anti-windup
+methodologies. The simulation results showed that the methodology based on Ali
+and Majhi (2010) provided the dynamic responses with the smallest overshoots
+and short stabilization times, as well as lower energy consumption during the first
+hour of device operation.
+Key words: Electric water kettle, PID controller, anti-windup and setpoint weighting.
+11
+
+1.1.
+INTRODUCCIÓN
+Realidad problemática
+Un hervidor de agua eléctrico es un aparato utilizado para el
+calentamiento y la ebullición de agua, siendo este proceso regulado por
+una unidad que permite su apagado inmediato cuando se haya alcanzado
+tal condición de saturación (Murray et al., 2016, p. 231). Por otro lado, un
+controlador proporcional integral derivativo (PID) es el dispositivo de
+control más utilizado en la industria de procesos (Shah et al., 2019, p.
+1683) y cuya manipulación y demanda ingenieril han hecho posible su
+evolución tecnológica (Visioli, 2006, p. 1).
+En el Perú, la demanda de hervidores de agua eléctricos ha ido
+aumentando durante la última década (Jugo, 2020; MINEM, 2020; Pinto,
+2020; Redacción EC, 2020), aspecto que se traduce como un relevante
+uso cotidiano de estos aparatos. Como se mencionó anteriormente, el
+funcionamiento de estos se basa en un termostato bimetálico de acción
+mecánica (Billingsley, 2010, p. 42), el cual permite calentar agua hasta
+alcanzar su condición de saturación a la presión del ambiente. En otras
+palabras, un hervidor eléctrico, como su mismo nombre lo indica,
+solamente sirve para hervir agua. Esto resulta siendo un inconveniente
+para aquellos usuarios que desean controlar la temperatura del agua a un
+valor determinado, esto es, cuando se requiere precisar la temperatura a
+ciertos valores para preparar diferentes tipos de infusiones (Madugu,
+2018, p. 15; Shah et al., 2019, p. 1684). Dada esta condición, el consumo
+de energía resulta siendo usualmente desmesurado. La evidencia reporta
+que los hervidores eléctricos son los artefactos con el segundo mayor
+índice de consumo energético, especialmente durante las temporadas
+invernales (Ministerio de Energía y Minas [MINEM], 2010; Redacción
+Gestión, 2018). Estos representan en promedio un consumo energético
+equivalente al uso de 10 a 45 focos de 100 W (Redacción El Peruano,
+2020), asimismo le correspondía hasta 2017 una potencia eléctrica
+nominal de 1850 W y una utilización de dos (02) horas en promedio
+diariamente (MINEM, 2017). A pesar del lanzamiento al mercado de
+hervidores digitales y algunos ejemplares basados en un control PID
+(hervidores Stagg EKG y Corvo EKG), la demanda de estos es demasiado
+12
+
+minúscula como para representar una solución ante esta problemática lo
+suficientemente viable desde un punto de vista técnico o económico.
+Asimismo, también se han reportado reclamos por parte de usuarios
+referidos a fallos en sus sistemas de control (Amazon, 2020). Por otro
+lado, y en lo que respecta a los controladores PID, a pesar de que estos
+son los más utilizados en la industria, pocas veces intervienen en
+actividades más sencillas (Madugu, 2018, p. 15). Por lo tanto, existe gran
+desconcierto por parte la comunidad científica referente a su escasa
+relevancia en el sector doméstico.
+Una última problemática se orienta al contexto académico. Si bien la
+disciplina de control de procesos orienta sus esfuerzos a una escala
+industrial, resultaría crucial que los estudiantes se familiaricen con una
+aplicación más sencilla, pero con elevada trascendencia. Son pocas las
+investigaciones que pretenden unificar y validar las supuestas
+atribuciones de cada una de las metodologías referentes al diseño de
+controladores PID, partiendo desde el modelado teórico y el análisis
+mediante simulación computacional. Si bien esto último podría atribuirse
+al hecho de que gran cantidad de estas investigaciones son realizadas
+por ingenieros electrónicos, se espera que el presente enfoque, arraigado
+a la ingeniería química, satisfaga un análisis exhaustivo de tales métodos.
+1.2. Antecedentes
+Uno de los antecedentes principales de la presente investigación, y el
+primero en ser reportado, fue el trabajo de Madugu (2018) referente al
+modelado y la simulación de un hervidor de agua eléctrico con control PID
+de temperatura. En lo que concierne al modelado, este se sustentó en la
+conceptualización del proceso y la aplicación de los principios de
+conservación de masa y energía (Felder y Rousseau, 2005; Himmelblau
+y Riggs, 2012). Por su parte, Sandler (2017) y Segura (2019) ofrecieron
+una visión filosófica y rigurosa de estos principios. Para el desarrollo de
+esta etapa, Madugu (2018) se basó en un modelo de parámetros
+concentrados (p. 15), presunción también considerada por Murray et al.
+(2016, p. 236) y estudiada por Romagnoli, Palazoglu y Whitaker (2001).
+Para estos últimos autores, dicha condición se fundamenta en la
+13
+
+búsqueda de un enfoque práctico en aras de una posterior derivación
+sencilla del modelo matemático. Con el fin de desarrollar su modelo
+matemático, Madugu (2018, p. 16) aplicó la transformada de Laplace
+(Corripio y Smith, 2014, p. 14). Posteriormente, para determinar los
+parámetros del proceso, obtuvo la curva de reacción mediante una prueba
+de lazo abierto (Madugu, 2018, p. 16; Madugu y Vasira; 2018, p. 187).
+Para este montaje experimental, se utilizaron un multímetro digital MAS-
+345, como sensor de la temperatura, y una computadora portatil para la
+recolección de los datos enviados por el multímetro a través de su
+conexión a un puerto USB. Debido a que dicha instrumentación resultó
+siendo imposible de acceder, se recurrió al proyecto presentado por
+Watson (2018), cuyo objetivo fue la implementación de un sistema de
+medición de temperatura basado en un termistor DS18B20, una placa
+Arduino Uno y un código de simulación en el ambiente Arduino IDE. Para
+el modelado de ajuste, Madugu (2018) empleó el método de la tangente
+(Visioli, 2006, p. 166; Corripio y Smith, 2014, p. 333) obteniendo un
+modelo de primer orden con tiempo muerto (FOPDT). Otros métodos
+reportados de mayor o similar reproducibilidad fueron los de Smith (1972)
+(Corripio y Smith; 2014, p. 334), Sundaresan y Krishnaswamy (1978)
+(Seborg et al., 2011, p. 120) y el método basado en áreas (Aström y
+Hägglund, 1995, p. 24; Visioli, 2006, p. 166). Fue en esta etapa, que se
+cuestionó dicho trabajo, pues a pesar de que su modelo empírico se
+relacionaba con el derivado por la teoría, este no logró explicar
+satisfactoriamente la física del fenómeno.
+Shah et al. (2019) fueron quienes aportaron la innovación tecnológica al
+construir un hervidor eléctrico con control PID de temperatura. Su diseño
+se basaba en una placa Arduino Uno con microcontrolador, un termistor
+DS18B20, un circuito basado en un modelo TRIAC con un relé en estado
+sólido (SSR), un display de temperatura y un potenciómetro 10 k. Aunque
+un controlador PID, por teoría, trabaja con señales analógicas, si es
+posible su conexión a un SSR. Esto quedó evidenciado con algunas
+investigaciones, como la de Soedira (2020), referente al diseño de una
+máquina de extrusión de polímeros; y la de Gajjar, Patel y Singh (2015),
+cuyo objetivo fue la implementación de un controlador PID a una máquina
+14
+
+lavadora de botellas. Por su parte, Tan y Yan (2017) discutieron la
+factibilidad del ensamblado de un circuito de control de temperatura
+basado en un microcontrolador.
+En la literatura del control de procesos, existen diversos textos clásicos
+que profundizan estrictamente el diseño de controladores PID (Aström y
+Hägglund, 1995; Johnson y Moradi, 2005; Chen-Ching, 2006; Visioli,
+2006; Vilanova y Visioli, 2012; Díaz-Rodríguez, Han, Bhattacharyya;
+2019). Desafortunadamente, son pocos los métodos de sintonización de
+controladores PID para procesos integrantes, considerándose la amplia
+variedad de métodos orientados a procesos autorregulados. El trabajo
+original de Ziegler y Nichols (1942) constituyó el primer enfoque orientado
+a la sintonización de un controlador PID para un proceso no
+autorregulado, en este caso, un modelo integrante con tiempo muerto
+(Aström y Hägglund, 1995, p. 165). Se propusieron dos métodos, siendo
+el de principal interés en la presente investigación, el de análisis de la
+respuesta en lazo abierto ante una entrada de escalón unitario. Sin
+embargo, más tarde, tales fórmulas se han adecuado a la sintonización
+basada en un modelo FOPDT (Corripio y Smith, 2014). Esto, sumado a la
+publicación de otros trabajos, como el de Chien, Hrones y Reswick (1952)
+y Cohen y Coon (1953), ha desplazado en cierta magnitud el interés
+colectivo por el desarrollo de reglas de sintonización para sistemas no
+autorregulados. Por otro lado, el aporte original de Ziegler y Nichols (1942)
+no era capaz de abordar problemas de cambio del setpoint (punto de
+consigna). Ante tal desventaja, Aström y Hägglund (2004) propusieron un
+método conocido como setpoint weighting (Visioli, 2006, pp. 61-63),
+aunque enfocado a un modelo de planta FOPDT. Fue el trabajo de
+Chidambaram (2000), el que se encaminó al estudio del control de plantas
+integrantes con setpoint weighting. A pesar de que varios trabajos se
+centraron en mejorar las ideas planteadas por Ziegler y Nichols, no se
+analizó el problema de cambio de setpoint. Habiéndose analizado otros
+métodos de sintonización clásicos (Luyben, 1996), se buscaron otras
+metodologías basadas específicamente en procesos integrantes y la
+aplicación de un setpoint weight. Fue en esta etapa, que se reportó el
+método de Visioli (2001), el cual llamó la atención por su sencillez en
+15
+
+cuanto a la eliminación de la acción integral de un controlador PID. No
+obstante, dada la ineficacia de un controlador PD ante el problema de
+regulación de una perturbación a la planta. En aras de mayor complejidad
+y vigencia, se reportó el trabajo de A. S. Rao, V. S. R. Rao y Chidambaram
+(2009), quienes propusieron el diseño de un controlador PID en serie con
+un compensador basado en el método de síntesis directa y la adición de
+un setpoint weight. Asimismo, se consideraron las metodologías
+propuestas por Ali y Majhi (2010) y Arrieta, Vilanova y Visioli (2011). Estos
+grupos de autores presentaron enfoques unificadores, es decir,
+metodologías basadas en un rendimiento óptimo del lazo de control ante
+una entrada de perturbación y un cambio del setpoint. Otros trabajos
+analizados fueron el Chidambaram y Sree (2003), el Control por Modelo
+Interno (IMC) (Skogestad, 2003; Kaya, 2004) y el predictor de Smith (Liu
+et al., 2005; Lu, 2005). Las primeras simulaciones basadas en las
+metodologías citadas presentaron un bajo rendimiento debido al efecto
+windup (Aström y Hägglund, 1995, pp. 76-78). Por otro lado, el trabajo de
+Wibowo y Susanto (2018) resultó de vital trascendencia. Tales autores
+propusieron un mejoramiento del control PID de la temperatura de un
+calentador de agua de laboratorio a través del implemento de un esquema
+anti-windup, siendo este sintonizado por el método de recálculo y
+seguimiento (Fertik y Ross, 1967; Visioli, 2006, pp. 35-60; Torstensson,
+2013). Similarmente, en la investigación relevante de Jalil et al. (2013) se
+implementó un controlador PID con anti-windup a una planta piloto de
+blanqueamiento de glicerina. Al igual que Wibowo y Susanto (2018), estos
+autores utilizaron el método de recálculo y seguimiento, asimismo
+evaluaron el efecto de la constante del seguimiento de tiempo sobre las
+respuestas dinámicas. Con el propósito de determinar los parámetros
+óptimos de sintonización, Jalil et al. (2013) caracterizaron cada una de las
+respuestas dinámicas según el sobrepaso y el tiempo de estabilización.
+El software MATLAB ofrece el comando stepinfo para la caracterización
+de la respuesta dinámica (Hassaan, 2014, p. 121). Otros criterios de
+evaluación emplean los índices de desempeño integrales, tales como la
+integral del error absoluto (IAE) y la integral del error absoluto en el tiempo
+(ITAE) (Dey, Mudi y Simhachalam, 2014).
+16
+
+1.3. Marco Teórico
+1.3.1. Hervidor de Agua Eléctrico
+Un hervidor de agua eléctrico, ver Figura 1.1, es un artefacto que sirve
+para ebullir agua, la cual tiene un propósito alimenticio. Este se inventó a
+fines del siglo XIX y empezó a sustituir paulatinamente al hervidor
+convencional de estufa durante los años posteriores (Marcinkowski y
+Zych, 2017, p. 256).
+Fig. 1.1. Ejemplar de un hervidor de agua eléctrico metálico.
+Estos aparatos son considerados calentadores sin toma fija de agua, dado
+que poseen la ventaja de poder ser manipulados y transportados
+fácilmente (Müller et al., 1994, p. 378).
+El funcionamiento de estos se basa en una acción mecánica. En su base
+inferior se integra un termostato bimetálico, ver Fig. 1.2, el cual se
+encuentra curvado en una dirección y se compone de dos discos
+metálicos diferentes y concéntricos; uno de los cuales se expande con
+mayor rapidez que el otro cuando la temperatura se incrementa. En el
+momento que la temperatura del agua alcanza la condición de saturación,
+el vapor generado se pone en contacto con el termostato por medio de un
+conducto que conecta a la base. Esto provoca que el termostato se
+flexione en la dirección opuesta y se induzca a que una palanca haga caer
+el circuito. Así se corta el flujo de electricidad y el hervidor se apaga de
+forma segura.
+El elemento calefactor es una resistencia eléctrica. Cuando el hervidor se
+conecta a un tomacorriente, una corriente eléctrica fluye hacia y a través
+del dicho elemento, ver Fig. 1.3. La forma de este es similar a la de un
+serpentín y puede posicionarse dentro de la base o en el interior del
+17
+
+recipiente (Chen y Liu, 2015, p. 296). La resistencia al paso de la carga
+ofrecida por los metales que constituyen el elemento provoca que la
+electricidad se convierta en calor (efecto Joule). Dado que este elemento
+se calienta y, a su vez, está en contacto directo con el agua fría, se
+transfiere calor por conducción para el calentamiento del líquido (David,
+2021).
+Fig. 1.2. Termostato bimetálico para hervidor de agua eléctrico.
+1.3.2. Controlador On-Off
+Un controlador on-off presenta dos posiciones fijas: una de encendido (on)
+y otra de apagado (off) (Bolton, 2004, p. 102). Formalmente, su ley de
+control se define así
+m (t) =<
+(1.1)
+Mmin « et) <0
+Donde mt) es la señal de salida del controlador o variable de
+manipulación (Visioli, 2006, p. 3).
+En otras palabras, esta señal salida adquiere un valor máximo cuando el
+error de control es positivo y un valor mínimo cuando tal error es negativo.
+Usualmente, se asigna mmin =0 (off) y el controlador se implementa
+mediante un relé (Visioli, 2006, p. 3).
+En casos prácticos, la naturaleza básica de un controlador on-off se
+modifica insertando una banda muerta o histéresis para hacer frente al
+ruido de medición y limitar el desgaste de este. En otras palabras, esta
+evita que el controlador responda a cambios demasiado minúsculos de la
+variable controlada (Bolton, 2004, p. 103; Visioli, 2006, p. 4).
+18
+
+Mmax
+Mmax
+Mmax
+Mmin
+a)
+Mmin
+b)
+Mmin C)
+Fig. 1.3. Formas de un controlador on-off: a) ideal, b) con histéresis y c) con banda
+muerta. Adaptado de Visioli (2006, p. 4).
+Este tipo de control es relativamente simple y barato, razón por la
+cual su uso es extendido en sistemas de control tanto industriales como
+domésticos. Un ejemplo es el termostato bimetálico (Bolton, 2004, p. 102).
+Dado que la acción de un controlador on-off es discontinua y
+existen tiempos de retardo en la dinámica del sistema, las oscilaciones
+tendrán de la variable controlada tendrán lugar en su aproximación al valor
+de consigna (Bolton, 2004, p. 103), ver Fig. 1.4.
+On
+sarda der
+Off
+Tiempo
+Temperatura de
+consigna
+Aumento de la
+temperatura después
+debajo del set point y
+del apagado del
+señal de encendido
+controlador (off)
+(on) del controlador
+Fig. 1.4. Fluctuación de la temperatura alrededor del valor de consigna. Adaptado de
+Bolton (2004, p. 103).
+19
+
+1.3.3. Control Proporcional Integral Derivativo (PID)
+La mitad de los controladores industriales que se usan hoy en día utilizan
+esquemas de control PID o PID modificado (Ogata, 2003). La acción de
+un controlador PID es la suma de otros tres tipos de acciones de control:
+una proporcional, una integral y una derivativa.
+a) Acción Proporcional
+Esta acción es proporcional al error de control. Su ecuación es
+m (t) = Kpe(t) = Rp [r(+) -c(*)]
+(1.2)
+Donde
+Kp: Ganancia proporcional
+r (t): Variable de referencia (setpoint)
+c(t): Variable de control
+Su función de transferencia correspondiente es
+Gc (s) = Kp
+(1.3)
+Esta posee la ventaja de evitar esfuerzos excesivos del controlador; sin
+embargo, también produce un error en estado estacionario, tanto para un
+cambio del setpoint como para la entrada de una perturbación a la planta
+(Visioli, 2006, pp. 3-4; Seborg et al., 2011, p. 136).
+b) Acción Integral
+Esta acción es proporcional a la integral del error de control. Su ecuación
+es
+m(t) = K,J. e(t) dt
+(1.4)
+Donde
+K, es la ganancia integral. Su función de transferencia
+correspondiente es
+Gc (s) = K,
+(1.5)
+Debido a la presencia de un polo en el origen del plano complejo, esta
+acción permite la supresión del error de estado estacionario (Visioli, 2006,
+p. 5). Una desventaja inherente a esta acción es el fenómeno conocido
+como windup (Seborg et al., 2011, p. 137).
+20
+
+c) Acción Derivativa
+Esta acción se basa en la observación de la tasa de cambio del error de
+control con el tiempo (Corripio y Smith, 2014, p. 252). Su ecuación es
+mt) =-
+de (t)
+(1.6)
+dt
+Donde K,
+es la ganancia derivativa. Su función de transferencia
+correspondiente es
+Gc (s) =Rys
+(1.7)
+Esta acción mejora el rendimiento del lazo de control, puesto que anticipa
+una tendencia del error de control y lo contrarresta (Visioli, 2006, p. 6).
+En síntesis, un controlador PID ideal es descrito mediante la siguiente
+función de transferencia
+Go(s) = K, (1+1)
+T,S
+3+535)
+(1.8)
+Donde
+T,: Constante del tiempo integral
+T,: Constante del tiempo derivativo
+A partir de la ecuación (1.7) se define la forma paralela de un controlador
+PID
+G.(s) = K, + K, + K,$
+(1.9)
+Donde
+K, = K,
+I,
+K, = KpTD
+(1.10)
+(1.11)
+1.3.4. Efecto Windup
+Cuando ocurre un error
+sostenido, el término integral se vuelve
+demasiado grande y la salida del controlador eventualmente se satura.
+Esta acumulación adicional del término integral mientras el controlador
+está saturado se conoce como windup (Seborg et al., 2011, p. 138).
+El efecto windup puede ocurrir debido a grandes cambios del setpoint, o
+puede ser causada por grandes perturbaciones o fallas en el equipo
+(Aström y Hägglund, 1995, p. 76).
+21
+
+1.3.5. Placa Arduino Uno
+El Arduino Uno es una placa de microcontrolador basada en el
+ATmega328P. Tiene 14 pines de entrada y salida digitales (de los cuales
+6 se pueden usar como salidas PWM), 6 entradas analógicas, un
+resonador cerámico de 16 MHz, una conexión USB, un conector de
+alimentación, un encabezado ICSP y un botón de reinicio (Skultéty,
+Pivarciová y Karrach, 2018, p. 169).
+(UNO.
+CHiM
+Fig. 1.5. Placa Arduino Uno con microcontrolador.
+1.3.6. Sensor DS18B20
+El DS18B20, ver Fig. 1.4, es un sensor de temperatura digital y que utiliza
+el protocolo 1-Wire para comunicarse (Hemanth, 2021). Este mide la
+temperatura dentro de un rango de -55°C a 125°C y con una exactitud del
+5% (Fezari y Al Dahoud, 2019).
+Fig. 1.6. Sensor DS18B20.
+1.3.7. Métodos de Sintonización Controladores PID
+1.3.7.1.
+Método de la Respuesta en Escalón de Ziegler y Nichols
+El primer método presentado por Ziegler y Nichols (1942) se
+fundamenta en la obtención de la curva de reacción de lazo abierto del
+proceso a partir de una prueba de escalón unitario (p. 159) y se
+22
+
+sustentan en la salida de una respuesta dinámica con razón de
+asentamiento de un cuarto (Corripio y Smith, 2014, p. 339).
+La Fig. 1.7 representa una típica curva de reacción. En el control de
+procesos no autorregulados, como el control del nivel de un líquido,
+esta curva alcanza un valor máximo de pendiente y continúa
+indefinidamente (o hasta que el tanque rebalse) (Ziegler y Nichols,
+1942, p. 764). No obstante, estos autores también presentaron un
+enfoque orientado al control de procesos autorregulados (Smith, 2009;
+Corripio y Smith, 2014).
+a
+RL
+Fig. 1.7. Parámetros característicos de una curva de reacción según el método de
+la respuesta en escalón de Ziegler y Nichols. Adaptado de Ziegler y Nichols (1942,
+p. 763).
+Esta curva es caracterizada por dos parámetros. El primero es la
+"velocidad de respuesta" (R), la cual es la tasa máxima de cambio de
+la curva. Dicho parámetro viene determinado por la pendiente de la
+recta tangente al punto de inflexión de la curva. La intersección de esta
+recta con el eje del tiempo provee el segundo parámetro conocido
+como lag o tiempo muerto (L). Asimismo, su intersección con el eje
+de las ordenadas determina el producto de ambos parámetros (Ziegler
+y Nichols, 1942, p. 764; Aström y Hägglund, 1995, p. 165). A partir de
+ambos parámetros, se deriva el siguiente modelo IPDT
+R
+Gp (s) ==
+-e-Ls
+(1.12)
+S
+23
+
+Este es un modelo integrante fue el utilizado originalmente por Ziegler
+y Nichols para derivar sus fórmulas de sintonización (Aström y
+Hägglund, 1995), las cuales se presentan en la Tabla 1.1.
+Tabla 1.1. Fórmulas de sintonización de Ziegler y Nichols para una prueba de
+escalón de lazo abierto
+Control
+Ganancia
+Tiempo integral
+Tiempo derivativo
+P
+PI
+PID
+RL
+0,9
+RL
+1,2
+RL
+3,33L
+2,0L
+0,51
+Fuente: Aström y Hägglund (1995, р. 136).
+1.3.7.2.
+Métodos de Visioli
+Visioli (2001) presentó fórmulas de sintonización de controladores PID
+aplicados a procesos integrantes e inestables, así como a entradas de
+perturbación y cambios del punto de consigna (p. 180). A continuación,
+considérese la siguiente función de transferencia de planta para un
+proceso integrante.
+G, (s) =
+(1.13)
+Donde
+K, :
+Ganancia de velocidad (Aström y Hägglund, 2004, p. 165).
+Para Visioli (2001), el problema de la sintonización de un controlador
+PID radica en la
+selección de aquellos parámetros que minimicen
+ciertos índices de desempeño integrales, tales como la integral del
+error al cuadrado (ISE), la integral del error al cuadrado por el tiempo
+(ITSE) y la integral del error al cuadrado por el cuadrado del tiempo
+(ISTE) (p. 180).
+Para un controlador PID y un cambio del setpoint, Visioli (2001) derivó
+sus fórmulas de sintonización, ver Tabla 3.2, mediante un algoritmo
+genético (p.181). Cabe resaltar que la ausencia del tiempo integral
+resulta siendo intuitiva, puesto que ya se cuenta con la presencia de
+un integrador en la función de transferencia de planta para la supresión
+del error en estado estacionario (Visioli y Zhong, 2011, p. 43).
+24
+
+Tabla 1.2. Fórmulas de sintonización de controladores PID de Visioli según los
+índices de desempeño integrales /SE, ITSE e ISTE
+Criterio
+Ganancia
+Tiempo integral
+Tiempo derivativo
+ISE
+1,03
+0,49 L
+KL
+ITSE
+0,96
+ISTE
+KL
+0,90
+0,45L
+0,45L
+KL
+Fuente: Visioli y Zhong (2011, p. 43).
+1.3.7.3. Método de Síntesis Directa
+La función de transferencia de lazo cerrado entre la referencia y la
+variable de salida es
+Y (s)
+y" (s)
+Gc (s) Gp(s)
+1+ Go (s)G,(s)
+(1.14)
+Para el controlador
+(1.15)
+G, 1- Y (s)/y° (s)
+Se especifica un modelo dinámico para el lazo cerrado.
+[x(s)/Ym (s)]1
+G, 1-[Y(s)/y" (s)],
+(1.16)
+Donde
+LY(s)/Y*° (s)): Función de transferencia deseada para cambios del
+setpoint.
+Para el caso particular de un proceso que puede ser aproximado al
+siguiente modelo IFOPTD
+Ke-ts
+G, =
+(1.17)
+s (Ts +1)
+La función de transferencia de lazo cerrado que se especifica para el
+diseño del controlador es
+(1.18)
+(25+1)}
+Entonces, para el controlador
+25
+
+(1252+715+1)
+(1.19)
+Se aplica la aproximación de Padé de primer orden para el tiempo
+muerto. Después de simplificarse, la ecuación se ajusta a un
+controlador PID en serie con un compensador lead/lag, cuya ley de
+control es
+G. (s) = k. 1+
+T,S
+as+1)
+Bs+1)
+(1.20)
+Donde
+1.3.7.4.
+K (32' +1,5L2+0,5L7, - 12)
+(1.21)
+T, = 11
+T-次
+(1.22)
+(1.23)
+a = 0,5L
+(1.24)
+0,5L2'
+ß =•
++(32' +1,5L2+0,5LM-12)
+(1.25)
+n, =32+1
+(1.26)
+72=(9,51-7) 2'+(37'-1,5L7) 2'+3LT'A+0,5L7°
+(1.27)
++ (0,5L +7)
+Para reducir el sobrepaso de la respuesta dinámica, los autores
+sugieren adicionar un setpoint weight entre 0,3 y 0,4, asimismo
+recomiendan considerar un factor entre 0,8 y 3,0.
+Método de Ali y Majhi
+Ali y Majhi (2010) propusieron un método de sintonización para
+procesos integrantes también basado en la minimización del índice
+ISE, pero con la condición de que la pendiente de la curva de Nyquist
+tenga un valor específico en la frecuencia de cruce de ganancia.
+Considérese un controlador PID en paralelo con filtro derivativo, cuya
+ley de control es
+G. (s) = K.
+1+-
+26
+T,S
+T, 5+1)
+(1.28)
+
+Donde Tr
+es el filtro derivativo, [s].
+Además,
+TF= ATD
+(1.29)
+Donde a
+es la constante de filtro derivativo. Ali y Majhi (2010)
+trabajaron con un valor de 0,10.
+Se determinaron las siguientes correlaciones de sintonización
+KK 7-0,78(7) "
++ 0,10
+(1.30)
+1=54(4)
+(1.31)
+F-0,06()
+(1.32)
+Siendo estas correlaciones válidas para valores numéricos de L Y L/T
+cercanos a 10.
+1.3.7.5. Método de Arrieta, Vilanova y Visioli
+Esta metodología combina la sintonización, tanto para la regulación de
+la entrada de una perturbación como para un cambio del setpoint
+(Arrieta, Vilanova y Visioli, 2011).
+Para un modelo IPDT, ecuación 1.13, la familia de parámetros de
+sintonización basándose en un factor de balance a, cuyo valor
+depende del tipo de operación del sistema. Para un problema de
+cambio del punto de consigna, el valor de a es cero o se aproxima a
+este. Mientras más cercano a la unidad sea este valor, el problema se
+orienta a la regulación del sistema ante una entrada de perturbación.
+Para cada a, se utilizan ciertos parámetros y, ver Tabla 1.3, cuyos
+valores se restringen a un rango de 0 a 1.
+27
+
+Tabla 1.3. Valores de los parámetros y para sistemas integrantes según el factor
+de balance
+Parámetro y
+Valores del factor de balance
+0.25
+0.50
+0,5591
+0,3906
+0,5903
+0,7064
+0,5702
+0,7421
+0.75
+0,8274
+0,7532
+0,8731
+Fuente: Arrieta, Vilanova y Visioli (2001).
+Las ganancias de un controlador PID en paralelo se calculan mediante
+las siguientes fórmulas
+K, =y, Kid +(1-4,) K
+(1.33)
+(1.34)
+K, = 13K, + (1-13) 1$0
+(1.35)
+Donde las ganancias se calculan a partir del criterio de mínimo ISE de
+Visioli (2001). El superíndice "la" se refiere a la entrada de una
+perturbación; mientras que el "sp", a un cambio del setpoint.
+Finalmente, los parámetros de sintonización para la forma ideal del
+PID se calculan a partir de las ecuaciones (1.10) у (1.11).
+28
+
+1.4. Problemas
+1.4.1. Problema General
+¿Cómo se describe el funcionamiento de un hervidor de agua eléctrico
+con un controlador PID de temperatura acoplado?
+1.4.2. Problemas Específicos
+a) ¿Cuál es el modelo matemático que describe el funcionamiento de un
+hervidor de agua eléctrico?
+b) ¿Es factible la implementación de un controlador PID a un hervidor de
+agua eléctrico?
+c) ¿Cuál es la metodología de diseño de controlador PID que provee la
+mejor respuesta del lazo de control de temperatura del calentador de
+agua eléctrico?
+1.5.
+Objetivos
+1.5.1. Objetivo General
+Simular el control de temperatura variable de un calentador de agua
+eléctrico basado en el acoplamiento de un controlador PID a un hervidor
+de agua casero.
+1.5.2. Objetivos Específicos
+a) Desarrollar el modelo matemático de un hervidor de agua eléctrico
+para describir su funcionamiento y obtener sus parámetros dinámicos.
+b) Diagramar el circuito de control PID de temperatura para simular el
+lazo de control de un calentador de agua eléctrico.
+c) Analizar y contrastar diferentes metodologías de sintonización del
+controlador PID con anti-windup para obtener el mejor desempeño del
+calentador de agua eléctrico.
+1.6. Hipótesis
+1.6.1. Hipótesis General
+El acoplamiento de un controlador PID a un hervidor de agua eléctrico
+proveerá un adecuado control de la temperatura del líquido.
+29
+
+1.6.2. Hipótesis Específicas
+a) El funcionamiento de un hervidor de agua eléctrico obedecerá un
+modelo dinámico de primer orden con tiempo muerto.
+b)
+Será factible proponer el diseño de un sistema de control PID de
+temperatura para el hervidor de agua eléctrico.
+c) La sintonización basada en el método de Arrieta, Vilanova y Visioli y el
+acoplamiento de un circuito anti-windup proveerán la mejor respuesta
+del lazo de control PID del calentador de agua eléctrico.
+1.7. Importancia del Problema
+Dentro de un contexto tecnológico, el presente trabajo denota el primer
+paso para una posterior innovación tecnológica. Esto yace en la
+modificación de un hervidor de agua eléctrico convencional con el
+propósito de hacerlo más versátil. La simulación computacional demostró
+la factibilidad de acoplar un controlador PID con circuito anti-windup
+integrado a uno de estos aparatos caseros. Los esfuerzos se orientaron a
+que el comportamiento del lazo de control diseñado se traduzca en una
+respuesta relativamente rápida y con la menor fluctuación posible. En
+consecuencia, el control eficiente de la temperatura de este calentador
+permitirá realizar un consumo responsable de la energía y un mejor
+manejo de la economía de los hogares.
+Esta investigación también trasciende dentro de un ámbito académico. La
+disciplina del control de procesos abarca un sinfin de metodologías de
+diseño que desafortunadamente son poco contrastadas entre sí. El
+presente trabajo se justifica en el análisis de cada uno de estos métodos
+postulados basado en la simulación de un objeto real. Debido a que gran
+parte de estas investigaciones son llevadas a cabo por ingenieros
+electrónicos, es lamentable y predecible observar la carencia de un
+enfoque puramente teórico. En otras palabras, tales trabajos tienen por
+objetivo solamente presentar una tecnología y validar su funcionamiento
+empíricamente. Precisamente, los fundamentos teóricos adquieren
+relevancia por su trasfondo riguroso y forman parte de los cimientos de
+esta investigación.
+30
+
+Il.
+MATERIALES Y MÉTODOS
+2.1. Modelado de un Hervidor de Agua Eléctrico
+Esta etapa de la investigación comprendió dos fases. La primera consistió
+en el modelado teórico de un hervidor de agua eléctrico por medio de la
+aplicación de un análisis termodinámico; la segunda, en la determinación
+del modelo de ajuste a través de un montaje experimental.
+2.1.1. Objeto de estudio
+El objeto de análisis de la presente investigación fue un hervidor de agua
+eléctrico cuyas principales características de diseño, proporcionadas por
+el manual de usuario, se citan en la Tabla 1. Una descripción más
+detallada del aparato se visualiza en el Apéndice A.
+Tabla 2.1. Características del hervidor de agua eléctrico (Miray, 2021)
+Criterio
+Dato
+Marca
+Número de modelo
+Voltaje
+Potencia nominal
+Material de construcción
+Capacidad máxima
+Dimensiones
+Masa
+Miray
+HM-870
+220 V
+1850 W
+Acero inoxidable
+1,7 L
+291 mm x 150 mm x 245 mm
+0,805 kg
+Autoría propia.
+2.1.2. Métodos y técnicas
+2.1.2.1. Análisis Termodinámico
+Basándose en la filosofía rigurosa de Sandler (2017) y en la didáctica
+de Segura (2019), se aplicó un algoritmo, ver Figura 2.1, el cual
+permitió la obtención del modelo matemático que explica la operación
+dinámica e ideal del objeto definido. Dicho algoritmo estuvo
+conformado por los siguientes pasos.
+a) Conceptualización
+Esta se define como un proceso de generación de ideas (Mogahzy,
+2009) destinadas a la comprensión y la descripción de un fenómeno.
+
+En este caso, se conceptualizó el hervidor eléctrico definiéndose el
+sistema, el tipo de proceso y las presunciones lógicas y necesarias.
+Conceptualización
+del fenómeno
+Comprensión
+del fenómeno
+L
+Delimitación
+del sistema
+Aplicación de
+balances
+Obtención del
+modelo teórico
+Listado de
+presunciones
+Identificación
+de variables
+2.1.2.2.
+Fig. 2.1. Algoritmo de análisis termodinámico.
+b) Balances de Materia y Energía
+Se aplicaron las ecuaciones de balances de materia y energía con el
+propósito de evaluar los índices de variación de masa y temperatura
+con el tiempo.
+Prueba de Escalón Abierto
+Una prueba de escalón abierto permitió obtener la curva de reacción
+del hervidor de agua eléctrico. La Fig. 2.2 describe el esquema de lazo
+abierto, léase 2.1.3 para conocer la instrumentación.
+Computadora
+portátil
+Hervidor
+eléctrico
+81
+Sensor
+DS18B20
+Sistema Arduino y
+protoboard
+Fig. 2.2. Esquema de lazo abierto.
+32
+
+UNO
+Fig. 2.3. Diagrama de conexiones entre el sensor DS18B20 y la placa Arduino Uno
+(Redacción LastMinuteEngineers, 2021).
+Tabla 2.2. Conexiones entre el sensor DS18B20 y la placa Arduino Uno
+Pin de DS18B20
+Puerto Arduino
+Alimentación VDD
+Tierra GND
+Transmisión de datos DQ
+7
+GND
+5V
+Autoría propia
+A partir de la Fig. 2.2, se construyó el diagrama de bloques basado en
+la simbología del software Simulink (MATLAB R2021b), ver Fig. 2.4.
+Obsérvese los bloques correspondientes al hervidor eléctrico y al
+sistema Arduino de medición de la temperatura (sensor Arduino).
+Potencia
+Ke-48
+7,5 + 1
+Hervidor eléctrico
+I,s +1
+Sensor Arduino
+Planta
+Fig. 2.4. Diagrama de bloques de la prueba de lazo abierto.
+Del diagrama de bloques se dedujo un modelo dinámico de segundo
+orden con tiempo muerto (SOPDT). Entonces, se definió la siguiente
+función de transferencia para la planta (sistema hervidor eléctrico y
+sensor Arduino)
+33
+
+Ke"
+(2.1)
+Donde
+K: Ganancia del proceso en estado estacionario, [°C/W],
+T,:
+•Constante de tiempo del hervidor eléctrico, [s],
+1,:
+Constante de tiempo del sistema Arduino, [s],
+L:
+Tiempo muerto de la planta (suma del tiempo muerto del
+hervidor L, y el del sensor L,), [s].
+A partir de la ecuación (2.1), se derivó
+T (t)=T*" + KAQmax (1- e (1) 7) + KBQmax (1- e (-2)/73)
+(2.2)
+Donde
+Ts:
+Temperatura de consigna (setpoint) inicial, [°C].
+Además,
+1
+A = 1 --
+(2.3)
+2.1.2.3.
+B = 1- A
+(2.4)
+Posteriormente, se procedió al cálculo de los parámetros del proceso
+mediante un ajuste de datos por mínimos cuadrados y la aplicación del
+complemento Solver de Microsoft Excel.
+El presente método culminó con la recolección de los parámetros
+calculados para cada curva de reacción, la eliminación de datos
+atípicos y el promedio de los valores.
+Técnicas matemáticas
+a) Transformada de Laplace
+La transformada de Laplace permitió resolver la ecuación diferencial
+derivada del balance de energía, así como despejar la función de
+transferencia del proceso (Corripio y Smith, 2014, p. 16).
+b) Ajuste de datos por mínimos cuadrados
+Se utilizó el ajuste por mínimos cuadrados para obtener el modelo
+dinámico de la planta a partir del tratamiento de los datos de las curvas
+de reacción (ver Tablas A. 1 a A.6).
+34
+
+2.1.2.4. Métodos computacionales
+a) Arduino IDE 1.6.8.
+El software Arduino IDE 1.6.8 permitió la elaboración y la carga del
+código de simulación de medición y registro de la temperatura, léase
+Anexo A, a la placa Arduino Uno.
+b) Excel 2020
+Este software facilitó el gráfico de las curvas de reacción y todos los
+cálculos posteriores.
+c) Plantilla de Excel PLX-DAQ
+Este complemento de Microsoft Excel se utilizó para la recolección
+automática de los datos de tiempo y temperatura proporcionados por
+el sistema Arduino.
+d) Solver de Microsoft Excel
+Este complemento de Microsoft Excel se aplicó a la determinación de
+los parámetros del proceso mediante el ajuste de datos por mínimos
+cuadrados.
+2.1.3. Equipos e instrumentación
+a) Un sensor de temperatura DS18B20
+b) Una placa Arduino Uno con cable de conexión a puerto USB
+c) Una placa de pruebas o de inserción (Protoboard)
+d) Cables puente con conexiones macho-macho
+e) Una resistencia de 10 kOhm
+f) Una computadora portátil
+2.1.4. Procedimiento experimental
+a) Llenar el hervidor de agua eléctrico hasta alcanzar su capacidad
+máxima.
+b) Armar el sistema Arduino de medición de temperatura realizando las
+conexiones detalladas en la Fig. 2.2 y la Tabla 2.2.
+c) Conectar el sistema Arduino a la computadora portátil a través del
+puerto USB y posicionar el sensor DS18B20 en el interior del hervidor.
+d) Abrir el ambiente Arduino IDE 1.6.8. y descargar las librerías de
+OneWire y Dallas Temperature.
+e) Redactar el código de simulación (Anexo A) en una plantilla nueva.
+35
+
+f) Validar el código y subirlo a la placa Arduino Uno.
+g) Conectar el hervidor eléctrico y ponerlo en marcha. Inmediatamente,
+hacer correr la herramienta PLX-DAQ.
+h) Registrar la temperatura hasta que empiece a disminuir una vez que
+se haya alcanzado la saturación y el hervidor se haya apagado.
+Detener la herramienta PLX-DAQ.
+2.2.
+Diseño del Lazo de Control PID de Temperatura
+2.2.1. Métodos y técnicas
+Se llevó a cabo un análisis bibliográfico con la finalidad de evaluar
+circuitos de control diseñados por otros autores. Se orientaron los
+esfuerzos a definir los siguientes elementos.
+a) Sensor
+b) Controlador
+c) Elemento de acción
+Dada la naturaleza y los alcances de la presente investigación, solamente
+se limitó a definir estos componentes, mas no a explicar el fundamento
+técnico de su ensamblado.
+2.3.
+Diseño del Controlador PID
+2.3.1. Métodos y técnicas
+2.3.1.1.
+Modelado de ajuste
+El método de Ziegler y Nichols (1942) permitió obtener el modelo de
+ajuste de tipo IPDT para cada una de las curvas de reacción. Para ello,
+la tangente en el "punto de inflexión" se determinó mediante un análisis
+de regresión lineal.
+T (t) = T' + ROpN (+-L)
+(2.5)
+Donde Ts era el valor inicial del setpoint (temperatura de consigna),
+mientras que R era la velocidad de respuesta.
+Asimismo, se utilizó el método de Aström y Hägglund (1995) para
+obtener el modelo IFOPDT de la curva de reacción.
+36
+
+2.3.1.2.
+Fórmulas de sintonización
+La Tabla 2.3 presenta las fórmulas correspondientes a cada uno de
+los métodos de sintonización aplicados al diseño de un controlador
+PID. A continuación, se detalla cada uno de estos métodos.
+a) Método de lazo abierto de Ziegler y Nichols (1942)
+b) Métodos de Visioli (2001)
+c) Método de síntesis directa con compensador lead/lag (A. S. Rao,
+V. S. R. Rao y Chidambaram, 2009)
+d) Método de Ali y Majhi (2010)
+e) Método de Arrieta, Vilanova y Visioli (2011)
+2.3.1.3.
+Esquema anti-windup
+Se aplicó el método de recálculo y seguimiento (Visioli, 2006) para la
+determinación del tiempo de seguimiento y su ganancia respectiva (pp.
+38-39).
+2.3.1.4.
+Setpoint weighting
+Con el propósito de mejorar el desempeño del controlador PID,
+Chidambaram (2003) sugirió la adición de un setpoint weight al lazo
+de control (p. 215).
+2.3.1.5.
+Caracterización dinámica
+Se calcularon el tiempo de elevación, el sobrepaso, el tiempo de
+estabilización y el pico máximo para cada respuesta dinámica.
+2.3.1.6.
+Técnicas computacionales
+a) Comando stepinfo de MATLAB R2021b
+Para llevar a cabo la caracterización dinámica, se utilizó la siguiente
+sintaxis del comando stepinfo de MATLAB R2021b.
+S = stepinfo (T,t, Ts')
+(2.6)
+Esta sintaxis calculó las características de la respuesta dinámica con
+relación a su valor final en estado estacionario To, el cual ya se
+conocía de antemano.
+b) Comando trapz de MATLAB R2021b
+Se utilizó la siguiente sintaxis del comando trapz de MATLAB R2021b
+para el cálculo del área bajo la señal de salida del controlador PID.
+37
+
+Q = trapz (t,T;)
+(2.7)
+Esta sintaxis calculó la integral aproximada de T, definida en el
+intervalo de tiempo t cuyo rango fue de 0 a 3600s mediante el método
+del trapecio. El resultado Q se definió como la cantidad de energía
+consumida durante la primera hora de funcionamiento del calentador
+de agua eléctrico.
+38
+
+Tabla 2.3. Metodologías de diseño del controlador PID para procesos integrantes
+Método
+Método 1(11
+Modelo de planta
+Modelo de controlador PID
+G, (s) = K,el
+Método 2(21
+Gp (5) =
+K,e's
+S
+G.(5) = K.(1+EDS)
+Método 3(31
+Ke-Ls
+Gp (s) =
+s(TS+1)
+G.(s) = K. 1+1
++7,51
+(85+))
+Fórmulas o correlaciones de sintonización
+к. = 1,2
+T, = 2,0L
+TD = 0,5L
+Criterio ISE:
+Criterio ITSE:
+к. = ,03
+K.= 0,96
+K,L
+K,L
+T, = 0,49L
+T, = 0,451
+K (32'+1,52270,52, -n.)
+T, =1,
+Criterio ISTE:
+к, = 0,90
+K,I
+TD = 0,45L
+Método 4[4]
+Ke-Ls
+G. (s) = 5(TS+1)
+G. (s) =k. 1+-
+1, Ens
+a = 0,5L
+0,5L23
+B =+(32+1,5L1+0,5LM-12)
+7,=32+L
+(0,51-7) 1'+(37-1,517) 2+3L7 2+0,5227
+7/2 =
++ (0,5L + T)
+KK 7=0, 78(1) 1
++ 0,10
+7=5, 4 ()
+39
+
+Método 515)
+Go (s) = K, els
+6.(0) -x. (4r/, +538)
+K, (73) =7, K'+ (1-73) 4%
+K. = K, (K)
+K, (K)
+T, =
+K, (V2)
+K, (V3)
+TD =
+K, (11)
+K. , K,, K, calculados según el criterio ISE de Visiol
+(2001) para una entrada de perturbación.
+K.", K%, R° calculados según el criterio ISE de Visioli
+(2001) para un cambio de punto de consigna.
+Autoría propia.
+'' Basado en la propuesta original de Ziegler y Nichols (1942).
+21 Método de Visioli (2001).
+I31 Basado en la propuesta original de A. S. Rao, V. S. R. Rao y Chidambaram (2009).
+141 Basado en la propuesta original de Ali y Majhi (2010).
+151 Basado en la propuesta original de Arrieta, Vilanova y Visioli (2011)
+40
+
+III.
+RESULTADOS
+3.1. Modelo Matemático del Hervidor de Agua Eléctrico
+Se conceptualizó un hervidor eléctrico, ver Fig. 3.1, como un recipiente
+cilíndrico metálico que contiene y calienta por medio de una resistencia un
+volumen de agua líquida equivalente a su capacidad máxima de diseño
+(1,7 L). Considerándose dicho volumen de líquido como el sistema de
+análisis, se establecieron las siguientes presunciones.
+a) Las
+pérdidas de agua debido a difusión y convección son
+despreciables.
+b) Las propiedades físicas del agua son homogéneas en todo su volumen
+e independientes de la temperatura.
+c) Las paredes del hervidor son diatérmicas y están constituidas de un
+único material, el cual también posee propiedades físicas homogéneas
+e independientes de la temperatura.
+d) Se transfiere una potencia de entrada constante en el tiempo y que se
+distribuye uniformemente en el volumen de agua.
+e) La temperatura del ambiente se mantiene constante durante el
+funcionamiento del hervidor eléctrico.
+a)
+b)
+Fig. 3.1. Conceptualización de un hervidor de agua eléctrico: objeto real (a) y concepto
+mental del mismo objeto (b).
+Obsérvese en la Fig. 3.1 el concepto mental de un hervidor eléctrico
+formulado a partir del objeto real. Las flechas rojas representan energía
+transferida entre el sistema y el ambiente circundante. La flecha inferior
+denota la potencia de entrada al sistema dada una resistencia metálica
+posicionada en la base del hervidor (efecto Joule), mientras que la flecha
+41
+
+horizontal representa la transferencia de calor del sistema hacia el aire
+circundante. Ambas formas de calor involucran los mecanismos de
+transferencia por conducción y convección. Cabe resaltar que, no se tomó
+en consideración la energía transferida por radiación. A continuación, se
+presentan
+las
+ecuaciones de
+balance
+derivadas de
+esta
+conceptualización, concluyéndose así el análisis termodinámico.
+Sea el balance de materia en estado uniforme
+aM (1) = 0
+(3.1)
+Donde
+M: Masa de agua contenida en el hervidor, [kg]
+Sea el balance de energía en estado uniforme
+prêp
+dT (+) = 0(1)-UA[7 (1) -7.]
+(3.2)
+Donde
+p:
+V:
+Ô,:
+Densidad del agua, [kg/L],
+Volumen de agua contenida en el hervidor eléctrico, [-],
+Capacidad calorífica a presión constante del agua, [kJ/kg •
+L],
+T:
+Temperatura del agua, [°C],
+Potencia de entrada, [kW],
+U:
+A:
+Coeficiente global de transferencia de calor, [kW/m2. °C],
+Área de transferencia de calor, [m?],
+Temperatura del ambiente, [°C].
+Sea el balance de energía en estado estable
+dTsp
+-=-UA(TS -T.)
+(3.3)
+Donde
+Tsp:
+Temperatura de consigna en condición estable, [°C].
+Al sustraerse la ecuación (3.3) de la ecuación (3.2),
+pVê,
+dI (t)
++ UAT(t)= @(t)
+dt
+A partir de la ecuación (3.4) se define
+42
+(3.4)
+
+T(t) = T (t)-T*p
+(3.5)
+Donde
+T:
+Desviación de la temperatura del agua, [°C].
+Al aplicarse la transformada de Laplace a la ecuación (3.4), se obtiene
+T(s)
+Ö(s)
+=-
+K,
+T,s+1
+(3.6)
+Donde
+K :
+Ganancia del proceso en estado estable, [°C/kW].
+T,:
+Constante de tiempo del proceso, [s].
+A partir de la función de transferencia, ecuación (3.6), se definen los
+siguientes parámetros
+K,=
+(3.7)
+UA
++, = PVC,
+(3.8)
+Las curvas de respuesta obtenidas mediante la prueba de escalón abierto
+se muestran en Anexo B.
+Se obtuvo la siguiente función de transferencia para la planta
+3,70€ e22,81s
+G. (s) = (32.573,965 + 1) (3,365 +1)
+(3.9)
+A partir de la cual se derivaron
+3,70e-21,84s
+G, (5) =
+32.573,96s +1
+es
+H (s) ==
+3,365 + 1
+(3.10)
+(3.11)
+Donde
+G,(s):
+Función de transferencia del proceso [°C/W].
+H (s): Función de transferencia del sensor de temperatura, [-].
+A continuación, se presenta el diagrama de bloques en Simulink referente
+al proceso de calentamiento de agua en el hervidor eléctrico.
+43
+
+out.QR
+3.70
+32573.965 + 1
+out.OnoffR
+Fig. 3.2. Diagrama de bloques en Simulink del hervidor de agua eléctrico.
+Asimismo, la Fig. 3.3 describe el comportamiento de la temperatura del
+agua en función del tiempo. Obsérvese la condición de saturación
+alcanzada
+l cuando la desviación de temperatura es igual a 80°C
+(recuérdese
+un
+valor inicial
+de
+la temperatura del
+líquido
+aproximadamente igual a 20°C).
+80
+70-
+60 -
+E50-
+530-
+20 -
+10 -
+200
+400
+600
+800
+1000
+Tiempo, [s]
+Fig. 3.3. Gráfico de temperatura vs tiempo para el hervidor de agua eléctrico.
+Por otro lado, la Fig. 3.4 representa la potencia de salida en función del
+tiempo. Obsérvese que la potencia máxima entregada por el equipo es
+igual a 1850 W.
+44
+
+2000
+Potencia,
+[W]
+0
+200
+400
+600
+800
+1000
+Tiempo, [s]
+Fig. 3.4. Gráfico de potencia vs tiempo para el hervidor de agua eléctrico.
+La Fig. 3.5 presenta las curvas de ajuste basadas en un modelo dinámico
+del tipo FOPDT, asimismo la Tabla 3.1 expone los parámetros
+determinados.
+80
+T
+T
+10 -
+0
+- Curva de reacción
+Ajuste 1 de Corripio y Smith
+Ajuste 2 de Corripio y Smith
+- Ajuste de Smith
+- Ajuste de Sundaresan y Krishnaswamy
+- Ajuste de áreas
+200
+400
+600
+800 1000
+1200
+Tiempo, [s]
+1400
+1600
+Fig. 3.5. Curvas de reacción de la planta y de ajuste FOPDT.
+1800
+45
+
+3.2.
+Tabla 3.1. Parámetros de ajuste según un modelo FOPDT
+Método
+Ganancia,
+[°C/]
+Corripio y Smith (1)
+Corripio y Smith (2)
+Smith
+Sundaresan y
+Krishnaswamy
+Áreas
+Autoría propia.
+0,0432
+0,0432
+0,0432
+0,0432
+0,0432
+Constante del
+tiempo, [s]
+382,77
+241,92
+200,42
+128,45
+130,61
+Diseño Propuesto del Lazo de Control PID
+Tiempo
+muerto, [s]
+25,79
+25,79
+67,29
+106,64
+86,92
+2
+akeyes
+ARDUINO
+妃
+4
+5
+Fig. 3.6. Componentes del lazo de control PID: el sensor de temperatura DS18B20 (1),
+el encoder rotatorio KY-040 (2), el microcontrolador en la placa Arduino Uno (3) y el
+sistema de calefacción (bloque de línea discontinua) basado en un relé en estado
+sólido (4) y su disipador de calor (5).
+46
+
+Obsérvese en la Fig. 3.6 la propuesta de diseño del lazo de control PID
+de temperatura para el hervidor de agua eléctrico,
+así como sus
+componentes.
+3.3. Diseño del Controlador PID
+Obsérvese en la Fig. 3.7 el diagrama de bloques en Simulink de un
+calentador de agua eléctrico con control PID variable de temperatura,
+setpoint weighting y un circuito anti-windup.
+out.Tsp
+口：文必的
+Set-point weight
+out.Q
+>口
+*» 32573,86+1
+日や
+Fig. 3.7. Diagrama de bloques en Simulink de un calentador de agua eléctrico con
+control PID de temperatura, setpoint weighting y un circuito anti-windup.
+Mediante el ajuste de los datos experimentales, ver Tablas B.1 a B.7 en
+el Anexo B, se determinó el siguiente modelo IPDT para la planta
+0,000113
+Gp (s) =-
+•e- 25,53
+(3.12)
+A partir del método de la respuesta en escalón de Ziegler y Nichols, se
+calcularon una ganancia de 416,51 W/°C, un tiempo integral de 51,06 s y
+un tiempo derivativo de 12,77 s para la sintonización de un controlador
+PID ideal. Asimismo, se consideró un setpoint weight de 0,4. Para el
+esquema anti-windup, se calculó una constante del tiempo de seguimiento
+de 25,53 s. La Fig. 3.8 describe las respuestas dinámicas de salida y
+cuyas características se presentan en la Tabla 3.2. Asimismo, la Fig 3.9
+describe la potencia de salida del controlador en función del tiempo.
+47
+
+Temperatura, [°C)
+20
+Temperatura, Pel g
+15
+10
+20D
+400
+600
+Anti-windup: Ziegler y Nichols (1942)
+800
+1000 1200 1400 |
+1600
+1800
+Tiempo. [s)
+a)
+200
+400
+Anti-windup: Ziegler y Nichols (1942)
+B0O 100D 1200 1400 1600 1800)
+Tiempo, [s)
+35
+(°C)
+1을 25
+§ 20
+(°C)|
+20
+Anti-windup: Ziegler y Nichols (1942)
+Anti-windup: Ziogler y Nichola (1942)
+Laction
+200
+400
+600
+800
+Tiempo, [s)
+1200 1400
+1600
+1800
+200
+400
+600
+BOO
+100D 1200 1400 1600
+1B0D
+Tiempo. (s)
+Fig. 3.8. Respuestas del lazo obtenidas a partir del método de respuesta en escalón de
+Ziegler y Nichols con setpoint weighting y anti-windup para cambios del setpoint de a)
+20°C, b) 30°C, c) 40°C y d) 60°C.
+2000
+2000
+1800
+1800
+1600
+160D
+1400
+1400
+§ 1200
+E 1200
+8 1000.
+a00
+800
+400|
+2000
+600
+400
+200
+200
+400
+600
+800 1000 1200
+1400
+Tiempo, (s)
+a)
+1600 1800
+200
+400
+600
+BỎo 1000 1200 1400 1600
+Tiempo, (s)
+1800
+b)
+2000
+2000 г
+1800
+1600
+1400
+§ 1200
+1800
+1600
+1400
+§ 1200
+600|
+400|
+200
+600
+40D
+200
+200
+600
+800 1000
+1200 1400|
+1600
+1800
+Tiempo, (s]
+200|
+400
+800
+1000 1200 1400 1600 1800
+Tiempo. (s]
+Fig. 3.9. Respuestas de salida del controlador PID sintonizado por el método de
+respuesta en escalón de Ziegler y Nichols con setpoint weighting y anti-windup para
+cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C.
+48
+
+Tabla 3.2. Características de las respuestas dinámicas de salida para un control PID
+sintonizado según el método de lazo abierto de Ziegler y Nichols.
+Cambio del
+Tiempo de
+Sobrepaso,
+Pico máximo,
+setpoint
+elevación, [s]
+[%]
+[°C]
+20
+30
+40
+60
+76,3301
+114,4821
+152,7324
+229,4329
+14,8440
+10,5530
+7,8321
+4,9927
+22,9688
+33,1659
+43,1328
+62,9956
+Tiempo de
+estabilización,
+[s]
+3689,5
+2836,7
+2072,1
+1296,6
+Autoría propia.
+Análogamente, se determinaron los valores de los parámetros de
+sintonización para un controlador PID ideal según los métodos de Visioli
+y cada criterio de minimización de índice de desempeño integral, ver Tabla
+3.3. Las Figs. 3.10, 3.12 y 3.14 describen las respuestas dinámicas de
+salida y cuyas características se presentan en las Tablas 3.4, 3.5 y 3.6,
+respectivamente. Asimismo, las Figs. 3.11, 3.13 y 3.5 describen la
+potencia de salida del controlador en función del tiempo.
+Tabla 3.3. Parámetros de sintonización de un controlador PID según el método de Visioli
+y los índices de desempeño integrales ISE, ITSE e ISTE
+Índice de desempeño
+Ganancia,
+Tiempo
+integral
+[W/°C]
+integral, [s]
+ISE
+ITSE
+ISTE
+357,03
+0
+332,77
+0
+311,97
+Tiempo
+derivativo, [s]
+12,51
+11,49
+11,49
+Autoría propia.
+25 г
+20
+emperatura, (°C]
+35 ก
+30
+25
+Temperatura, [°C)
+20
+10
+임
+200
+800
+Visicli-ISE|
+1000 1200 1400 1600 1800
+Tiempo, (s)
+a)
+200 400 600
+Melailiet
+Escalin
+B00 1000 1200 1400 1600 1800
+Tiempo, (s)
+b)
+49
+
+35
+50
+Temperatura, I
+remperatura.
+40
+- Visici-ISE
+Visioli-ISE
+escalon
+200
+400
+600
+800
+1000 1200
+Tiempo, (s)
+1400
+11000
+1800
+400
+600
+B0O 1000 1200 1400 1600 1800
+Tiempo, (s)
+Fig. 3.10. Respuestas del lazo obtenidas a partir del método de Visioli basado en el
+criterio ISE para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C.
+2000
+2000，
+1800
+1600
+1400
+M1200
+Portancia.
+900
+1800
+1600
+1400
+E 1200
+買T
+600
+400
+2000
+400
+200|
+tdan
+Tiempo, (s)
+a)
+1200
+1600
+1800
+200
+Adu
+600
+10bo 12421
+1ann
+Tiempo, (s)
+1800.
+b)
+2000
+1800
+2000
+1800
+1600
+1400
+M1200
+Polonia,
+600
+400
+200|
+1600
+1400
+B91200
+80D
+G0D
+40D
+200
+200
+400
+600
+800
+1000 1200 1400
+Tiempo. (s)
+1600
+1800
+맘
+200
+400
+600
+BOO
+1000 1200 1400 1600
+1800
+Tiempo. (s)
+Fig. 3.11. Respuestas de salida del controlador PID sintonizado por el método de Visioli
+basado en el criterio ISE para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d)
+Tabla 3.4. Características de las respuestas dinámicas de salida para un control PID
+sintonizado según el método de Visioli y un mínimo índice ISE
+Cambio del
+Tiempo de
+Sobrepaso, Pico máximo,
+setpoint
+elevación, [s]
+[%]
+[C]
+Tiempo de
+estabilización,
+[s]
+20
+30
+40
+60
+76,5284
+114,4859
+152,7334
+229,4332
+1,2518
+0,4620
+0,5701
+0,0616
+20,2504
+30,1386
+40,2280
+60,0370
+124,3734
+171,1923
+216,4469
+310,3477
+Autoría propia.
+50
+
+Temperatura, [°C]
+20
+Temperatura, PC) g
+- Visioi-ITSE
+- Escalón
+Asioli-ITSE
+암
+200 400
+600
+800
+1000 1200 1
+1400 1600 1800
+Tiempo, (s)
+a)
+0%
+200
+400
+600
+800 1000 1200 1400 1600 1800
+Tiempo, (s)
+35
+50
+Temperatura, [°C)
+20
+15
+Temperatura, (°C]
+20
+- Esonion
+Visioli-ITSE
+Escalon
+200
+600
+taan
+1200 1400 1
+1600
+Tiempo. (s)
+1800
+200
+400
+600
+800
+1000
+Tiempo, (s)
+1200
+1400 1600
+1800
+crie 12. Remiestas del lazo tenta a camindel método de Ve di 2asa, 0530/C,
+c) 40°C y d) 60°C.
+2000г
+1800
+1600
+1400
+≥ 1200
+Potencia
+1000
+900
+600|
+400|
+1800
+1600
+1400
+E 1200
+買T
+600
+400
+200
+200
+600
+800 1000 1200|
+Tiempo, [s)
+a)
+1400
+4800 1800
+400
+600
+800 1000 1200
+Tiempo, (s)
+1400 1600|
+• 1800-
+2000
+1800
+1600
+2000 г
+1800
+1600
+tAnn
+14nn1
+E 1200
+m1000
+800
+600
+400
+5 12000
+รู้ 1000
+통 8000
+600
+400
+200
+200
+200
+Ran
+800 1000l
+1200 1
+1600
+Tiempo, (s)
+200|
+400
+G0D
+Ra 100012070
+Tiempo, (s)
+ig. 3.13. Respuestas de salida del controlador PID sintonizado por el método de Visio
+asado en el criterio de minimización del índice ITSE para cambios del setpoint de a
+20°C, b) 30°C, c) 40°C y d) 60°C.
+51
+
+Tabla 3.5. Características de las respuestas dinámicas de salida para un control PID
+sintonizado según el método de Visioli y un mínimo índice ITSE
+Cambio del
+Tiempo de
+Sobrepaso, Pico máximo,
+setpoint
+elevación, [s]
+[%]
+[°C]
+Tiempo de
+estabilización,
+[s]
+20
+30
+40
+60
+76,6370
+114,4866
+152,7330
+229,4307
+1,4160
+0,8304
+0,3845
+0,1280
+20,2832
+30,2491
+40,1538
+60,0768
+124,6392
+170,6238
+217,4684
+310,5689
+Autoría propia.
+25 г
+35 г
+20H
+30
+25
+Temperatura, [°C)
+Temperatura, (°C]
+20
+15
+임
+- Visioli-ISTE
+Escalón
+1600
+1800
+- VisiOli-ISTE
+Escalon
+0임
+200
+400
+600
+taan
+Tiempo, (s)|
+a)
+200
+400
+600
+Tiempo. (s)
+b)
+tRan
+1800
+35
+50
+E925
+Temperatura.
+20
+emperatura, ('°C]|
+30
+20
+10
+- Visioli-ISTE
+-Visioli-ISTE
+200
+400
+600
+800
+1000 1200 1400 1600 1800|
+Tiempo, (s)
+200
+400
+600
+B00
+1000 1200 1400 1600 1800
+Tiempo, (s]
+Fig. 3.14. Respuestas del lazo obtenidas a partir del método de Visioli basado en el
+criterio ISTE para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C.
+200ก
+1800 ₽
+1600
+1400
+§ 1200
+물 1000
+800
+600
+2000.
+1800
+1600
+1400
+E 1200-
+1000
+800
+60D
+400
+20D
+200
+400
+600
+800|
+1000 1200 1400
+Tiempo, [s)
+a)
+160d
+1800
+52
+200
+400 600
+800 1000 1200 1400 1600 1800
+Tiempo, (s)
+
+2000
+1800
+1600
+1-UU
+E 1200
+ซี้ 1000
+Poten
+800
+600/
+400
+2000
+1800
+160D
+1400
+E 1200
+8 1000
+흥
+80D
+600
+400
+200
+٨.١٠٠
+200
+400
+600
+800
+12DD
+1600
+400
+BOO
+1000 1200 1400 1600 1800
+Tiempo, (s)
+Tiempo, (s)
+c)
+Fig. 3.15. Respuestas de salida del controlador PID sintonizado por el método de Visioli
+basado en el criterio ISTE para cambios del sotpoint de a) 20°C, b) 30°C, c) 40°C y d)
+Tabla 3.6. Características de las respuestas dinámicas de salida para un control PID
+sintonizado según el método de Visioli y un mínimo índice ISTE
+Cambio del
+Tiempo de Sobrepaso,
+Pico máximo,
+Tiempo de
+setpoint
+elevación, [s]
+[%]
+[°C]
+estabilización,
+[s]
+20
+77,0340
+0,6009
+20,1202
+126,3012
+30
+114,5482
+0,0358
+30,0107
+172,6434
+40
+152,7339
+0,0000
+39,9915
+218,2929
+60
+229,4358
+0,1044
+60,0626
+310,4076
+Autoría propia.
+Análogamente, el ajuste de los datos experimentales proporcionó el
+siguiente modelo IFOPDT para la planta
+G, (s) =
+0,0001 13e-21,87s
+(3.13)
+3,90s +1
+Según el método de síntesis directa, al controlador PID le corresponden
+una ganancia de 381,45 W/°C, un tiempo integral de 74,37 s, un tiempo
+derivativo de 7,81 s, un a igual a 10,94 y un B igual a 0,87 para la
+sintonización de un controlador PID con un compensador lead/lag en
+serie. Asimismo, se consideró un setpoint weight de 0,3. Para el esquema
+anti-windup, se calculó una constante del tiempo de seguimiento de 32,12
+s. La Fig. 3.16 describe las respuestas dinámicas de salida y cuyas
+características se presentan en la Tabla 3.7. Asimismo, la Fig 3.17
+describe la potencia de salida del controlador en función del tiempo.
+53
+
+Temperatura, [°C]
+Temperatura, Pal d
+암
+35
+(°C)
+1용 20
+蔥20
+20D
+4000
+600
+Anti-windup: Sintesis Directa
+800
+1000 12001400
+1600|
+Tiempo, [s)
+a)
+1800
+Anti-windup: Síntesis Directa
+200
+400
+60D
+B00
+100D 1200 1400 1600 18D0)
+Tiempo, (s)
+b)
+50
+(°C)|
+Temperatura
+Anti-windup: Sintosis Directa
+Lacalon
+Anti-windup: Síntesis Dirocta
+Leerlon
+600
+120D 1400 1600
+1800
+200
+Tiempo, [s)
+BOO
+100D
+12001400 1600 1800.
+Tiempo. (s)
+Fig. 3.16. Respuestas de lazo del controlador PID sintonizado por el método de síntesis
+directa con setpoint weighting y anti-windup para cambios del setpoint de a) 20°C, b)
+30°C, c) 40°C y d) 60°C.
+200D
+2000
+1800 Fl
+1600
+1400
+§ 1200
+1000
+900
+800
+400|
+1R0D1
+1600|
+1400
+E 1200
+600
+400
+200
+200
+400
+600
+*800.
+1000 1200 1400 ' 1600 1800
+Tiempo, (s)|
+a)
+200
+400 600
+B00 1000 1200 1400 1600
+1800|
+Tiempo, (s)
+b)
+2000
+2000 г
+1800
+1600
+1400
+E 1200
+0 1000
+1800
+800
+600|
+400|
+200
+1600
+1400
+§ 1200
+1 900
+600
+40D
+200
+0%
+600
+800
+Tiempo, (s]
+الطلار
+1200|
+1400
+1600 1800
+400
+Lesia
+800
+1000 1200 1400 1600 1800
+Tiempo. (s]
+Fig. 3.17. Respuestas de salida del controlador PID sintonizado por el método de
+síntesis directa con setpoint weighting y anti-windup para cambios del setpoint de a)
+54
+
+Tabla 3.7. Características de las respuestas dinámicas de salida para un control PID
+sintonizado según el método de síntesis directa
+Cambio del
+Tiempo de
+Sobrepaso,
+setpoint
+elevación, [s]
+[%]
+Pico máximo,
+|°C]
+20
+30
+40
+60
+Autoría propia.
+86,2807
+11,8483
+153,4015
+229,4327
+1,7524
+1,3502
+1,0514
+0,6750
+20,3505
+30,4051
+40,4205
+60,4050
+Tiempo de
+estabilización,
+[s]
+153,9428
+194,6382
+237,223
+323,2725
+La Fig. 3.18 presenta el efecto del factor 2 sobre la dinámica del sistema.
+25 г
+35 г
+20
+30
+25
+Eis
+Temperatura. i
+200
+100
+§-
+Escalán
+lambda - 0,8L
+arbon 1.00
+lambda = 12U
+lambda = 1.4L
+800 1000 1200 1400 1600 1800
+Tiempo, (s)
+a)
+200
+400
+600
+Escalón
+lambda - 0,8L
+lamoca TOr
+lambos = 120
+lambda = 1,4L
+800 1000 1200
+1400 1600 1800|
+Tiempo, (s)
+35
+Temperatura, ['°C]
+30
+호
+60
+50
+30
+20
+lambda = 0,8L
+lamila "'
+lambda = 1,2L
+Esceión
+lambda = U.3u
+lamada -0
+lambda = 1,2L
+lambda - 1,4L
+800
+Tiempo, (s)
+1200
+1400
+1600 1800|
+B00
+Tiempo. (s)
+1000 1200 1400 1600 1800.
+Fig. 3.18. Efecto del factor ^ sobre la dinámica del lazo de control para cambios del
+setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C.
+A partir del modelo de ajuste IFOPDT, se calcularon una ganancia igual
+353,48 W/°C, un tiempo integral igual a 123,15 s y un tiempo derivativo
+igual a 14,12 s para la sintonización de un controlador PID con filtro
+derivativo, según el método de Ali y Majhi. La constante de filtro derivativo
+calculada fue igual a 1,41 s. Para el esquema anti-windup, se calculó una
+constante del tiempo de seguimiento igual a 41,70 s. La Fig. 3.19 describe
+las respuestas del lazo y cuyas características se presentan en la Tabla
+3.8. Asimismo, la Fig 3.18 describe la potencia de salida del controlador
+en función del tiempo.
+55
+
+Temperatura, [°C]
+25
+Temperatura, [°C)
+20
+Anti-windup: Ali y Majhi (2010)
+- escalor
+Anti-windup: Ali y Mani (2010)
+암
+20D
+4000
+600
+800
+1000 120D 1400 1600
+1800
+Tiempo. [s)
+a)
+0°
+200
+400|
+60D
+BOO 100D 1200 1400 1600 1800)
+Tiempo, (s)
+b)
+35
+(°C)
+peratura
+15
+Temperatura, [°C]
+40
+30
+20
+Anti-windup: All y Majhi (2010)
+-Lacalor
+Anti-windup: All y Mani (2010)
+200
+600
+800
+1200 14001
+1600|
+200
+600
+Tiempo, [s)
+BOO
+100D
+1200 1400 1600
+Tiempo. (s)
+c)
+Fig. 3.19. Respuestas del lazo obtenidas a partir del método de Ali y Majhi con anti-
+windup para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C.
+2000
+1800
+1600
+1400
+W1200
+•8 1000.
+200D.
+800
+600
+400
+1800
+160D
+1400
+E 1200
+8 1000
+B0D
+600
+40D
+200
+200
+200
+400
+600
+800
+1000 1200 1400
+1600
+1800
+Tiempo, (s)
+a)
+200
+60D
+BOO
+1000 1200 1400 1600
+1800
+Tiempo. (s)
+b)
+2000
+1800
+1600
+tAnt
+2000 г
+1800
+1600
+1400
+1200
+1200
+m1000
+3000
+800
+600
+400
+200
+400
+200
+20D
+4000 1000 4407
+1600
+1800
+200
+400
+Bon
+Tiempo, (s)
+em
+Tiempo. (s)
+100D 1200 1400 1600 1B00
+Fig. 3.20. Respuestas de salida del controlador PID sintonizado por el método de Ali y
+Majhi con anti-windup para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d) 60°C
+56
+
+Tabla 3.8. Características de las respuestas dinámicas de salida para un control PID
+sintonizado según el método de Ali y Majhi con anti-windup
+Pico
+Cambio del
+setpoint
+elevación,
+Sobrepaso,
+[s]
+[%]
+máximo,
+[°C]
+20
+30
+40
+60
+116,4031
+150,4252
+182,9053
+244,2429
+0,1681
+0,1605
+0,1408
+0,1251
+20,0336
+30,0482
+40,0563
+60,0750
+Tiempo de
+estabilización,
+[s]
+232,5789
+280,5728
+323,1671
+405,2395
+Autoría propia.
+La Fig. 3.21 describe el efecto de la presencia de un filtro derivativo sobre
+la dinámica del lazo de control, mientras que la Tabla 3.9 presenta la
+caracterización dinámica respectiva.
+80
+호
+40
+70
+80
+50
+140
+imne
+20
+20
+10
+0w0W
+10°C
+BO'C
+200
+600
+800
+1000 1
+1200
+1400
+1800
+200
+400
+800
+1000 1200
+20°C|
+60°C
+1RO0
+Tiempo, (s)
+Tiempo, (s)
+a)
+b)
+Fig. 3.21. Efecto del filtro derivativo sobre la dinámica del proceso según el método de
+Ali y Majhi con anti-windup: a) con filtro derivativo y b) sin filtro derivativo.
+Tabla 3.9. Efecto del filtro derivativo sobre las respuestas dinámicas para un controlador
+PID sintonizado por el método de Ali y Majhi con anti-windup
+Cambio Tiempo de
+Pico
+Tiempo de
+del
+elevación,
+Sobrepaso,
+setpoint
+[s]
+[%]
+máximo,
+estabilización,
+[°C]
+[s]
+Con
+filtro
+Sin
+filtro
+20
+30
+40
+60
+20
+30
+40
+60
+116,4031
+150,4252
+182,9053
+244,2429
+82,1318
+130,4060
+172,9941
+243,6282
+0,1681
+0,1605
+0,1408
+0,1251
+1,3118
+0,0078
+0,0307
+0,0593
+20,0336
+232,5789
+30,0482
+280,5728
+40,0563
+323,1671
+60,0750
+405,2395
+20,2624
+166,8128
+30,0023
+245,2380
+40,0123
+315,8949
+60,0356
+397,9583
+Autoría propia.
+57
+
+A partir del modelo de ajuste IPDT, se calcularon una ganancia igual
+422,93 W/°C, un tiempo integral igual a 86,73 s y un tiempo derivativo
+igual a 14,31 s para la sintonización de un controlador PID, según la
+metodología de Arrieta, Vilanova y Visioli. Para el esquema anti-windup,
+se calculó una constante del tiempo de seguimiento igual a 35,23 s. La
+Fig. 3.22 describe las respuestas dinámicas de salida y cuyas
+características se presentan en la Tabla 3.10. Asimismo, la Fig 3.23
+describe la potencia de salida del controlador en función del tiempo.
+E1s
+25
+Temperatura, (°C]
+20
+200
+400
+600
+- a neu: Ariota, Vilanova y Valol (2011)
+1000 1200 1400 1600
+Tiempo. (s)
+a)
+1800
+200
+400
+G00
+- Anti-windup: Arrieta, Vilanova y Visioli (2011)
+Escalón
+800
+Tiempo, (s)
+1000 1200 1400 1600
+1800
+40
+35
+g 25
+70
+60
+50
+Temperatura, (°C]|
+30
+20
+10
+200
+400
+600
+Anti-windup: Arrieta, Vilanova y Visioli (2011)
+Escaión
+800
+1000 1200 1400 1600
+1800
+Tiempo, (s]
+Anti-windup: Arriete, Vianova y Visioli (2019)
+Escalón
+200|
+400
+GOD
+800
+Tiempo, (s)
+1000 1200 1400 1600 1800
+Fig. 3.22. Respuestas del lazo obtenidas a partir del método de Arrieta, Vilanova y
+Visioli con anti-windup para cambios del setpoint de a) 20°C, b) 30°C, c) 40°C y d)
+2000
+1800
+1600
+1400
+2000
+1800
+1600
+1400
+§ 1200
+M 1200
+1000
+800
+600
+400
+600
+400
+200|
+200
+200
+40001
+600
+800
+1000 1200
+1400
+Tiempo, [s)
+a)
+1600
+1800
+400
+60D
+800 1000 1200 1400 1600
+18010
+Tiempo, [s)
+b)
+58
+
+2000
+1800
+1600
+T-UU
+E 1200
+1000
+800
+600
+2000
+1800
+160D
+1400
+E 1200
+8 1000
+80D
+600
+400
+200
+ZODI
+400
+600
+800 1000
+C12001
+Tiempo, [s)
+200
+400
+600
+B0O 1000 1200 1400 1600|
+Tiempo, (s)
+Fig. 3.23. Respuestas de salida del controlador PID sintonizado por el método de
+Arrieta, Vilanova y Visioli con anti-windup para cambios del setpoint de a) 20°C, b)
+30°C, c) 40°C y d) 60°C.
+Simon 10. Sagin linicad A reta, stan din visas destin wearing o i-
+Cambio del
+setpoint
+Tiempo de
+elevación, [s]
+Sobrepaso,
+[%]
+Pico máximo,
+[°C]
+Tiempo de
+estabilización,
+[s]
+20
+30
+40
+60
+77,1638
+115,3462
+153,2609
+229,4787
+4,8261
+2,5227
+1,3769
+1,1096
+20,9652
+30,7568
+40,5507
+60,6657
+1094,9
+423,9779
+236,4913
+324,8418
+Autoría propia.
+La Fig. 3.24 describe el efecto de la inclusión del setpoint weight al lazo
+de control PID, mientras que la Tabla 3.11 presenta la caracterización
+dinámica respectiva.
+60
+60
+50
+50
+호
+เขี่นอ
+2220 -
+20
+10 H
+호
+180
+20
+10
+20°C||
+20°C
+200
+60°C
+1800
+م'هه
+60*C
+600 1
+800 1000 1200 1400 1800
+Tiempo, (s]
+400
+600 1
+800 1000 1200 1400 1600|
+Tiempo, [s)
+1800
+a)
+b)
+Fig. 3.24. Efecto del setpoint weight sobre la dinámica del lazo según el método de
+Arrieta, Vilanova y Visioli con anti-windup: a) con setpoint weight y b) sin setpoint
+weight.
+Finalmente, la Tabla 3.12 presenta y contrasta los cálculos teóricos de
+energía consumida por el calentador de agua eléctrico durante la primera
+hora de operación según los distintos diseños propuestos del controlador.
+59
+
+Cambio Tiempo de
+elevación,
+setpoint
+[s]
+Sobrepaso,
+[%]
+[°C]
+Sin
+weight
+Con
+weight
+20
+30
+40
+60
+20
+30
+40
+60
+77,1638
+115,3462
+153,2609
+229,4787
+87,6953
+118,0840
+153,7562
+229,4526
+4,8261
+2,5227
+1,3769
+1,1096
+2,0518
+1,1369
+0,7956
+0,6492
+20,9652
+30,7568
+40,5507
+60,6657
+20,4104
+30,3411
+40,3182
+60,3895
+estabilización,
+[s]
+1093,0
+423,9779
+236,4913
+324,8418
+219,7129
+205,8295
+248,3359
+333,0887
+Autoría propia.
+Tabla 3.12. Energía consumida (kJ) por el calentador durante la primera hora de su
+funcionamiento
+Cambio de Método
+Método
+setpoint
+1
+2
+Método
+Método
+ISE
+ITSE
+ISTE
+4
+Método
+5
+20
+30
+40
+60
+Autoría propia.
+203,57
+195,93
+195,08
+195,40
+294,88
+292,01
+291,65
+293,44
+391,67
+392,32
+390,14
+391,18
+586,06
+584,59 584,37
+581,62
+197,26
+294,71
+395,66
+587,31
+196,08
+292,93
+390,74
+585,87
+195,51
+294,17
+392,38
+588,30
+IV.
+DISCUSIÓN DE RESULTADOS
+4.1. Modelado Teórico y Fenomenología
+En primer lugar, se discuten las presunciones establecidas en la etapa de
+conceptualización. La primera considera despreciable un flujo de salida
+de vapor de agua debido a la ebullición subenfriada (Cengel, 2007, pp.
+562-563). El agua de vaporiza y se dispersa en el aire circundante. Esta
+condición también se reportó implícitamente otros trabajos (Romagnoli,
+Palazoglu y Whitaker, 2001, p. 46; Murray et al., 2016, p. 236; Madugu,
+2018, p. 15).
+Debido a la formación caótica de patrones de flujo relacionados con la
+ebullición subenfriada del agua, es de esperarse la formación de un
+gradiente tridimensional de la temperatura. Debido a ello, se presumió que
+la temperatura del líquido era independiente de su posición. Es decir, se
+60
+
+admitió la presencia imaginaria de un agitador mecánico, el cual
+garantizaba el mezclado ideal. Esta condición podría justificarse con la
+cantidad pequeña de agua procesada (1,7 kg). Análogamente, Murray et
+al. (2016, p. 236) y Madugu (2018, p. 16) sometieron su análisis a tal
+condición, aunque implícitamente en el último.
+La tercera presunción se caracterizó por ser intuitivamente fácil de definir.
+Si bien un hervidor eléctrico se constituye de diversos materiales, se
+consideró que la transferencia de calor se efectúa a través de un medio
+de composición definida y constante. Asimismo, presumir que las
+propiedades físicas de este material son independientes de la
+temperatura, justificó el considerar un coeficiente global de transferencia
+de calor constante en el tiempo.
+Aunque en realidad la transferencia de calor desde la base del hervidor al
+seno del líquido es unidireccional, la falacia de establecer un caso
+especial de transferencia de calor homogénea simplemente reforzaría la
+segunda presunción referente a un mezclado ideal.
+En lo que respecta a la última presunción, esta se sustentó en un cambio
+de la temperatura del ambiente despreciable, si es que se considera un
+tiempo de funcionamiento razonable del aparato. Si bien el hervidor se ha
+diseñado con el fin de facilitar agua caliente a una temperatura constante
+y regulada adecuadamente, no se espera que su operación se prolongue
+por más de una hora. En otras palabras, aún sería necesaria la
+intervención de un usuario.
+A continuación, se evaluaron los resultados obtenidos en la etapa del
+modelado. La ecuación 3.17 representó un modelo dinámico del tipo
+FOPDT, asimismo denotó un proceso con una constante del tiempo
+dominante. Esto último era de esperarse, porque el proceso de
+calentamiento de agua es relativamente lento.
+A pesar de que matemáticamente el modelo de función de transferencia
+obtenido es coherente, no es correcto si se pretende correlacionar lo
+derivado según la estadística y la fenomenología. Al ser un modelo
+FOPDT, se le otorga una característica "autorreguladora" al proceso.
+Aunque esto último sea una verdad parcial, no describe la condición del
+límite del proceso de calentamiento: la ebullición.
+61
+
+Supóngase que en lugar de una entrada de escalón igual a 1.850 W (la
+potencia entregada por diseño del hervidor eléctrico), ingresa una
+potencia equivalente a 1 W (escalón unitario). Según la ecuación (3.10),
+la temperatura del sistema se incrementa en un valor de 3,70°C cuando
+se alcanza la nueva condición estable. Matemáticamente, esto último
+sería correcto y físicamente, aunque poco probable de verificar: se
+debería esperar aproximadamente nueve horas para que la desviación de
+la temperatura del agua sea igual a un 63% del incremento total para este
+nuevo estado estacionario. A continuación, se analiza la condición de
+trabajo original: una entrada de potencia igual a 1850 W. En este caso, el
+modelo FOPDT predice un incremento de la temperatura del agua igual a
+6845°C, el cual es una respuesta correcta desde una perspectiva
+matemática, pero también denota una situación inexistente para la física.
+Esto último jamás será llevado a cabo, puesto que una vez que la
+temperatura del agua alcance un valor de desviación igual a 80°C, esta
+comenzará a ebullir y la temperatura se mantendrá constante en el
+tiempo. Esto seguirá así hasta que el agua en su totalidad se vaporice, se
+disperse en el aire circundante y el recipiente albergue vestigios del fluido
+vaporizado. En esta condición límite, se desmorona cualquier presunción
+lógica establecida en la etapa de la conceptualización.
+Madugu (2018) modeló su hervidor eléctrico diseñado por su cuenta y
+obtuvo un modelo FOPDT mediante la aplicación de la segunda técnica
+de ajuste descrita en Corripio y Smith (2014) y basada en el método
+original de Ziegler y Nichols (1942) (p. 17). Naturalmente su modelo
+presentó parámetros diferentes. No obstante, una característica notoria
+en común fue las magnitudes de las constantes del tiempo. Ambos
+modelos representaron dinámicas gobernadas por este parámetro. El
+modelado de Madugu (2018) se sustentó en el método de ajuste más
+simple según un modelo FOPDT. Aunque sencillo, resultó siendo un
+procedimiento demasiado dudoso: no logró explicar la fenomenología del
+proceso a condiciones inferiores de la ebullición.
+En síntesis, la perspectiva del presente trabajo considera lo opuesto a lo
+descrito por Madugu (2018). Se presentó un modelo dinámico que logre
+explicar el comportamiento del hervidor cuando el líquido es subenfriado
+62
+
+sin importar la magnitud de la entrada de potencia del hervidor, mas no la
+condición de ebullición. Por el contrario, el modelo de Madugu (2018)
+logra explicar el proceso, tanto la condición subenfriada como la de
+saturación, solamente para una entrada equivalente a la máxima potencia
+del aparato (1850 W). Además, se debe considerar que, en este caso, el
+modelo FOPDT de Madugu (2018) pierde exactitud conforme se llega a la
+temperatura de ebullición.
+Con un propósito comparativo, se llevó a cabo el modelado del hervidor
+eléctrico según un modelo FOPDT. Para ello, se emplearon las técnicas
+de ajuste de la recta tangente (Corripio y Smith, 2014, pp. 332-333), el
+método de Smith (1972), el método de Sundaresan y Krishnaswamy
+(1978) y el método de áreas (Aström y Hägglund, 1995, pp. 24-25). La
+Fig. 3.5 presenta tales curvas de ajuste. Asimismo, nótese una curva de
+reacción basada en los parámetros promedio derivados del ajuste por
+mínimos cuadrados.
+Considerándose la posibilidad de que Madugu (2018) haya trabajo con un
+modelo FOPDT debido a lo tedioso que sería la aplicación de un ajuste
+por mínimos cuadrados (no se conoce el valor de esa hipotética ganancia
+estacionaria), su enfoque resultó siendo menos agresivo. Obsérvese en
+la Tabla 3.1 que cuanto más reproducible sea el método de ajuste, el
+modelo FOPDT resulta con menor dominio de la constante del tiempo. Si
+bien es cierto que el método de la tangente (Corripio y Smith, 2014, pp.
+332-333) es el que provee la mayor constante del tiempo, no se puede
+evitar perder exactitud a una desviación estándar mayor de 20°C.
+4.2.
+Propuesta Tecnológica
+El sistema de control PID descrito, ver Fig. 3.6, se basa principalmente en
+el prototipo propuesto y descrito por Shah et al. (2019, p. 1685). No
+obstante,
+se propusieron
+ciertas modificaciones
+para una
+futura
+implementación.
+a) Se sugirió utilizar un encoder rotatorio, en lugar de un potenciómetro
+10 kS, debido a que este último al permitir la entrada de una señal
+analógica, es sensible ante el ruido electrónico.
+63
+
+b) Se propuso acoplar un disipador de calor al relé en estado sólido,
+debido a que la carga soportada por este es elevada (Llamas, 2021).
+Asimismo, convendría usar pasta térmica como adhesivo entre ambos
+elementos.
+c) Se sugirió utilizar un lcd x I2C para la visualización de la temperatura
+del sistema y la de consigna. La conexión de este a la placa Arduino
+Uno y a la placa de inserción es más sencilla que la de cualquier otro
+display. Asimismo, permitiría mostrar las temperaturas del hervidor y
+del setpoint en una misma pantalla.
+Quizás lo más llamativo en el diseño propuesto sea el acoplamiento de un
+relé en estado sólido (SSR) a un controlador PID. Si bien un SSR opera
+mediante señales discretas, dado que es análogo a un switch (on-off), la
+señal de salida del controlador PID es convertida a una señal de
+modulación por ancho de pulsos (PWM). La señal PWM se suministraría
+al SSR desde el algoritmo PID y se actualizaría en el intervalo de tiempo
+predefinido especificado en la interrupción cíclica (Gajjar, Patel y Singh,
+2015). Por su parte, Shah et al. (2019) sugirieron utilizar una frecuencia
+baja del PWM, debido a la dinámica lenta del proceso, siendo esta igual
+a 1000 microsegundos (p. 1684).
+4.3. Rendimiento del Controlador PID
+A pesar de la adición de un setpoint weight y la aplicación de un esquema
+anti-windup, la sintonización basada en el método de Ziegler y Nichols
+proporcionó las respuestas dinámicas con los mayores sobrepasos. Cabe
+resaltar que la magnitud de cada sobrepaso disminuía conforme
+aumentaba la magnitud del cambio de setpoint. Teóricamente, se
+esperaba que Ziegler y Nichols fuera el método con menor eficiencia,
+debido a que no fue formulado específicamente para afrontar problemas
+de un cambio del setpoint (Alfaro, 2005, p. 41).
+En teoría, la sintonización de un controlador PID según el criterio de
+mínimo ISTE es el más conveniente para modelos de planta IPDT, dado
+que provee los menores sobrepasos y tiempos de estabilización (Visioli,
+2001, p. 181). Este primer aspecto se comprobó con los resultados para
+cambios del setpoint de 20°C, 30°C y 40°C (ver Tablas 3.4, 3.5 y 3.6),
+donde se observaron los mínimos sobrepasos. Para un cambio del
+64
+
+setpoint de 60°C, el criterio de mínimo ISE proveyó la respuesta con
+menor sobrepaso. Fue el segundo aspecto de esta conclusión por Visioli
+(2001, p. 182), un objeto a discutir en esta etapa del análisis. Los
+resultados demostraron que, en general, el criterio de mínimo ISE
+ofrecieron las respuestas con los menores tiempos de estabilización. La
+única excepción fue para un cambio del setpoint de 30°C. En esto último,
+el criterio de mínimo ITSE satisfizo dicha condición. Observándose la
+tendencia para los tiempos de elevación, se determinó que el criterio de
+mínimo ISTE brindó los mayores valores. Esto último concuerda
+fehacientemente con uno de los resultados del análisis de Visioli (2001, p.
+182).
+Referente al método de síntesis directa, ver la Fig. 3.16 y la Tabla 3.7, se
+registraron, como era de esperarse, respuestas dinámicas con mayores
+sobrepasos y tiempos de estabilización, comparándose con los resultados
+según Visioli. No obstante, un aspecto interesante a abordar fue el efecto
+de la selección del parámetro 2 sobre la determinación de los parámetros
+de sintonización. Basándose en la Fig. 3.18, conforme se aumentó el valor
+del factor 2, se incrementaron tanto los sobrepasos de las respuestas
+como sus tiempos de estabilización, sin importar la magnitud del cambio
+del setpoint.
+Las respuestas de lazo basadas en el método de Ali y Majhi, Fig. 3.19 y
+Tabla 3.8, se caracterizaron por presentar los mínimos sobrepasos para
+un control PID. Asimismo, se observaron tiempos de estabilización
+relativamente bajos. Sin embargo, su principal ventaja fue que no necesitó
+de la adición de un setpoint weight. Cabe resaltar que la ganancia integral
+calculada fue la menor de todas. Esto sería la principal causa de un menor
+efecto windup en la dinámica del proceso. Obsérvese en la Fig. 3.21 y la
+Tabla 3.9 que, efectivamente, la inclusión de un filtro derivativo en el
+controlador PID ejerce un efecto sobre su desempeño. En lo que respecta
+al sobrepaso, la ausencia de un filtro derivativo es eficaz, excepto para un
+cambio del setpoint de 20°C o inferior. Análogamente, al evaluarse los
+tiempos de estabilización, la presencia de un filtro derivativo es
+contraproducente para cualquier cambio de setpoint. Cabe resaltar que el
+filtro derivativo utilizado en el trabajo original de Ali y Majhi (2010) fue igual
+65
+
+a 0,1 (p. 71), un valor que se posiciona dentro del rango establecido por
+Corripio y Smith (2014) (0,01 a 0,2) para un efecto relativamente
+insignificante del filtro sobre el desempeño del controlador PID (p. 254).
+Las respuestas de lazo basadas en el método de Arrieta, Vilanova y
+Visioli, Fig. 3.22 y Tabla 3.10, se caracterizaron por presentar elevados
+sobrepasos y tiempos de estabilización, aunque inferiores a los
+determinados por el método basado en Ziegler y Nichols (1942). A
+continuación, se discutió el efecto de la adición de un setpoint weight al
+lazo de control PID, ver Fig. 3.24 y Tabla 3.11. Obsérvese que la inclusión
+de un setpoint weight proporcionó una reducción aproximada del 50% de
+sobrepaso. Asimismo, se redujeron los tiempos de estabilización:
+aproximadamente un 80% para el menor cambio del setpoint.
+Teóricamente, este último método debería proveer un mejor desempeño
+del lazo de control si es que se toma en cuenta el tiempo de su
+publicación. Es relevante recordar que este método, aunado al de Ali y
+Majhi, ofrecen enfoques unificadores, es decir, son propuestas que no se
+orientan exclusivamente a un cambio del setpoint, como Visioli (2001). Sin
+embargo, se presume que tal desbalance de rendimiento en el trabajo de
+Ali y Majhi (2010) se orienta, en un grado mayor, a problemas de cambio
+del setpoint con relación al de esta última metodología. En otras palabras,
+es probable que el factor de balance en el método de Ali y Majhi sea
+inferior a 0,25.
+Habiéndose cumplido las metodologías propuestas en la presente
+investigación, y dada la naturaleza poco uniforme de los resultados
+obtenidos, se aplicó un criterio final para discernir aquel método que
+provee la sintonización óptima de los demás propuestos. Esto consistió
+en el cálculo de la energía consumida por el calentador durante la primera
+hora de su funcionamiento. Obsérvese en la Tabla 3.12 que son los
+métodos de sintonización basados en la minimización de los índices ISE
+e ISTE, aquellos que garantizaron los menores consumos de energía
+eléctrica. A la metodología basada en Ziegler y Nichols se le atribuye los
+mayores consumos. Finalmente, de los métodos más actualizados, son
+las respuestas dinámicas de Ali y Majhi y Arrieta, Vilanova y Visioli con
+66
+
+VI.
+anti-windup, las que se caracterizaron por un consumo eficiente de la
+energía.
+CONCLUSIONES
+Los resultados demostraron que:
+1. La simulación de un calentador de agua eléctrico, basado en el
+acoplamiento de un sistema de control PID a un hervidor de agua
+casero, garantiza un control eficiente de la temperatura del líquido, así
+como un consumo responsable de la energía eléctrica.
+2. Teóricamente, el modelo matemático de un hervidor de agua eléctrico
+obedece una dinámica de primer orden con tiempo muerto (FOPDT).
+Experimentalmente, se demuestra que este es un proceso con
+dominio de su constante de tiempo y que es factible su ajuste a
+modelos integrantes con tiempo muerto (IPDT e IFOPDT).
+3. Es factible proponer la construcción de un calentador de agua eléctrico
+mediante el acoplamiento de un circuito de control PID de temperatura,
+basado en una placa Arduino Uno, a un hervidor de agua casero.
+4. La metodología basada en las fórmulas de sintonización de Ali y Majhi
+sin filtro derivativo y la integración de un lazo anti-windup provee el
+diseño de un controlador PID con el mejor desempeño, dado que sus
+respuestas de salida se caracterizan por presentar bajos sobrepasos
+y tiempos de estabilización, así como un consumo eficiente de energía
+eléctrica.
+RECOMENDACIONES
+1. Se sugiere realizar la prueba de escalón unitario con una potencia de
+entrada inferior a la máxima establecida por el diseño del hervidor de
+agua casero, dado que la exactitud del modelo de ajuste depende
+radicalmente de la determinación de sus parámetros.
+67
+
+2. Se recomienda profundizar en el modelado del lazo de control PID, en
+lo que respecta a determinar la dinámica del controlador y sus
+elementos complementarios. Esto proporcionaría una simulación con
+resultados más exactos.
+3. Se sugiere continuar con la labor del presente trabajo mediante la
+exploración teórica y la contrastación de otras metodologías de diseño
+de controladores PID orientados a procesos integrantes.
+VII.
+REFERENCIAS BIBLIOGRÁFICAS
+Alfaro, V. (2005). Actualización del método de sintonización de
+controladores de Ziegler y Nichols. Ingeniería, 15, 39-52. doi:
+10.15517/ring.v15i1-2.7739.
+Ali, A. y Majhi, S. (2010). PID controller tuning for integrating processes.
+ISA Transactions, 49(1), 70-78. doi: 10.1016/j.isatra.2009.09.001
+Amazon. (2021). Fellow Stagg EKG - hervidor eléctrico para café y té,
+control de temperatura variable, calentamiento rápido de 1200 W,
+cronómetro integrado, Negro mate. Wasington, EU: Amazon.
+Recuperado de https://www.amazon.com/-/es/Fellow-Stagg-EKG-
+calentamiento-1200/dp/B077JBQZPX
+Amazon (2021). Termostato de control de temperatura de la parte
+superior de la base del hervidor de agua eléctrico. Recuperado de
+https://www.amazon.com/Thermostat-Temperature-Control-Kettle-
+Electric/dp/B07T4YS9PR
+Arrieta, O., Vilanova, R., & Visioli, A. (2011). Proportional-integral-
+derivative tuning for servo/regulation control operation for unstable
+and integrating processes. Industrial & Engineering Chemistry
+Research, 50(6), 3327-3334. doi: 10.1021/ie101012z
+Aström, K. J. y Hägglund, T. (1995). PID controllers: theory, design and
+tuning. NC, EU: ISA-The Instrumentation, Systems and
+Automation Society.
+68
+
+Aström, K. J. y Hägglund, T. (2004). Revisiting the Ziegler-Nichols step
+response method for PID control. Journal of Process Control,
+14(6), 635-650. doi: 10.1016/j.jprocont.2004.01.00
+Aström, K. J. y Hägglund, T. (2006). Advanced PID control. NC, EU: ISA-
+The Instrumentation, Systems and Automation Society.
+Ayu, H. M. y Rosdi, D. (2008). Design and Analysis for the Improvement
+of Electric Kettle Performance.
+Bakshi, U. A. y Bakshi, V. U. (2009). Electrical technology. Pune, India:
+Technical Publications Pune.
+Billingsley, J. (2010). Essentials of control techniques and theory. NY,
+EU: CRC Press.
+Bird, J. O. y Ross, C. T. F. (2012). Mechanical engineering principles.
+NY, EU: Elsevier.
+Bolton, W. (2004). Instrumentation and control systems. NY, EU: Elsevier
+Science & Technology Books.
+Chen-Ching, Y. (2006). Autotuning of PID Controllers. A Relay Feedback
+Approach. Alemania: Springer-Verlag London.
+Chen, X. y Liu, Y. (2015). Finite element modeling and simulation with
+Ansys Workbench. Boca Raton, Estados Unidos de América: CRC
+Press.
+Chidambaram, M. (2000). Set point weighting PI/PID controller for
+integrating plus dead time processes. En P. Kanagasabapathy y
+R. Muthu (Eds.). Proceedings of the National Symposium on Intell.
+Measurement & Control (pp. 324). Madras, India.
+Corripio, C. A. y Smith, A. B. (2014). Control automático de procesos.
+Teoría y práctica. México, D.F., México: Limusa, S.A. de C.V.
+del Valle, L. (2021). DS18B20 sensor de temperatura. Programarfacil.
+Recuperado de https://programarfacil.com/blog/arduino-
+blog/ds18b20-sensor-temperatura-arduino/
+Daful, A. G. (2018) "Comparative study of PID tuning methods for
+processes with large & small delay times," 2018 Advances in
+Science and Engineering Technology International Conferences
+(ASET). doi: 10.1109/ICASET.2018.8376915.
+69
+
+Datta, A., Ho M-T y Bhattacharyya, S. P. (2000). Structure and synthsis
+of PID controllers (Advances in industrial control). Londres, RU:
+Springer-Verlag London.
+David, I. (2021). How Does an Electric Kettle Work? Recuperado de
+https://www.hunker.com/13408995/how-does-an-electric-kettle-
+work
+Dey, C., Mudi, R. K. y Simhachalam, D. (2014). A simple nonlinear PD
+controller for integrating processes. ISA Transactions, 53(1), 162-
+172. doi: 10.1016/j.isatra.2013.09.011
+Dincer, I. (2021). Thermodynamics: A smart approach. Sussex
+Occidental, Reino Unido: John Wiley & Sons, Inc.
+Doebelin, E. O. (1985). Control system principles and design. NY, EU:
+John Wiley & Sons, Inc.
+Erham, E., Markus, Surjanto, A. y Rukmana, J. (2018). Design of a new
+PID controller based on Arduino Uno R3 with application to
+household refrigerator. MATEC Web of Conferences. 154. 01044.
+doi: 10.1051/matecconf/201815401044.
+El Mogahzy, Y.E. (2009). Textile product design conceptualization: basic
+elements and tools. doi: 10.1533/9781845695415.1.82
+Felder, R. M. y Rousseau, R. W. (2005). Elementary Principles of
+Chemical Processes. NJ, EU: John Wiley & Sons, Inc.
+Fertik, H. A., and C. W. Ross (1967). Direct digital control algorithms with
+anti-windup feature. I.S.A. Trans., 22nd annual conf. and exhibit.,
+Chicago, 4, 317-328.
+Fezari, M. y Al Dahoud, A. (2019). Exploring One-wire temperature
+sensor "DS18B20" with microcontrollers.
+Gajjar, A. G., Patel, A. I. y Singh, R. G. (2017). Real time implementation
+of MPC in bottle washer machine for small scale beverage
+industry. International Conference on Computer Applications in
+Electrical Engineering-Recent Advances (CERA) - Roorkee, India
+(2017.10.5-2017.10.7)] 2017 6th International Conference on
+Computer Applications In Electrical Engineering-Recent Advances
+(CERA), 509-514. doi: 10.1109/CERA.2017.8343382
+70
+
+Hassaan, G. A. (2014). Temperature control system and its control using
+PID controller. International Journal of Engineering Research &
+Technology (IJERT), 4(2), 145-147.
+Hemanth, J., Yigit, T., Patrut, B. y Angelopoulou, A. (2021). Trends in
+data engineering methods for intelligent systems. Proceedings of
+the International Conference on Artificial Intelligence and Applied
+Mathematics in Engineering (ICAIAME 2020). Cham, Suiza:
+Springer Nature Switzerland AG.
+Hondianto, T., Susanto, E. y Wibowo, A. (2016). Model Driven PID
+Controller in Water Heater System. International Journal of
+Electrical and Computer Engineering (IJECE), 6, 1673-1680. doi:
+10.11591/ijece.v6i4.9652
+Imaco. (2021). Hervidor eléctrico KE1712. Lima, Perú: Imaco.
+Recuperado de http://www.imacosa.com/productos/hervidor-
+electrico-ke1712/
+Ingenia online. (2019). How does that work - Kettle switch-off. Londres,
+Reino Unido. Recuperado de
+https://www.ingenia.org.uk/Ingenia/Articles/24531842-e997-4adb-
+b023-f19733793727
+Irshad, M., y Ali, A. (2020). Robust PI-PD controller design for integrating
+and unstable processes. IFAC-PapersOnLine, 53(1), 135-140. doi:
+10.1016/j.ifacol.2020.06.023
+Jalil, M. H. A., Marzaki, M. H., Kasuan, N., Taib, M. N. y Rahiman, M. H.
+F. (2013). Implementation of anti windup scheme on PID controller
+for regulating temperature of glycerin bleaching process. 2013
+IEEE 3rd International Conference on System Engineering and
+Technology, 2013, 113-117, doi: 10.1109/ICSEngT.2013.6650154
+Johnson, M. A. y Moradi, M. H. (2005). PID control: new identification
+and design methods. NY, EU: Springer-Verlag London.
+Jugo, J. M. (2020). Ofertas de electrodomésticos en Navidad no serán
+tan agresivas como en años anteriores. Lima, Perú: Gestión.
+Recuperado de https://gestion.pe/economia/ofertas-de-
+electrodomesticos-en-navidad-no-seran-tan-agresivas-como-en-
+anos-anteriores-estima-la-ccl-noticia/
+71
+
+Kavita, T., Parvathi, B.N., Lavanya, M. y Arivalagan, M. (2015).
+Temperature control water bath system using PID controller.
+International Journal of Applied Engineering Research, 10(4),
+3443-3446.
+Liu, T., Cai, Y.Z., Gu, D.Y. y Zhang, W. D. (2005). New modified Smith
+predictor scheme for integrating and unstable processes with time
+delay. Control Theory and Applications. IEE Proceedings, 152(2),
+238-246. doi: 10.1049/ip-cta:20041232.
+Llamas, L. (2001). Conmutar cargas con arduino y relé de estado sólido.
+Recuperado de https://www.luisllamas.es/arduino-rele-estado-
+solido-ssr/
+Lu, X., Yang, Y.-S., Wang, Q.-G., y Zheng, W.-X. (2005). A double two-
+degree-of-freedom control scheme for improved control of
+unstable delay processes. Journal of Process Control, 15(5), 605-
+614. doi: 10.1016/j.jprocont.2004.09.00
+Marcinkowski, A. y Zych, K. (2007). Environmental performance of kettle
+production: product life cycle assessment. Management Systems
+in Production Engineering, 25(4), 255-261.
+Madugu, J. S. (2018). Modeling and simulation of proportional-integral-
+derivative (PID) temperature controller for an electric kettle.
+International Journal of Engineering, Science and Mathematics,
+7(9), 15-20.
+Madugu, J. S. y Vasira, P. G. (2018). Modeling and performance
+evaluation of P, PI, PD and PID temperature controller for water
+bath. American Scientific Research Journal for Engineering,
+Technology and Sciences (ASRJETS), 47(1), 186-200.
+Miller, J. (2018). What's the point of a PID controller in a electric kettler?
+Recuperado de https://fellowproducts.com/blogs/learn/what-s-the-
+point-of-a-pid-controller-in-an-electric-kettle
+Ministerio de Energía y Minas. (2010). Un electrodoméstico barato no
+siempre es económico. Recuperado de
+http://www.minem.gob.pe/descripcion.php?idSector=6&idTitular=2
+460
+72
+
+Ministerio de Energía y Minas. (2017). Guía de orientación del uso
+eficiente de la energía y de diagnóstico energético. Recuperado
+de
+http://www.minem.gob.pe/minem/archivos/Guia%20Sector%20Re
+sidencial.pdf
+Ministerio de Energía y Minas. (2020). Recomiendan utilizar la energía
+eléctrica de forma eficiente. Lima, Perú: Plataforma digital única
+del Estado Peruano. Recuperado de
+http://www.gob.pe/institucion/minem/noticias/187179-
+recomiendan-utilizar-la-energia-electrica-en-forma-eficiente
+Moreano, G. V., Arregui, C., Tenesaca, C. G. y Pilco, H. J. (2019).
+Rendimiento y eficiencia de distintas técnicas de control en un
+calefón eléctrico. Ingenius: Revista de Ciencia y Tecnología, (22),
+90-99. doi: 10.17163/ings.n22.2019.09
+Müller, W., Hörnemann, E., Hübscher, H., Jagla, D., Larisch, J. y Pauly,
+V. (1994). Electrotecnia de potencia: Curso superior. Barcelona,
+España: Reverté, S.A.
+Murray, D.M., Liao, J., Stankovic, L. y Stankovic, V. (2016).
+Understanding usage patterns of electric kettle and energy saving
+potential. Applied Energy, 171), 231-242.
+doi: 10.1016/j.apenergy.2016.03.038
+Ogata, K. (2010). Ingeniería de control moderna. Madrid, España:
+Pearson Educación, S.A.
+Pinto, N. (2020). Conoce los productos que quizás no sabías que puedes
+encontrar por aplicativo para sorprender en Navidad. Lima, Perú:
+Press Perú. Recuperado de https://pressperu.com/conoce-los-
+productos-que-quizas-no-sabias-que-puedes-encontrar-por-
+aplicativo-para-sorprender-en-navidad/
+Redacción EC. (2020). Coronavirus en Perú: Sector electrodomésticos
+pierde S/.600 millones por estado de emergencia. Lima, Perú: El
+Comercio. Recuperado de
+https://elcomercio.pe/economia/coronavirus-en-peru-sector-
+electrodomesticos-pierde-s600-millones-por-estado-de-
+emergencia-nndc-noticia/
+73
+
+Redacción El Peruano. (2020). Cuarentena: ¿Qué aparatos consumen
+más energía en el hogar? Lima Perú: El Peruano. Recuperado de
+https://elperuano.pe/noticia/93631-cuarentena-que-aparatos-
+consumen-mas-energia-en-el-hogar
+Redacción Gestión. (2018). ¿Qué artefactos electrónicos consumen más
+energía? Lima, Perú: Gestión. Recuperado de
+https://gestion.pe/economia/artefactos-electronicos-consumen-
+energia-237358-noticia/?ref-gesr
+Redacción Radio Nacional. (2020). MINEM lanza campaña informativa
+para el buen uso de electricidad durante la cuarentena. Lima,
+Perú: Radio Nacional. Recuperado de
+https://www.radionacional.com.pe/noticias/actualidad/minem-
+lanza-campana-informativa-para-el-buen-uso-de-electricidad-
+durante-la-cuarentena
+Ryniecki, A., Wawrzyniak, J. y Pilarska, A. A. (2015). Basics of process
+control: the on-off control system. PRZEMYSE SPOZYWCZY,
+1(69) 28-31. doi: 10.15199/65.2015.11.6
+Romagnoli, J. A., Palazoglu, A. y Whitaker, S. (2001). Dynamics of a
+stirred-tank heater. Intuition and analysis. Chemical Engineering
+education, (35), 46-49.
+Seborg, D. E., Edgar, T. F., Mellichamp, D. A. y Doyle III, F. J. (2011).
+Process dynamics and control. NJ, EU: John Wiley & Sons, Inc.
+Segura, H. (2019). Termodinámica de procesos químicos. Concepción,
+Chile: Universidad de Concepción.
+Seshagiri, R. A., Rao, V. S. R. y Chidambaram, M. (2009). Direct
+synthesis-based controller design for integrating processes with
+time delay. Journal of the Franklin Institute, 346(1), 38-56. doi:
+10.1016/j.jfranklin.2008.06.0
+Shah, M. B. N., Zailan, N., Abidin, A. F. Z., Halim, M. F., Annuar, K. A.,
+Azahar, A. H.,... Yaakub, M. F. (2019). PID-based temperature
+control device for electric kettle. International Journal of Electrical
+and Computer Engineering (IJECE), 9(3), 1683-1693.
+Singh, Y. K., Kumar, J., Pandey, Rohit K. y Bhargav, A. (2016).
+Temperature Control System and its Control using PID Controller.
+74
+
+International Journal of Engineering Research & Technology
+(IJERT) CMRAES-2016 Conference Proceedings, 4(2), 1-3.
+Skogestad, S. (2003). Simple analytic rules for model reduction and PID
+controller tuning. Journal of Process Control, 13(4), 291-309. doi:
+10.1016/s0959-1524(02)00062-8
+Smith, C. L. (1972). Digital Computer Process Control: Intext Educational
+Publishers.
+Soedira, D. M., Lintanghati, D. K., Koestoer, R. A. y Dhelika, R. (2020).
+Development of a low-cost prototype of an extruder for plastic
+waste. AlP Conference Proceedings. 2227. doi:
+10.1063/5.0000936
+Sundaresan, K. R. y Krishnaswamy, P. R. (1978). Estimation of Time
+Delay Time Constant Parameters in Time, Frequency, and
+Laplace Domains, Can. J. Chem. Eng., 56, 257-262. doi:
+10.1002/cjce.5450560215
+Skultéty, E. y Pivarciova, E. y Karrach, L. (2018). The comparing of the
+selected temperature sensors compatible with the arduino
+platform. Management Systems in Production Engineering, 26,
+168-171. doi: 10.1515/mspe-2018-0027
+Tan, H. y Yan, Q. (2017). Design of water temperature control system
+based on single chip microcomputer. IOP Conference Series:
+Materials Science and Engineering, 247, 012146.
+Tensa, M., Edmonds, K., Ferrero, V., Mikes, A., Soria, N., Stone, R. y
+DuPont, B. (2019) Toward Automated Functional Modeling: An
+Association Rules Approach for Mining the Relationship between
+Product Components and Function, en Proceedings of the 22nd
+International Conference on Engineering Design (ICED 19), Delft,
+Países Bajos, del 5 al 8 de agosto de 2019.
+doi:10.1017/dsi.2019.177
+Torstensson, E. (2013). Comparison of Schemes for Windup Protection
+(tesis de maestría). Recuperado de
+https://core.ac.uk/download/pdf/289952713.pdf
+75
+
+Visioli, A. (2001). Optimal tuning of PID controllers for integral and
+unstable processes. IEE Proceedings-Control Theory and
+Applications, 148(2), 180-184. doi: 10.1049/ip-cta:20010197
+Visioli, A. (2006). Practical PID control. Londres, Reino Unido: Springer.
+doi: 10.1007/1-84628-586-0
+Waygood, A. (2013). An introduction to electrical science. Nueva York,
+Estados Unidos de América: Routledge.
+Watson, R. (2018). Use an Arduino UNO and the DS18B20 waterproof
+temperature sensor to create your own thermometer! Recuperado
+de https://maker.pro/arduino/projects/how-to-build-a-thermometer-
+with-arduino-uno-and-the-ds 18b20-waterproof-sensor
+Wibowo, A. S. y Susanto, E. (2018). Performance improvement of water
+temperature control using anti-windup proportional integral
+derivative. lontar komputer. Jurnal Ilmiah Teknologi Informasi, 81.
+doi: doi:10.24843/lkjiti.2018.v09.i02
+Ziegler, J. G. y Nichols, N. B. (1942). Optimum Settings for Automatic
+Controllers. ASME Transactions, 64.
+76
+
+ANEXOS
+ANEXO A
+Código de Arduino IDE 1.8.15 para la medición de la temperatura
+// Include the libraries we need
+#include <OneWire.h>
+#include ‹DallasTemperature. h>
+// Data wire is plugged into port 8
+on the Arduino
+#define ONE_WIRE_BUS 8
+// Setup a oneWire instance to communicate with any OneWire devices
+(not just Maxim/Dallas temperature ICs)
+OneWire oneWire (ONE_WIRE_BUS) ;
+// Pass our oneWire reference to Dallas Temperature.
+DallasTemperature sensors (&oneWire) ;
+void setup () {
+Serial. begin (9600);
+Serial.println("Dallas ("Dallas Temperature IC Control Library Demo");
+sensors.begin ();
+Serial.println ("CLEARDATA" ) ;
+Serial.println ("LABEL, Hora, Tiempo, tempC") ;
+void loop (){
+sensors.requestTemperatures (); // Send the command to get
+temperatures
+float tempC = sensors.getTempCByIndex (0) ;
+Serial.print ("DATA, TIME, TIMER, ") ;
+Serial. println (tempC) ;
+delay (500) ;
+77
+
+ANEXO B
+Datos experimentales de temperatura vs tiempo
+Tabla B.1
+Hora
+8:15:02 p. m.
+8:15:03 р. т.
+8:15:04 p.m.
+8:15:05 p.m.
+8:15:06 p. m.
+8:15:07 p. m.
+8:15:08 p. m.
+8: 15:09 p.m.
+8:15:10 p.m.
+8:15:11 p. m.
+8:15:12 p. m.
+8:15:13 p. m.
+8:15:14 p. m.
+8:15:15 p. m
+8:15:16 p. m.
+8:15:17 p. m.
+8:15:18 p. m.
+8:15:19 p. m
+8:15:20 p. m.
+8:15:21 p. m.
+8:15:22 p. m.
+8:15:23 p. m.
+8:15:24 p. m.
+8:15:25 p. m.
+8:15:26 p. m.
+8:15:27 p. m.
+8:15:28 p. m.
+8:15:29 p. m.
+8:15:30 p. m.
+8:15:31 p. m.
+8:15:32 p.m.
+8:15:33 p. m.
+8:15:34 p. m.
+8:15:35 p. m.
+8:15:36 p. m.
+8: 15:37 p.m.
+8:15:38 p. m
+8:15:39 p. m.
+8:15:40 p. m.
+8:15:41 p. m.
+8:15:42 p. m.
+8:15:43 p. m.
+8:15:44 p. m.
+8:15:45 p. m.
+8:15:46 p.m.
+8:15:47 p. m.
+Primer grupo de datos experimentales de temperatura vs tiempoª
+Tiempo, Temperatura,
+[s]
+[°C]
+0.00
+19.44
+1.00
+19.44
+2.11
+19.44
+3.12
+19.44
+4.13
+19.44
+5.13
+6.15
+19.37
+19.44
+7.16
+19.44
+8.16
+19.44
+9.17
+19.44
+10.18
+19.44
+11.19
+19.37
+12.20
+19.44
+13.21
+19.44
+14.22
+19.44
+15.23
+19.44
+16.23
+19.37
+17.24
+19.44
+18.25
+19.56
+19.27
+19.62
+20.27
+19.75
+21.28
+19.94
+22.29
+20.12
+23.30
+20.25
+24.30
+20.37
+25.32
+20.44
+26.33
+20.62
+27.34
+20.62
+28.34
+20.75
+29.35
+20.81
+20.94
+31.38
+32.39
+33.39
+34.40
+35.41
+36.42
+37.43
+38.44
+39.45
+40.45
+41.46
+42.48
+43.48
+44.49
+45.50
+21.00
+21.06
+21.25
+21.44
+21.62
+21.69
+21.81
+21.87
+21.87
+22.00
+22.06
+22.31
+22.44
+22.62
+22.75
+Hora
+8:15:48 p. m.
+8:15:49 p. m.
+8:15:50 p.m.
+8:15:51 p.m.
+8:15:52 p. m.
+8:15:53 p. m.
+8:15:54 p. m.
+8: 15:55 p. m.
+8: 15:56 p. m.
+8:15:57 p. m.
+8:15:58 p. m.
+8:15:59 p. m.
+8:16:00 p. m.
+8:16:01 p. m.
+8:16:02 p. m.
+8:16:03 p. m.
+8:16:04 p. m.
+8:16:06 p. m.
+8:16:07 p. m.
+8:16:08 p. m.
+8:16:09 p. m.
+8:16:10 p. m.
+8:16:11 p. m.
+8:16:12 p. m.
+8:16:13 p. m.
+8:16:14 p. m.
+8:16:15 p. m.
+8:16:16 p. m.
+8:16:17 p. m.
+8:16:18 p. m.
+8:16:19 p. m.
+8:16:20 p. m.
+8:16:21 p. m.
+8: 16:22 p. m.
+8:16:23 p. m.
+8:16:24 p. m.
+8: 16:25 p. m.
+8:16:26 p. m.
+8:16:27 p. m.
+8:16:28 p. m.
+8:16:29 p. m.
+8:16:30 p. m.
+8:16:31 p. m.
+8:16:32 p. m.
+8:16:33 p. m.
+8:16:34 p. m.
+Tiempo, Temperatura,
+[s]
+[°C]
+46.51
+22.94
+47.52
+23.06
+48.53
+49.54
+23.25
+23.44
+50.55
+23.69
+51.55
+24.00
+52.56
+24.19
+53.58
+54.59
+24.44
+24.69
+55.59
+24.87
+56.60
+25.06
+57.61
+25.31
+58.63
+25.50
+59.63
+25.75
+60.64
+25.94
+61.65
+26.12
+62.66
+63.67
+26.31
+26.50
+64.68
+26.69
+65.69
+26.94
+66.70
+27.12
+67.71
+27.37
+68.72
+27.62
+69.73
+27.81
+70.73
+28.00
+71.74
+28.25
+72.76
+28.44
+73.77
+28.62
+74.77
+28.81
+75.78
+28.94
+76.80
+29.12
+77.80
+78.81
+29.37
+29.62
+79.82
+29.81
+80.84
+30.06
+81.84
+30.25
+82.85
+30.50
+83.86
+30.81
+84.88
+31.00
+85.88
+31.19
+86.89
+31.44
+87.90
+88.911
+31.62
+31.87
+89.92
+32.06
+90.93
+32.25
+91.95
+32.44
+78
+
+Hora
+8:16:35 p. m.
+8:16:36 p. m.
+8:16:37 p. m.
+8:16:38 p. m.
+8:16:39 p. m.
+8: 16:40 p. m.
+8:16:41 p. m.
+8:16:42 p. m.
+8:16:43 p. m.
+8:16:44 p. m.
+8:16:45 p. m.
+8:16:46 p. m.
+8:16:47 p.m.
+8:16:48 p. m.
+8:16:49 p. m.
+8:16:50 p. m.
+8:16:51 p. m.
+8:16:52 p. m.
+8:16:53 p. m
+8:16:54 p. m.
+8:16:55 p. m.
+8:16:56 p. m.
+8:16:57 p. m.
+8:16:58 p. m.
+8:16:59 p. m.
+8:17:00 p. m.
+8:17:01 p. m.
+8:17:02 p. m.
+8:17:03 p. m
+8:17:04 p. m.
+8:17:05 p. m.
+8:17:06 p. m.
+8:17:07 p. m
+8:17:08 p. m.
+8:17:09 p. m.
+8:17:10 p. m.
+8:17:11 p. m.
+8:17:12 p. m.
+8:17:13 p. m.
+8:17:14 p. m.
+8:17:15 p.m.
+8:17:16 p. m.
+8:17:17 p. m.
+8:17:18 p. m.
+8:17:19 p. m.
+8:17:20 p. m.
+8:17:21 p. m.
+8:17:22 p. m.
+8:17:23 p. m.
+8:17:24 p. m.
+8:17:25 p.m.
+8: 17:26 p.m.
+Tiempo,
+Temperatura,
+[s]
+[°C]
+92.95
+32.69
+93.98
+94.98
+32.88
+33.00
+95.98
+33.13
+97.00
+33.31
+98.01
+33.50
+99.02
+33.69
+100.03
+33.88
+101.04
+34.06
+102.05
+34.19
+103.05
+34.50
+104.07
+34.63
+105.08
+34.88
+106.09
+35.06
+107.10
+35.31
+108.11
+35.44
+109.12
+35.69
+110.13
+35.81
+111.14
+36.00
+112.16
+36.19
+113.16
+36.44
+114.18
+36.63
+115.19
+36.81
+116.20
+37.06
+117.21
+37.31
+118.22
+37.56
+119.23
+37.81
+120.25
+38.06
+121.25
+38.31
+122.27
+38.50
+123.27
+38.81
+124.28
+39.13
+125.30
+39.44
+126.31
+39.69
+127.32
+39.94
+128.34
+40.13
+129.34
+40.31
+130.37
+40.56
+131.37
+40.81
+132.38
+41.00
+133.39
+41.25
+134.41
+41.44
+135.41
+41.56
+136.43
+41.75
+137.44
+41.94
+138.45
+42.19
+139.46
+42.44
+140.48
+141.48
+42.75
+43.00
+142.50
+43.31
+143.52
+43.63
+144.52
+43.88
+Hora
+8:17:27 p. m.
+8:17:28 p. m.
+8:17:29 p. m.
+8:17:30 p. m.
+8:17:31 p. m.
+8:17:32 p. m.
+8:17:33 p. m.
+8:17:34 p. m.
+8:17:35 p. m.
+8:17:36 p. m.
+8:17:37 p. m.
+8:17:39 p. m.
+8:17:40 p. m.
+8:17:41 p. m.
+8:17:42 p. m.
+8:17:43 p. m.
+8:17:44 p. m.
+8:17:45 p. m.
+8:17:46 p. m.
+8:17:47 p. m.
+8:17:48 p. m.
+8:17:49 p. m.
+8:17:50 p. m.
+8:17:51 p. m.
+8:17:52 p. m.
+8:17:53 p. m.
+8:17:54 p. m.
+8:17:55 p. m.
+8:17:56 p. m.
+8:17:57 p. m.
+8:17:58 p. m.
+8:17:59 p. m.
+8:18:00 p. m.
+8:18:01 p. m.
+8:18:02 p. m.
+8:18:03 p. m.
+8:18:04 p. m.
+8:18:05 p. m.
+8:18:06 p. m.
+8: 18:07 p. m.
+8:18:08 p.m.
+8:18:09 p. m.
+8:18:10 p. m.
+8:18:11 p. m.
+8:18:12 p. m.
+8:18:13 p. m.
+8:18:14 p. m.
+8:18:15 p. m.
+8:18:16 p. m.
+8:18:17 p. m.
+8:18:18 p. m.
+8: 18:19 p. m.
+79
+Tiempo, Temperatura,
+[s]
+[°C]
+145.53
+44.13
+146.55
+44.31
+147.56
+44.56
+148.57
+44.88
+149.59
+45.13
+150.60
+45.31
+151.62
+45.50
+152.63
+45.69
+153.64
+45.81
+154.65
+45.94
+155.66
+46.06
+156.68
+157.69
+46.25
+158.70
+46.44
+46.69
+159.72
+160.73
+47.00
+47.19
+161.74
+47.50
+162.76
+47.81
+163.77
+48.00
+164.78
+48.25
+165.80
+48.56
+166.81
+48.81
+167.83
+49.06
+168.85
+49.25
+169.85
+49.50
+170.87
+49.69
+171.88
+49.94
+172.91
+50.13
+173.91
+50.31
+174.92
+50.50
+175.94
+50.69
+176.95
+50.88
+177.96
+51.00
+178.98
+51.25
+179.99
+51.44
+181.01
+51.69
+182.02
+51.94
+183.03
+184.05
+52.13
+52.38
+185.06
+52.56
+186.08
+52.81
+187.09
+53.06
+188.111
+53.25
+189.13
+53.50
+190.14
+53.69
+191.16
+53.88
+192.17
+54.13
+193.20
+54.31
+194.20
+54.50
+195.22
+196.23
+54.75
+54.94
+197.25
+55.13
+
+Hora
+8:18:20 p. m.
+8:18:21 p. m.
+8: 18:22 p. m.
+8:18:23 p. m.
+8:18:24 p. m.
+8: 18:25 p. m.
+8:18:26 p. m.
+8:18:27 p. m.
+8:18:28 p. m.
+8:18:29 p. m.
+8:18:30 p. m.
+8:18:31 p. m.
+8:18:32 p. m.
+8:18:33 p. m.
+8:18:34 p. m.
+8:18:35 p. m.
+8:18:36 p. m.
+8:18:37 p. m.
+8:18:38 p. m
+8:18:39 p. m.
+8:18:40 p. m.
+8:18:41 p. m.
+8:18:42 p. m.
+8:18:43 p. m.
+8:18:44 p. m.
+8:18:46 p. m.
+8:18:47 p. m.
+8:18:48 p. m.
+8:18:49 p. m
+8:18:50 p. m.
+8:18:51 p. m.
+8:18:52 p. m.
+8:18:53 p. m.
+8:18:54 p. m.
+8:18:55 p. m.
+8:18:56 p. m.
+8: 18:57 p. m.
+8:18:58 p. m.
+8:18:59 p. m.
+8:19:00 p. m.
+8:19:01 p. m.
+8:19:02 p. m.
+8:19:03 p. m.
+8:19:04 p. m.
+8:19:05 p. m.
+8:19:06 p. m.
+8:19:07 p. m.
+8:19:08 p. m.
+8: 19:09 p. m.
+8:19:10 p. m.
+8:19:11 p. m.
+8:19:12 p. m.
+Tiempo,
+Temperatura,
+[s]
+[°C]
+198.26
+55.38
+199.27
+55.63
+200.30
+55.88
+201.31
+56.13
+202.33
+56.38
+203.34
+56.63
+204.36
+56.81
+205.38
+57.06
+206.39
+57.25
+207.41
+57.50
+208.42
+57.69
+209.44
+57.94
+210.45
+58.13
+211.47
+58.31
+212.49
+58.50
+213.50
+58.75
+214.52
+58.94
+215.54
+59.13
+216.55
+59.38
+217.57
+59.56
+218.59
+59.75
+219.60
+60.00
+220.62
+60.25
+221.63
+60.44
+222.66
+60.63
+223.67
+60.81
+224.69
+61.00
+225.71
+61.25
+226.73
+61.50
+227.74
+61.75
+228.77
+62.00
+229.77
+62.25
+230.80
+62.50
+231.81
+62.69
+232.83
+62.88
+233.84
+63.00
+234.87
+63.19
+235.88
+63.38
+236.91
+63.56
+237.92
+63.69
+238.94
+63.88
+239.95
+240.98
+64.06
+64.31
+241.99
+64.50
+243.01
+64.69
+244.13
+64.87
+245.06
+65.12
+246.07
+65.37
+247.10
+65.56
+248.11
+65.75
+249.13
+66.00
+250.14
+66.19
+Hora
+8:19:13 p. m.
+8:19:14 p. m.
+8:19:15 p. m.
+8:19:16 p. m.
+8:19:17 p. m.
+8:19:18 p. m.
+8:19:19 p. m.
+8:19:20 p. m.
+8:19:21 p. m.
+8:19:22 p. m.
+8:19:23 p. m.
+8:19:24 p. m.
+8:19:25 p. m.
+8:19:26 p. m.
+8:19:27 p. m.
+8:19:28 p. m.
+8:19:29 p. m.
+8:19:30 p. m.
+8:19:31 p. m.
+8:19:32 p. m.
+8:19:33 p. m.
+8:19:34 p. m.
+8:19:35 p. m.
+8:19:36 p. m.
+8:19:37 p. m.
+8:19:39 p. m.
+8:19:40 p. m.
+8:19:41 p. m.
+8:19:42 p. m
+8:19:43 p. m.
+8:19:44 p. m.
+8:19:45 p. m.
+8:19:46 p. m.
+8:19:47 p. m.
+8:19:48 p. m.
+8:19:49 p. m.
+8:19:50 p. m.
+8:19:51 p. m.
+8:19:52 p. m.
+8: 19:53 p. m.
+8:19:54 p. m.
+8:19:55 p. m.
+8:19:56 p. m.
+8:19:57 p. m.
+8:19:58 p. m.
+8:19:59 p. m.
+8:20:00 p. m.
+8:20:01 p. m.
+8:20:02 p. m.
+8:20:03 p. m.
+8:20:04 p. m.
+8:20:05 p. m.
+80
+Tiempo,
+Temperatura,
+[s]
+[°C]
+251.17
+66.50
+252.18
+66.69
+253.20
+66.87
+254.22
+67.12
+255.24
+67.31
+256.26
+67.50
+257.28
+67.75
+258.30
+67.94
+259.32
+68.12
+260.34
+68.37
+261.36
+68.56
+262.38
+68.81
+263.40
+69.00
+264.42
+69.19
+265.44
+69.44
+266.46
+69.69
+267.48
+69.94
+268.50
+70.19
+269.52
+70.37
+270.55
+70.62
+271.56
+70.81
+272.59
+71.00
+273.60
+71.19
+274.63
+71.37
+275.65
+71.56
+276.67
+71.81
+277.69
+72.00
+278.71
+72.19
+279.73
+72.37
+280.75
+72.56
+281.78
+72.75
+282.80
+72.94
+283.82
+73.12
+284.84
+73.31
+285.87
+73.56
+286.88
+73.81
+287.91
+74.00
+288.93
+74.25
+289.95
+74.44
+290.98
+74.69
+292.00
+293.02
+74.94
+75.12
+294.05
+75.37
+295.06
+75.56
+296.09
+75.75
+297.11
+76.00
+298.13
+76.19
+299.16
+300.18
+76.37
+76.56
+301.20
+76.81
+302.23
+77.00
+303.25
+77.25
+
+Hora
+8:20:06 p. m.
+8:20:07 p.m.
+8:20:08 p. m.
+8:20:09 p. m.
+8:20:10 p. m.
+8:20:11 p. m.
+8:20:12 p. m.
+8:20:13 p. m.
+8:20:14 p. m.
+8:20:15 p. m.
+8:20:16 p. m.
+8:20:17 p. m.
+8:20:18 p. m.
+8:20:19 p. m.
+8:20:20 p. m.
+8:20:21 p. m.
+8:20:22 p. m.
+8:20:24 p. m.
+8:20:25 p.m.
+8:20:26 p. m.
+8:20:27 p. m.
+8:20:28 p. m.
+8:20:29 p. m.
+8:20:30 p. m.
+8:20:31 p. m.
+8:20:32 p. m.
+8:20:33 p. m.
+8:20:34 p. m.
+8:20:35 p. m
+8:20:36 p. m.
+8:20:37 p. m.
+8:20:38 p. m.
+8:20:39 p. m.
+8:20:40 p. m.
+8:20:41 p. m.
+8:20:42 p. m.
+8:20:43 p. m.
+8:20:44 p. m.
+8:20:45 p. m.
+8:20:46 p. m.
+8:20:47 p. m.
+8:20:48 p. m.
+8:20:49 p. m.
+8:20:50 p. m.
+8:20:51 p. m.
+8:20:52 p. m.
+8:20:53 p. m.
+8:20:54 p.m.
+8:20:55 p. m.
+8:20:56 p. m.
+8:20:57 p.m.
+8:20:58 p.m.
+Tiempo,
+Temperatura,
+[s]
+304.27
+[°C]
+77.44
+305.30
+77.62
+306.32
+307.34
+77.81
+78.00
+308.37
+78.19
+309.39
+78.44
+310.41
+78.69
+311.44
+78.87
+312.48
+79.12
+313.50
+79.31
+314.52
+79.50
+315.54
+316.56
+79.75
+80.00
+317.59
+80.19
+318.61
+80.44
+319.64
+80.62
+320.66
+80.81
+321.69
+81.06
+322.71
+81.25
+323.74
+81.44
+324.77
+81.62
+325.79
+81.81
+326.81
+82.06
+327.85
+82.25
+328.87
+82.44
+329.89
+82.69
+330.91
+82.87
+331.95
+83.06
+332.97
+83.31
+333.99
+83.50
+335.02
+83.69
+336.05
+83.94
+337.07
+84.12
+338.10
+84.31
+339.13
+84.56
+340.15
+84.81
+341.18
+85.06
+342.21
+85.25
+343.23
+85.44
+344.26
+85.62
+345.29
+85.87
+346.31
+86.06
+347.34
+86.31
+348.37
+86.62
+349.40
+86.81
+350.43
+87.06
+351.45
+352.48
+87.25
+87.50
+353.51
+87.75
+354.54
+88.00
+355.57
+88.19
+356.59
+88.37
+Hora
+Tiempo, Temperatura,
+[s]
+8:20:59 p. m.
+357.63
+88.69
+8:21:00 p. m.
+358.65
+88.87
+8:21:02 p. m.
+359.68
+89.12
+8:21:03 p. m.
+360.71
+89.37
+8:21:04 p. m.
+361.73
+89.62
+8:21:05 p. m.
+362.77
+89.81
+8:21:06 p. m.
+363.80
+8:21:07 p. m.
+364.83
+90.06
+90.31
+8:21:08 p. m.
+365.85
+90.56
+8:21:09 p. m.
+366.88
+90.81
+8:21:10 p. m.
+367.91
+91.06
+8:21:11 p. m.
+368.94
+91.31
+8:21:12 p. m.
+369.98
+91.56
+8:21:13 p. m.
+371.00
+91.75
+8:21:14 p. m.
+372.03
+92.00
+8:21:15 p. m.
+373.06
+92.25
+8:21:16 p. m.
+374.10
+92.50
+8:21:17 p. m.
+375.13
+92.75
+8:21:18 p. m.
+376.16
+93.00
+8:21:19 p. m.
+8:21:20 p. m.
+377.19
+93.25
+378.23
+93.44
+8:21:21 p. m.
+379.24
+93.69
+8:21:22 p. m.
+380.28
+93.94
+8:21:23 p. m.
+381.31
+94.19
+8:21:24 p. m.
+382.34
+94.44
+8:21:25 p. m.
+383.37
+94.69
+8:21:26 p. m.
+384.40
+94.87
+8:21:27 p. m.
+385.43
+95.12
+8:21:28 p. m.
+386.47
+95.37
+8:21:29 p. m.
+387.49
+95.62
+8:21:30 p. m.
+388.52
+95.81
+8:21:31 p. m.
+389.56
+96.06
+8:21:32 p. m.
+390.59
+96.25
+8:21:33 p. m.
+391.63
+96.50
+8:21:34 p. m.
+392.66
+96.69
+8:21:36 p. m.
+393.69
+96.87
+8:21:37 p. m.
+394.72
+97.12
+8:21:38 p. m.
+395.77
+97.31
+8:21:39 p. m.
+396.79
+97.44
+8:21:40 p. m.
+397.82
+97.62
+8:21:41 p. m.
+398.85
+97.81
+8:21:42 p. m.
+399.89
+98.00
+8:21:43 p. m.
+400.92
+98.12
+8:21:44 p. m.
+401.95
+98.25
+8:21:45 p. m.
+402.98
+98.44
+8:21:46 p. m.
+404.02
+98.56
+8:21:47 p. m.
+405.05
+98.69
+8:21:48 p. m.
+406.09
+98.75
+8:21:49 p. m.
+407.12
+98.87
+8:21:50 p. m.
+408.16
+98.94
+8:21:51 p. m.
+409.19
+99.00
+8:21:52 p. m.
+410.22
+99.06
+81
+
+Hora
+8:21:53 p. m.
+8:21:54 p. m.
+8:21:55 p. m.
+8:21:56 p. m.
+8:21:57 p. m.
+8:21:58 p. m.
+8:21:59 p. m.
+8:22:00 p. m.
+8:22:01 p. m.
+8:22:02 p. m.
+8:22:03 p. m.
+8:22:04 p. m.
+8:22:05 p. m.
+8:22:07 p.m.
+8:22:08 p. m.
+8:22:09 p. m.
+8:22:10 p. m.
+8:22:11 p. m.
+8:22:12 p. m.
+8:22:13 p. m.
+8:22:14 p. m.
+8:22:15 p. m.
+8:22:16 p. m.
+8:22:17 p. m.
+8:22:18 p. m.
+8:22:19 p. m.
+8:22:20 p. m.
+8:22:21 p. m.
+8:22:22 p. m
+8:22:23 p. m.
+8:22:24 p. m.
+8:22:25 p. m.
+8:22:26 p. m.
+8:22:27 p. m.
+8:22:28 p. m.
+8:22:29 p. m.
+8:22:30 p. m.
+8:22:31 p. m.
+8:22:32 p. m.
+8:22:33 p. m.
+8:22:34 p. m.
+8:22:35 p. m.
+8:22:36 p. m.
+8:22:38 p. m.
+Tiempo,
+Temperatura,
+[s]
+411.27
+[°C]
+99.12
+412.29
+99.19
+413.32
+99.25
+414.35
+99.25
+415.39
+99.31
+416.42
+417.45
+99.31
+99.37
+418.49
+99.37
+419.52
+99.44
+420.55
+99.44
+421.59
+99.50
+422.63
+99.50
+423.66
+99.50
+424.69
+99.56
+425.73
+99.56
+426.76
+99.62
+427.80
+99.56
+428.83
+99.62
+429.86
+99.62
+430.90
+99.62
+431.93
+99.62
+432.97
+99.62
+433.99
+99.62
+435.02
+99.62
+436.06
+99.62
+437.09
+99.62
+438.13
+99.62
+439.16
+99.62
+440.20
+441.23
+442.27
+443.30
+444.33
+445.37
+446.40
+447.43
+448.48
+449.50
+450.53
+451.57
+452.60
+453.65
+454.67
+455.70
+Hora
+Tiempo,
+Temperatura,
+[s]
+8:22:39 p. m.
+456.73
+99.44
+8:22:40 p. m.
+457.77
+99.44
+8:22:41 p. m.
+458.80
+99.44
+8:22:42 p. m.
+459.85
+99.44
+8:22:43 p. m.
+460.87
+99.44
+8:22:44 p. m.
+461.91
+8:22:45 p. m.
+462.94
+99.37
+99.37
+8:22:46 p. m.
+463.97
+99.37
+8:22:47 p. m.
+465.01
+8:22:48 p. m.
+466.04
+99.31
+99.31
+8:22:49 p. m.
+467.07
+99.31
+8:22:50 p. m.
+468.11
+99.31
+8:22:51 p.m.
+469.14
+99.31
+8:22:52 p. m.
+470.17
+99.31
+8:22:53 p. m.
+471.20
+99.31
+8:22:54 p. m.
+472.24
+99.31
+8:22:55 p. m.
+473.27
+99.31
+8:22:56 p. m.
+474.30
+99.31
+8:22:57 p. m.
+475.34
+99.31
+8:22:58 p. m.
+476.38
+99.25
+8:22:59 p. m.
+477.41
+99.25
+8:23:00 p. m.
+478.45
+99.25
+8:23:01 p. m.
+479.48
+99.25
+8:23:02 p. m.
+480.53
+99.25
+8:23:03 p. m.
+481.54
+99.19
+8:23:04 p. m.
+482.57
+99.19
+8:23:05 p. m.
+483.61
+99.19
+8:23:06 p. m.
+484.64
+99.12
+8:23:08 p. m.
+485.68
+99.12
+8:23:09 p. m.
+486.71
+99.12
+8:23:10 p. m.
+487.74
+99.12
+8:23:11 p. m.
+488.77
+99.12
+8:23:12 p. m.
+489.82
+99.12
+8:23:13 p. m.
+490.84
+99.19
+8:23:14 p. m.
+491.88
+99.12
+8:23:15 p. m.
+99.12
+8:23:16 p. m.
+8:23:17 p.m.
+493.95
+494.98
+99.12
+99.12
+8:23:18 p.m.
+99.12
+8:23:19 p. m.
+8:23:20 p. m.
+498.08
+8:23:21 p. m.
+499.12
+99.06
+8:23:22p. p.m.
+500.15
+99.06
+8:23:23 p. m.
+501.19
+99.06
+aDatos tomados el 24 de junio de 2021.
+82
+
+Tabla B.2
+Hora
+9:15:00 p.m.
+9:15:01 p. m.
+9:15:02 p. m.
+9:15:03 p.m.
+9:15:04 p.m.
+9:15:05 p.m.
+9:15:06 p. m.
+9:15:07 p.m.
+9:15:08 p.m.
+9:15:09 p. m.
+9:15:10 p.m.
+9:15:11 p.m.
+9:15:12 p. m.
+9:15:13 p. m.
+9:15:14 p. m.
+9:15:15 p. m.
+9:15:16 p. m.
+9:15:17 p. m.
+9:15:18 p. m.
+9:15:19 p. m.
+9:15:20 p. m.
+9:15:21 p. m.
+9:15:22 p. m.
+9:15:23 p. m.
+9:15:24 p. m.
+9:15:25 p. m.
+9:15:26 p. m.
+9:15:27 p. m.
+9:15:28 p. m.
+9:15:29 p. m.
+9:15:30 p. m.
+9:15:31 p. m.
+9:15:32 p. m.
+9:15:33 p. m.
+9:15:34 p. m.
+9:15:35 p. m.
+9:15:36 p. m.
+9:15:37 p. m.
+9:15:38 p. m.
+9:15:39 p. m.
+9:15:40 p. m.
+9:15:41 p. m.
+9:15:42 p. m.
+9:15:43 p. m.
+9:15:44 p. m.
+9:15:45 p. m.
+9:15:46 p. m.
+9:15:47 p. m.
+Segundo grupo de datos experimentales de temperatura vs tiempob
+Tiempo,
+[s]
+0.00
+0.90
+1.91
+2.91
+3.92
+4.94
+5.95
+6.95
+7.97
+8.98
+9.98
+10.99
+12.00
+13.01
+14.02
+15.02
+16.04
+17.05
+18.05
+19.07
+20.08
+21.09
+22.09
+23.10
+24.11
+25.12
+26.13
+27.13
+28.15
+29.16
+30.16
+31.18
+32.18
+33.20
+34.20
+35.21
+36.23
+37.23
+38.24
+39.25
+40.26
+41.27
+42.27
+43.28
+44.30
+45.30
+46.31
+47.32
+Temperatura,
+19.31
+19.31
+19.31
+19.31
+19.31
+19.31
+19.25
+19.31
+19.31
+19.31
+19.31
+19.31
+19.31
+19.31
+19.31
+19.31
+19.25
+19.25
+19.31
+19.31
+19.31
+19.31
+19.31
+19.37
+19.50
+19.62
+19.81
+20.00
+20.19
+20.37
+20.50
+20.69
+20.94
+21.06
+21.25
+21.37
+21.50
+21.62
+21.75
+21.94
+22.12
+22.31
+22.50
+22.75
+22.94
+23.19
+23.37
+23.56
+Hora
+Tiempo,
+[sl
+9:15:48 p. m.
+48.33
+9:15:49 p. m.
+49.34
+9:15:50 p.m.
+50.35
+9:15:51 p.m.
+51.36
+9:15:52 p.m.
+52.37
+9:15:53 p.m.
+53.38
+9:15:54 p.m.
+54.38
+9:15:55 p. m.
+55.40
+9:15:56 p.m.
+56.41
+9:15:57 p.m.
+57.42
+9:15:58 p. m.
+58.43
+9:15:59 p. m.
+59.44
+9:16:00 p. m.
+60.45
+9:16:01 p. m.
+61.45
+9:16:02 p. m.
+62.47
+9:16:03 p. m.
+63.48
+9:16:04 p. m.
+64.48
+9:16:05 p. m.
+65.49
+9:16:06 p. m.
+66.51
+9:16:07 p. m.
+67.52
+9:16:08 p. m.
+68.52
+9:16:09 p. m.
+69.53
+9:16:10 p. m.
+70.54
+9:16:11 p. m.
+71.55
+9:16:12 p. m.
+72.56
+9:16:13 p. m.
+73.57
+9:16:15 p. m.
+74.59
+9:16:16 p. m.
+75.59
+9:16:17 p. m.
+76.60
+9:16:18 p. m.
+77.61
+9:16:19 p. m.
+78.63
+9:16:20 p. m.
+79.63
+9:16:21 p. m.
+80.64
+9:16:22 p. m.
+81.65
+9:16:23 p.m.
+82.661
+9:16:24 p. m.
+83.67
+9:16:25 p. m.
+84.68
+9:16:26 p. m.
+85.69
+9: 16:27 p. m.
+86.70
+9:16:28 p. m.
+87.71
+9:16:29 p.m.
+88.72
+9:16:30 p.m.
+89.73
+9:16:31 p.m.
+9:16:32 p. m.
+90.74
+91.77
+9:16:33 p.m.
+92.77
+9:16:34 p.m.
+93.77
+9:16:35 p. m.
+94.78
+9:16:36 p.m.
+95.80
+Temperatura,
+23.81
+24.00
+24.19
+24.37
+24.56
+24.87
+25.12
+25.37
+25.69
+25.87
+26.19
+26.37
+26.62
+26.81
+27.00
+27.12
+27.31
+27.56
+27.69
+27.94
+28.19
+28.44
+28.69
+28.87
+29.06
+29.31
+29.56
+29.81
+30.06
+30.31
+30.56
+30.75
+30.94
+31.12
+31.31
+31.50
+31.75
+31.94
+32.19
+32.44
+32.69
+32.94
+33.13
+33.31
+33.56
+33.75
+33.88
+34.13
+83
+
+Hora
+9:16:37 p. m.
+9:16:38 p. m.
+9:16:39 p. m.
+9:16:40 p. m.
+9:16:41 p. m.
+9:16:42 p. m.
+9:16:43 p. m.
+9:16:44 p. m.
+9:16:45 p. m.
+9:16:46 p. m.
+9:16:47 p. m.
+9:16:48 p. m.
+9:16:49 p. m.
+9:16:50 p. m.
+9:16:51 p. m.
+9:16:52 p. m.
+9:16:53 p. m.
+9:16:54 p. m.
+9:16:55 p. m
+9:16:56 p. m.
+9:16:57 p. m.
+9:16:58 p. m.
+9:16:59 p. m.
+9:17:00 p. m.
+9:17:01 p. m.
+9:17:02 p. m.
+9:17:03 p. m.
+9:17:04 p. m.
+9:17:05 p. m.
+9:17:06 p. m.
+9:17:07 p. m.
+9:17:08 p. m.
+9:17:09 p. m.
+9:17:10 p. m.
+9:17:11 p. m.
+9:17:12 p. m.
+9:17:13 p. m.
+9:17:14 p. m.
+9:17:15 p. m.
+9:17:16 p. m.
+9:17:17 p. m.
+9:17:18 p. m.
+9:17:19 p. m.
+9:17:20 p. m.
+9:17:21 p. m.
+9:17:22 p. m.
+9:17:23 p. m.
+9:17:24 p. m.
+9:17:25 p. m.
+9:17:26 p. m.
+9:17:27 p. m.
+9: 17:28 p. m.
+Tiempo,
+[s]
+96.80
+97.811
+98.82
+99.84
+100.85
+101.86
+102.87
+103.88
+104.89
+105.90
+106.92
+107.92
+108.94
+109.95
+110.95
+111.97
+112.98
+113.98
+115.05
+116.01
+117.02
+118.03
+119.04
+120.05
+121.06
+122.08
+123.09
+124.10
+125.11
+126.13
+127.13
+128.14
+129.16
+130.16
+131.18
+132.19
+133.20
+134.22
+135.23
+136.24
+137.25
+138.27
+139.27
+140.29
+141.30
+142.31
+143.33
+144.34
+145.35
+146.37
+147.38
+148.39
+Temperatura,
+[°C]
+34.38
+34.56
+34.75
+35.00
+35.19
+35.31
+35.56
+35.81
+35.94
+36.00
+36.19
+36.38
+36.56
+36.81
+37.06
+37.31
+37.56
+37.81
+38.06
+38.31
+38.50
+38.75
+38.94
+39.13
+39.38
+39.56
+39.81
+40.00
+40.25
+40.44
+40.69
+40.88
+41.06
+41.31
+41.56
+41.75
+42.00
+42.25
+42.44
+42.63
+42.81
+43.00
+43.25
+43.44
+43.69
+43.94
+44.13
+44.31
+44.50
+44.75
+45.00
+45.19
+Hora
+9:17:29 p. m.
+9:17:30 p. m.
+9:17:31 p. m.
+9:17:32 p. m.
+9:17:33 p. m.
+9:17:34 p. m.
+9:17:35 p. m.
+9:17:36 p. m.
+9:17:37 p. m.
+9:17:38 p. m.
+9:17:39 p. m.
+9:17:40 p. m.
+9:17:41 p. m.
+9:17:43 p. m.
+9:17:44 p. m.
+9:17:45 p. m.
+9:17:46 p. m.
+9:17:47 p. m.
+9:17:48 p. m.
+9:17:49 p. m.
+9:17:50 p. m.
+9:17:51 p. m.
+9:17:52 p. m.
+9:17:53 p. m.
+9:17:54 p. m.
+9:17:55 p. m.
+9:17:56 p. m.
+9:17:57 p. m.
+9:17:58 p. m
+9:17:59 p. m.
+9:18:00 p. m.
+9:18:01 p. m.
+9:18:02 p. m.
+9:18:03 p. m.
+9:18:04 p. m.
+9:18:05 p. m.
+9:18:06 p. m.
+9:18:07 p. m.
+9: 18:08 p. m.
+9:18:09 p. m.
+9:18:10 p. m.
+9:18:11 p. m.
+9:18:12 p. m.
+9:18:13 p. m.
+9:18:14 p. m.
+9:18:15 p. m.
+9:18:16 p. m.
+9:18:17 p. m.
+9:18:18 p. m.
+9:18:19 p. m.
+9:18:20 p. m.
+9:18:21 p. m.
+84
+Tiempo,
+[s]
+149.41
+150.41
+151.43
+152.45
+153.45
+154.47
+155.49
+156.50
+157.52
+158.53
+159.54
+160.55
+161.57
+162.58
+163.59
+164.61
+165.62
+166.63
+167.65
+168.66
+169.67
+170.69
+171.70
+172.72
+173.73
+174.75
+175.76
+176.77
+177.79
+178.80
+179.82
+180.83
+181.84
+182.86
+183.88
+184.89
+185.91
+186.91
+187.94
+188.95
+189.97
+190.98
+191.99
+193.01
+194.02
+195.04
+196.05
+197.07
+198.09
+199.10
+200.12
+201.13
+Temperatura,
+[°C]
+45.44
+45.69
+45.88
+46.06
+46.31
+46.50
+46.69
+46.94
+47.13
+47.31
+47.50
+47.69
+47.88
+48.06
+48.25
+48.50
+48.69
+48.94
+49.13
+49.31
+49.50
+49.75
+49.94
+50.13
+50.31
+50.50
+50.75
+50.94
+51.13
+51.38
+51.56
+51.81
+52.00
+52.25
+52.50
+52.69
+52.94
+53.13
+53.38
+53.63
+53.81
+54.06
+54.25
+54.44
+54.63
+54.81
+55.00
+55.25
+55.44
+55.63
+55.81
+56.00
+
+Hora
+9:18:22 p. m.
+9:18:23 p. m.
+9:18:24 p. m.
+9:18:25 p. m.
+9:18:26 p. m.
+9:18:27 p. m.
+9:18:28 p. m.
+9:18:29 p. m.
+9:18:30 p. m.
+9:18:31 p. m.
+9:18:32 p. m.
+9:18:33 p. m.
+9:18:34 p. m.
+9:18:35 p. m.
+9:18:36 p. m.
+9:18:37 p. m.
+9:18:38 p. m.
+9:18:39 p. m.
+9:18:40 p. m.
+9:18:41 p. m.
+9:18:42 p. m.
+9:18:43 p. m.
+9:18:44 p. m.
+9:18:45 p. m.
+9:18:46 p. m.
+9:18:47 p. m.
+9:18:49 p. m.
+9:18:50 p. m.
+9:18:51 p. m
+9:18:52 p. m.
+9:18:53 p. m.
+9:18:54 p. m.
+9:18:55 p. m.
+9:18:56 p. m.
+9:18:57 p. m.
+9:18:58 p. m.
+9:18:59 p. m.
+9:19:00 p. m.
+9:19:01 p. m.
+9:19:02 p. m.
+9:19:03 p. m.
+9:19:04 p. m.
+9:19:05 p. m.
+9:19:06 p. m.
+9:19:07 p. m.
+9:19:08 p. m.
+9:19:09 p. m.
+9:19:10 p. m.
+9:19:11 p. m.
+9:19:12 p. m.
+9:19:13 p.m.
+9:19:14 p. m.
+Tiempo,
+[s]
+202.15
+203.16
+204.18
+205.20
+206.21
+207.23
+208.24
+209.26
+210.28
+211.30
+212.31
+213.33
+214.34
+215.36
+216.38
+217.40
+218.41
+219.43
+220.45
+221.46
+222.48
+223.49
+224.52
+225.53
+226.55
+227.56
+228.59
+229.60
+230.62
+231.63
+232.66
+233.67
+234.69
+235.70
+236.73
+237.74
+238.77
+239.78
+241.00
+241.83
+242.84
+243.73
+244.66
+245.58
+246.50
+248.00
+249.11
+250.33
+251.54
+252.75
+253.96
+255.17
+Temperatura,
+[°C]
+56.19
+56.44
+56.63
+56.88
+57.06
+57.31
+57.56
+57.75
+58.00
+58.25
+58.44
+58.63
+58.88
+59.06
+59.31
+59.50
+59.69
+59.94
+60.13
+60.31
+60.50
+60.69
+60.88
+61.06
+61.25
+61.56
+61.75
+61.94
+62.19
+62.38
+62.63
+62.81
+63.06
+63.31
+63.50
+63.63
+63.81
+64.00
+64.25
+64.44
+64.69
+64.87
+65.12
+65.37
+65.62
+65.81
+66.06
+66.25
+66.50
+66.69
+66.94
+67.12
+Hora
+9:19:15 p. m.
+9:19:16 p. m.
+9:19:17 p. m.
+9:19:18 p. m.
+9:19:19 p. m.
+9:19:20 p. m.
+9:19:21 p. m.
+9:19:22 p. m.
+9:19:23 p. m.
+9:19:24 p. m.
+9:19:25 p. m.
+9:19:26 p. m.
+9:19:27 p. m.
+9:19:28 p. m.
+9:19:29 p. m.
+9:19:30 p. m.
+9:19:31 p. m.
+9:19:32 p. m.
+9:19:33 p. m.
+9:19:34 p. m.
+9:19:35 p. m.
+9:19:36 p. m.
+9:19:37 p. m.
+9:19:38 p. m.
+9:19:39 p. m.
+9:19:41 p. m.
+9:19:42 p. m.
+9:19:43 p. m.
+9:19:44 p. m
+9:19:45 p. m.
+9:19:46 p. m.
+9:19:47 p. m.
+9:19:48 p. m.
+9:19:49 p. m.
+9:19:50 p. m.
+9:19:51 p. m.
+9:19:52 p. m.
+9:19:53 p. m.
+9:19:54 p. m.
+9:19:55 p. m.
+9:19:56 p. m.
+9:19:57 p. m.
+9:19:58 p. m.
+9:19:59 p. m.
+9:20:00 p. m.
+9:20:01 p. m.
+9:20:02 p. m.
+9:20:03 p. m.
+9:20:04 p. m.
+9:20:05 p. m.
+9:20:06 p. m.
+9:20:07 p. m.
+85
+Tiempo,
+[s]
+256.38
+257.16
+257.17
+258.25
+259.15
+260.19
+261.20
+262.22
+263.23
+264.25
+265.27
+266.29
+267.30
+268.33
+269.34
+270.37
+271.39
+272.41
+273.43
+274.45
+275.48
+276.50
+277.52
+278.54
+279.56
+280.59
+281.60
+282.63
+283.65
+284.66
+285.69
+286.71
+287.73
+288.76
+289.77
+290.81
+291.82
+292.85
+293.87
+294.89
+295.91
+296.94
+297.95
+298.98
+300.02
+301.03
+302.05
+303.07
+304.09
+305.13
+306.15
+307.17
+Temperatura,
+[°C]
+67.31
+67.56
+67.75
+67.94
+68.19
+68.37
+68.56
+68.75
+68.94
+69.12
+69.37
+69.56
+69.81
+70.06
+70.25
+70.44
+70.69
+70.81
+71.06
+71.25
+71.50
+71.69
+71.87
+72.12
+72.31
+72.56
+72.75
+73.00
+73.19
+73.37
+73.56
+73.75
+74.00
+74.19
+74.44
+74.62
+74.81
+75.06
+75.25
+75.44
+75.69
+75.94
+76.12
+76.31
+76.56
+76.75
+77.00
+77.19
+77.44
+77.69
+77.87
+78.12
+
+Hora
+9:20:08 p. m.
+9:20:09 p. m.
+9:20:10 p. m.
+9:20:11 p. m.
+9:20:12 p. m.
+9:20:13 p. m.
+9:20:14 p. m.
+9:20:15 p. m.
+9:20:16 p. m.
+9:20:17 p. m.
+9:20:18 p. m.
+9:20:19 p. m.
+9:20:20 p. m.
+9:20:21 p. m.
+9:20:22 p. m.
+9:20:23 p. m.
+9:20:25 p. m.
+9:20:26 p. m.
+9:20:27 p. m.
+9:20:28 p. m.
+9:20:29 p. m.
+9:20:30 p. m.
+9:20:31 p. m.
+9:20:32 p. m.
+9:20:33 p. m.
+9:20:34 p. m.
+9:20:35 p. m.
+9:20:36 p. m.
+9:20:37 p. m
+9:20:38 p. m.
+9:20:39 p. m.
+9:20:40 p. m.
+9:20:41 p. m.
+9:20:42 p. m.
+9:20:43 p. m.
+9:20:44 p. m.
+9:20:45 p. m.
+9:20:46 p. m.
+9:20:47 p. m.
+9:20:48 p. m.
+9:20:49 p. m.
+9:20:50 p. m.
+9:20:51 p. m.
+9:20:52 p. m.
+9:20:53 p. m.
+9:20:54 p. m.
+9:20:55 p. m.
+9:20:56 p. m.
+9:20:57 p. m.
+9:20:58 p. m.
+9:20:59 p. m.
+9:21:00 p. m.
+Tiempo,
+[s]
+308.20
+309.22
+310.25
+311.28
+312.29
+313.31
+314.34
+315.37
+316.38
+317.41
+318.44
+319.47
+320.49
+321.52
+322.54
+323.56
+324.59
+325.61
+326.64
+327.66
+328.69
+329.72
+330.76
+331.81
+332.80
+333.83
+334.84
+335.88
+336.90
+337.92
+338.95
+339.98
+341.02
+342.03
+343.06
+344.09
+345.12
+346.14
+347.17
+348.20
+349.23
+350.25
+351.29
+352.30
+353.34
+354.36
+355.39
+356.42
+357.45
+358.48
+359.51
+360.54
+Temperatura,
+[°C]
+78.31
+78.50
+78.75
+78.94
+79.12
+79.37
+79.56
+79.81
+80.00
+80.25
+80.50
+80.69
+80.87
+81.06
+81.31
+81.50
+81.75
+81.94
+82.12
+82.31
+82.56
+82.75
+83.00
+83.19
+83.37
+83.62
+83.87
+84.06
+84.31
+84.50
+84.75
+84.94
+85.12
+85.37
+85.56
+85.81
+86.00
+86.19
+86.44
+86.62
+86.87
+87.06
+87.31
+87.56
+87.75
+88.00
+88.19
+88.44
+88.62
+88.87
+89.12
+89.31
+Hora
+Tiempo,
+[s]
+9:21:01 p. m.
+361.56
+9:21:03 p. m.
+362.59
+9:21:04 p. m.
+363.63
+9:21:05 p. m.
+364.66
+9:21:06 p. m.
+365.68
+9:21:07 p. m.
+366.71
+9:21:08 p. m.
+367.74
+9:21:09 p. m.
+368.78
+9:21:10 p. m.
+369.80
+9:21:11 p. m.
+370.83
+9:21:12 p. m.
+371.86
+9:21:13 p. m.
+372.88
+9:21:14 p. m.
+373.91
+9:21:15 p. m.
+374.95
+9:21:16 p. m.
+375.98
+9:21:17 p. m.
+377.01
+9:21:18 p. m.
+378.04
+9:21:19 p. m.
+379.07
+9:21:20 p. m.
+380.10
+9:21:21 p. m.
+381.13
+9:21:22 p. m.
+382.16
+9:21:23 p. m.
+383.20
+9:21:24 p. m.
+384.23
+9:21:25 p. m.
+385.26
+9:21:26 p. m.
+386.29
+9:21:27 p. m.
+387.32
+9:21:28 p. m.
+388.35
+9:21:29 p. m.
+389.38
+9:21:30 p. m
+390.41
+9:21:31 p. m.
+391.45
+9:21:32 p. m.
+392.48
+9:21:33 p. m.
+393.52
+9:21:34 p. m.
+394.55
+9:21:36 p. m.
+395.58
+9:21:37 p. m.
+396.61
+9:21:38 p. m.
+397.64
+9:21:39 p. m.
+398.67
+9:21:40 p. m.
+399.70
+9:21:41 p. m.
+400.74
+9:21:42 p. m.
+401.77
+9:21:43 p. m.
+402.80
+9:21:44 p. m.
+403.84
+9:21:45 p. m.
+404.88
+9:21:46 p. m.
+405.91
+9:21:47 p. m.
+406.94
+9:21:48 p. m.
+407.97
+9:21:49 p. m.
+409.01
+9:21:50 p. m.
+410.04
+9:21:51 p. m.
+411.07
+9:21:52 p. m.
+412.10
+9:21:55 p. m.
+414.95
+9:21:55 p. m.
+414.96
+Temperatura,
+[°C]
+89.50
+89.75
+89.94
+90.19
+90.44
+90.62
+90.87
+91.12
+91.31
+91.56
+91.75
+92.00
+92.25
+92.44
+92.62
+92.87
+93.12
+93.31
+93.56
+93.81
+94.00
+94.25
+94.44
+94.69
+94.94
+95.12
+95.37
+95.62
+95.81
+96.00
+96.25
+96.44
+96.62
+96.81
+97.00
+97.19
+97.37
+97.56
+97.75
+97.87
+98.06
+98.19
+98.37
+98.50
+98.62
+98.69
+98.81
+98.87
+98.94
+99.00
+99.12
+99.19
+86
+
+Hora
+9:21:55 p. m.
+9:21:56 p. m.
+9:21:57 p. m.
+9:21:58 p. m.
+9:21:59 p. m.
+9:22:00 p. m.
+9:22:01 p. m.
+9:22:02 p. m.
+9:22:03 p. m.
+9:22:04 p. m.
+9:22:05 p. m.
+9:22:06 p. m.
+9:22:08 p. m.
+9:22:09 p. m.
+9:22:10 p. m.
+9:22:11 p. m.
+9:22:12 p. m.
+9:22:13 p. m.
+9:22:14 p. m.
+9:22:15 p. m.
+9:22:16 p. m.
+9:22:17 p. m.
+9:22:18 p. m.
+9:22:19 p. m.
+9:22:20 p. m.
+9:22:21 p. m.
+9:22:22 p. m.
+9:22:23 p. m.
+9:22:24 p. m
+9:22:25 p. m.
+9:22:26 p. m.
+9:22:27 p. m.
+9:22:28 p. m.
+9:22:29 p. m.
+9:22:30 p. m.
+9:22:31 p. m.
+9:22:32 p. m.
+9:22:33 p. m.
+9:22:34 p. m.
+9:22:35 p. m.
+9:22:36 p. m.
+9:22:38 p. m.
+Tiempo,
+[s]
+415.20
+416.23
+417.29
+418.30
+419.34
+420.38
+421.41
+422.44
+423.48
+424.51
+425.54
+426.58
+427.61
+428.64
+429.68
+430.71
+431.74
+432.77
+433.81
+434.84
+435.88
+436.91
+437.95
+438.98
+440.02
+441.05
+442.08
+443.12
+444.15
+445.18
+446.21
+447.25
+448.28
+449.31
+450.34
+451.38
+452.41
+453.45
+454.48
+455.52
+456.55
+457.59
+Hora
+9:22:39 p. m.
+9:22:40 p. m.
+9:22:41 p. m.
+9:22:42 p. m.
+9:22:43 p. m.
+9:22:44 p. m.
+9:22:45 p. m.
+9:22:46 p. m.
+9:22:47 p. m.
+9:22:48 p. m.
+9:22:49 p. m.
+9:22:50 p. m.
+9:22:51 p. m.
+9:22:52 p. m.
+9:22:53 p. m.
+9:22:54 p. m.
+9:22:55 p. m.
+9:22:56 p. m.
+9:22:57 p. m.
+9:22:58 p. m.
+9:22:59 p. m.
+9:23:00 p. m.
+9:23:01 p. m.
+9:23:02 p. m.
+9:23:03 p. m.
+9:23:04 p. m.
+9:23:05 p. m.
+9:23:06 p. m.
+9:23:07 p. m
+9:23:09 p. m.
+9:23:10 p. m.
+9:23:11 p. m.
+9:23:12 p. m.
+9:23:13 p. m.
+9:23:14 p. m.
+9:23:15 p. m.
+9:23:16 p. m.
+9:23:17 p. m.
+9:23:18 p. m.
+9:23:19 p. m.
+9:23:20 p. m.
+9:23:21 p. m.
+Temperatura,
+[°C]
+99.44
+99.44
+99.44
+99.44
+99.44
+99.37
+99.37
+99.37
+99.37
+99.31
+99.31
+99.31
+99.31
+99.31
+99.25
+99.25
+99.25
+99.25
+99.19
+99.19
+99.19
+99.12
+99.12
+99.12
+99.12
+99.06
+99.06
+99.06
+99.06
+99.06
+99.12
+99.06
+99.06
+99.12
+99.06
+99.06
+99.06
+99.06
+99.00
+99.06
+99.00
+99.00
+87
+
+Tabla B.3
+Tercer grupo de datos experimentales de temperatura vs tiempo°
+Hora
+Tiempo,
+Temperatura,
+[s]
+Hora
+Tiempo,
+10:15:00 a. m.
+0.00
+[s]
+19.87
+10:15:49 a. m.
+10:15:01 a. m.
+1.00
+19.87
+48.44
+10:15:50 a. m.
+2.02
+49.44
+10:15:02 a. m.
+10:15:03 a. m.
+3.02
+19.87
+10:15:51 a. m.
+50.46
+10:15:04 a. m.
+4.03
+19.87
+10:15:52 a. m.
+51.46
+19.81
+10:15:53 a. m.
+52.48
+10:15:05 a. m.
+5.03
+6.05
+19.81
+10:15:54 a. m.
+53.49
+10:15:06 a. m.
+10:15:07 a. m.
+7.06
+19.87
+10:15:55 a. m.
+54.49
+19.87
+10:15:56 a. m.
+55.51
+10:15:08 a. m.
+8.06
+19.81
+10:15:57 a. m.
+56.51
+10:15:09 a. m.
+9.08
+10:15:10 a. m.
+10.08
+19.87
+10:15:58 a. m.
+19.87
+57.52
+10:15:59 a. m.
+58.52
+10:15:11 a. m.
+11.09
+19.87
+10:16:00 a. m.
+59.54
+10:15:12 a. m.
+12.11
+19.87
+10:16:01 a. m.
+60.56
+10:15:13 a. m.
+13.11
+19.87
+10:16:02 a. m.
+61.56
+10:15:14 a. m.
+14.13
+19.81
+10:16:03 a. m.
+62.57
+10:15:15 a. m.
+15.14
+19.87
+10:16:04 a. m.
+63.57
+10:15:16 a. m.
+16.14
+19.87
+10:16:05 a. m.
+64.59
+10:15:17 a. m.
+17.16
+19.81
+10:16:06 a. m.
+65.61
+10:15:18 a. m
+18.16
+19.87
+10:16:07 a. m
+66.61
+10:15:19 a. m.
+19.17
+19.81
+10:16:08 a. m.
+67.62
+10:15:20 a. m.
+20.18
+19.87
+10:16:09 a. m.
+68.62
+10:15:21 a. m.
+21.18
+19.81
+10:16:10 a. m.
+69.64
+10:15:22 a. m.
+22.20
+19.87
+10:16:11 a. m.
+70.66
+10:15:23 a. m.
+23.20
+19.87
+10:16:12 a. m.
+71.66
+10:15:24 a. m.
+24.21
+19.87
+10:16:13 a. m.
+72.68
+10:15:25 a. m.
+25.22
+19.94
+10:16:14 a. m.
+73.68
+10:15:26 a. m.
+26.24
+20.06
+10:16:15 a. m.
+74.69
+10:15:27 a. m.
+27.25
+20.25
+10:16:16 a. m.
+75.71
+10:15:28 a. m.
+28.25
+20.50
+10:16:17 a. m.
+76.71
+10:15:30 a. m.
+10:16:18 a. m.
+77.72
+10:15:31 a. m.
+30.28
+10:16:19 a. m.
+78.73
+10:15:32 a. m.
+31.28
+21.00
+10:16:20 a. m.
+79.73
+10:15:33 a. m.
+32.29
+21.12
+10:16:21 a. m.
+80.75
+10:15:34 a. m.
+33.29
+21.37
+10:16:22 a. m.
+10:15:35 a. m.
+34.31
+21.50
+10:16:23 a. m.
+82.77
+10:15:36 a. m.
+35.32
+21.69
+10:16:24 a. m.
+10:15:37 a. m.
+36.32
+21.81
+83.78
+10:16:25 a. m.
+84.79
+10:15:38 a. m.
+37.34
+22.00
+10:16:26 a. m.
+85.80
+10:15:39 a. m.
+38.34
+22.19
+10:16:27 a. m.
+10:15:40 a. m.
+39.36
+40.37
+22.37
+86.81
+10:16:28 a. m.
+87.82
+10:15:41 a. m.
+22.56
+10:16:29 a. m.
+88.83
+10:15:42 a. m.
+41.37
+42.37
+22.81
+10:16:30 a. m.
+89.84
+10:15:43 a. m.
+23.00
+10:16:31 a. m.
+90.85
+10:15:44 a. m.
+43.39
+23.25
+10:15:45 a. m.
+44.39
+23.50
+10:16:32 a. m.
+91.86
+10:16:33 a. m.
+92.87
+10:15:46 a. m.
+45.41
+23.81
+10:16:34 a. m.
+93.87
+10:15:47 a. m.
+46.41
+24.06
+10:16:35 a. m.
+10:15:48 a. m.
+47.43
+24.31
+10:16:36 a. m.
+94.89
+95.90
+Temperatura,
+24.56
+24.81
+25.00
+25.25
+25.44
+25.69
+25.94
+26.12
+26.31
+26.50
+26.75
+26.94
+27.12
+27.37
+27.62
+27.81
+28.06
+28.31
+28.56
+28.75
+29.00
+29.19
+29.37
+29.56
+29.75
+29.94
+30.12
+30.31
+30.56
+30.81
+30.94
+31.19
+31.44
+31.62
+31.87
+32.13
+32.31
+32.56
+32.75
+32.94
+33.19
+33.31
+33.56
+33.75
+33.94
+34.19
+34.38
+34.63
+88
+
+Hora
+10:16:37 a. m.
+10:16:38 a. m.
+10:16:39 a. m.
+10:16:40 a. m
+10:16:41 a. m.
+10:16:42 a. m.
+10:16:43 a. m.
+10:16:44 a. m.
+10:16:45 a. m.
+10:16:46 a. m.
+10:16:47 a. m.
+10:16:48 a. m.
+10:16:49 a. m.
+10:16:50 a. m.
+10:16:51 a. m.
+10:16:52 a. m.
+10:16:53 a. m.
+10:16:54 a. m.
+10:16:55 a. m
+10:16:56 a. m.
+10:16:57 a. m.
+10:16:58 a. m.
+10:16:59 a. m.
+10:17:00 a. m.
+10:17:01 a. m.
+10:17:02 a. m.
+10:17:03 a. m.
+10:17:04 a. m.
+10:17:05 a. m.
+10:17:06 a. m.
+10:17:07 a. m.
+10:17:09 a. m.
+10:17:10 a. m.
+10:17:11 a. m.
+10:17:12 a. m.
+10:17:13 a. m.
+10:17:14 a. m.
+10:17:15 a. m.
+10:17:16 a. m.
+10:17:17 a. m.
+10:17:18 a. m.
+10:17:19 a. m.
+10:17:20 a. m
+10:17:21 a. m.
+10:17:22 a. m.
+10:17:23 a. m.
+10:17:24 a. m.
+10:17:25 a. m
+10:17:26 a. m.
+10:17:27 a. m.
+10:17:28 a. m.
+10:17:29 a. m.
+Tiempo, Temperatura,
+[s]
+96.91
+[°C]
+97.93
+34.81
+35.00
+98.94
+35.19
+99.95
+35.38
+100.95
+35.50
+101.96
+35.69
+102.98
+35.88
+103.98
+36.06
+105.00
+36.31
+106.00
+36.50
+107.02
+36.69
+108.03
+36.94
+109.04
+37.13
+110.05
+37.31
+111.07
+37.50
+112.07
+37.69
+113.08
+37.94
+114.09
+38.13
+115.11
+38.38
+116.12
+38.56
+117.13
+38.81
+118.14
+39.00
+119.15
+39.25
+120.17
+39.44
+121.17
+39.63
+122.19
+39.81
+123.20
+40.00
+124.21
+40.19
+125.22
+40.44
+126.24
+40.63
+127.24
+40.88
+128.25
+41.06
+129.27
+41.25
+130.27
+41.50
+131.29
+41.63
+132.31
+41.88
+133.32
+42.13
+134.32
+42.31
+135.34
+42.50
+136.36
+42.69
+137.37
+42.88
+138.38-
+43.19
+139.39
+43.38
+140.39
+43.56
+141.41
+43.75
+142.43
+43.94
+143.45
+44.19
+144.45
+44.38
+145.46
+44.56
+146.48
+44.75
+147.49
+44.94
+148.51
+45.13
+Hora
+10:17:30 a. m.
+10:17:31 a. m.
+10:17:32 a. m.
+10:17:33 a. m.
+10:17:34 a. m.
+10:17:35 a. m.
+10:17:36 a. m.
+10:17:37 a. m.
+10:17:38 a. m.
+10:17:39 a. m.
+10:17:40 a. m.
+10:17:41 a. m.
+10:17:42 a. m.
+10:17:43 a. m.
+10:17:44 a. m.
+10:17:45 a. m.
+10:17:46 a. m.
+10:17:47 a. m.
+10:17:48 a. m
+10:17:49 a. m.
+10:17:50 a. m.
+10:17:51 a. m.
+10:17:52 a. m.
+10:17:53 a. m.
+10:17:54 a. m.
+10:17:55 a. m.
+10:17:56 a. m.
+10:17:57 a. m.
+10:17:58 a. m
+10:17:59 a. m.
+10:18:00 a. m.
+10:18:01 a. m.
+10:18:02 a. m.
+10:18:03 a. m.
+10:18:04 a. m.
+10:18:05 a. m.
+10:18:06 a. m.
+10:18:07 a. m.
+10:18:08 a. m.
+10:18:09 a. m.
+10:18:10 a. m.
+10:18:11 a. m.
+10:18:12 a. m.
+10:18:13 a. m.
+10:18:14 a. m.
+10:18:15 a. m.
+10:18:16 a. m.
+10:18:17 a. m.
+10:18:18 a. m.
+10:18:19 a. m.
+10:18:20 a. m.
+10:18:21 a. m.
+89
+Tiempo,
+Temperatura,
+[s]
+(°C]
+149.52
+45.38
+150.52
+151.54
+45.56
+45.75
+152.55
+46.00
+153.57
+46.25
+154.58
+46.44
+155.60
+46.69
+156.61
+46.88
+157.62
+47.06
+158.62
+47.25
+159.64
+47.50
+160.65
+47.75
+161.67
+47.94
+162.69
+48.19
+163.70
+48.44
+164.72
+48.63
+165.72
+48.81
+166.73
+49.06
+167.75
+49.25
+168.77
+49.44
+169.79
+49.63
+170.80
+49.88
+171.80
+172.82
+50.13
+173.84
+50.31
+174.85
+50.56
+50.75
+175.86
+51.00
+176.88
+51.19
+177.90
+51.44
+178.91
+51.63
+179.92
+180.94
+51.88
+52.06
+181.95
+52.25
+182.97
+52.44
+183.98
+52.69
+185.00
+52.88
+186.02
+53.13
+187.02
+188.04
+53.31
+53.50
+189.06
+53.75
+190.19
+53.94
+191.08
+54.13
+192.10
+54.31
+193.11
+54.56
+194.13
+54.75
+195.14
+54.94
+196.16
+55.13
+197.17
+55.31
+198.20
+55.56
+199.21
+55.75
+200.23
+56.00
+201.24
+56.19
+
+Hora
+Tiempo, Temperatura,
+[s]
+[°C]
+10:18:23 a. m.
+202.26
+56.44
+10:18:24 a. m.
+203.27
+10:18:25 a. m.
+204.29
+56.69
+56.88
+10:18:26 a. m.
+205.31
+10:18:27 a. m.
+206.32
+57.13
+57.25
+10:18:28 a. m.
+207.34
+10:18:29 a. m.
+208.36
+57.50
+57.75
+10:18:30 a. m.
+209.37
+57.94
+10:18:31 a. m.
+210.39
+58.19
+10:18:32 a. m.
+211.41
+58.38
+10:18:33 a. m.
+212.42
+58.56
+10:18:34 a. m.
+213.44
+58.81
+10:18:35 a. m.
+214.45
+10:18:36 a. m.
+215.47
+59.06
+59.31
+10:18:37 a. m.
+216.48
+59.50
+10:18:38 a. m.
+217.49
+59.69
+10:18:39 a. m.
+218.51
+59.94
+10:18:40 a. m.
+219.54
+60.13
+10:18:41 a. m.
+220.55
+60.38
+10:18:42 a. m.
+221.57
+60.56
+10:18:43 a. m.
+222.59
+60.75
+10:18:44 a. m.
+223.60
+61.00
+10:18:45 a. m.
+224.62
+61.25
+10:18:46 a. m.
+225.63
+61.44
+10:18:47 a. m.
+226.65
+61.69
+10:18:48 a. m.
+227.66
+61.88
+10:18:49 a. m.
+228.70
+62.06
+10:18:50 a. m.
+229.71
+62.31
+10:18:51 a. m.
+230.73
+10:18:52 a. m.
+231.74
+62.50
+62.75
+10:18:53 a. m.
+232.76
+62.88
+10:18:54 a. m.
+233.77
+63.13
+10:18:55 a. m.
+234.80
+63.31
+10:18:56 a. m.
+235.82
+63.56
+10:18:57 a. m.
+236.84
+63.75
+10:18:58 a. m.
+237.85
+64.00
+10:18:59 a. m.
+238.87
+64.19
+10:19:00 a. m.
+239.88
+64.37
+10:19:01 a. m.
+240.91
+64.62
+10:19:02 a. m.
+241.93
+64.81
+10:19:03 a. m.
+242.95
+65.00
+10:19:04 a. m.
+243.96
+65.25
+10:19:05 a. m.
+244.98
+10:19:06 a. m.
+246.01
+65.44
+65.62
+10:19:07 a. m.
+247.02
+10:19:08 a. m.
+248.04
+65.81
+66.06
+10:19:09 a. m.
+249.05
+66.25
+10:19:10 a. m.
+250.09
+66.50
+10:19:11 a. m.
+251.10
+66.69
+10:19:12 a. m.
+252.12
+66.87
+10:19:13 a. m.
+253.13
+67.06
+10:19:14 a. m.
+254.16
+67.31
+Hora
+10:19:15 a. m.
+10:19:16 a. m.
+10:19:17 a. m.
+10:19:18 a. m.
+10:19:19 a. m.
+10:19:21 a. m.
+10:19:22 a. m.
+10:19:23 a. m.
+10:19:24 a. m.
+10:19:25 a. m.
+10:19:26 a. m.
+10:19:27 a. m.
+10:19:28 a. m.
+10:19:29 a. m.
+10:19:30 a. m.
+10:19:31 a. m.
+10:19:32 a. m.
+10:19:33 a. m.
+10:19:34 a. m.
+10:19:35 a. m.
+10:19:36 a. m.
+10:19:37 a. m.
+10:19:38 a. m.
+10:19:39 a. m.
+10:19:40 a. m.
+10:19:41 a. m.
+10:19:42 a. m.
+10:19:43 a. m.
+10:19:44 a. m.
+10:19:45 a. m.
+10:19:46 a. m.
+10:19:47 a. m.
+10:19:48 a. m.
+10:19:49 a. m.
+10:19:50 a. m.
+10:19:51 a. m.
+10:19:52 a. m.
+10:19:53 a. m.
+10:19:54 a. m.
+10:19:55 a. m.
+10:19:56 a. m.
+10:19:57 a. m.
+10:19:58 a. m.
+10:19:59 a. m.
+10:20:00 a. m.
+10:20:01 a. m.
+10:20:02 a. m.
+10:20:03 a. m.
+10:20:04 a. m.
+10:20:05 a. m.
+10:20:07 a. m.
+10:20:08 a. m.
+90
+Tiempo,
+Temperatura,
+[s]
+(°C)
+255.17
+67.50
+256.19
+67.69
+257.22
+67.87
+258.24
+68.12
+259.26
+260.27
+68.31
+68.56
+261.30
+68.75
+262.32
+69.00
+263.33
+69.19
+264.36
+69.44
+265.38
+69.69
+266.39
+69.87
+267.42
+70.12
+268.43
+70.31
+269.46
+70.56
+270.48
+70.75
+271.51
+71.00
+272.51
+71.19
+273.54
+71.44
+274.56
+71.62
+275.59
+71.81
+276.61
+72.06
+277.63
+72.25
+278.64
+72.44
+279.67
+72.69
+280.69
+72.81
+281.71
+73.06
+282.73
+73.25
+283.76
+73.50
+284.78
+73.69
+285.79
+73.87
+286.82
+74.06
+287.84
+74.31
+288.87
+74.50
+289.89
+290.92
+74.75
+291.94
+75.19
+292.95
+293.98
+75.62
+295.00
+75.81
+296.03
+76.00
+297.05
+76.19
+298.08
+76.44
+299.09
+76.62
+300.13
+76.87
+301.14
+77.12
+302.17
+77.37
+303.19
+77.56
+304.22
+77.81
+305.24
+78.00
+306.25
+78.25
+307.29
+78.44
+
+Hora
+Tiempo, Temperatura,
+[s]
+10:20:09 a. m.
+308.31
+[°C]
+78.69
+10:20:10 a. m.
+309.33
+78.87
+10:20:11 a. m.
+310.36
+79.12
+10:20:12 a. m
+311.39
+79.31
+10:20:13 a. m.
+312.41
+79.50
+10:20:14 a. m.
+313.43
+79.69
+10:20:15 a. m.
+314.46
+79.94
+10:20:16 a. m.
+315.48
+80.12
+10:20:17 a. m.
+316.50
+80.31
+10:20:18 a. m.
+317.53
+80.50
+10:20:19 a. m.
+318.56
+80.75
+10:20:20 a. m.
+319.58
+80.94
+10:20:21 a. m.
+320.61
+81.19
+10:20:22 a. m.
+321.63
+81.37
+10:20:23 a. m.
+322.66
+81.56
+10:20:24 a. m.
+323.67
+81.81
+10:20:25 a. m.
+324.70
+82.00
+10:20:26 a. m.
+325.73
+82.19
+10:20:27 a. m.
+326.75
+82.37
+10:20:28 a. m.
+327.79
+82.62
+10:20:29 a. m.
+328.80
+82.81
+10:20:30 a. m.
+329.83
+83.00
+10:20:31 a. m.
+330.86
+83.19
+10:20:32 a. m.
+331.89
+83.44
+10:20:33 a. m.
+332.91
+83.62
+10:20:34 a. m.
+333.94
+83.81
+10:20:35 a. m.
+334.96
+84.06
+10:20:36 a. m.
+335.99
+84.31
+10:20:37 a. m.
+337.02
+84.50
+10:20:38 a. m.
+338.05
+84.81
+10:20:39 a. m.
+339.07
+85.00
+10:20:40 a. m.
+10:20:41 a. m
+10:20:42 a. m.
+10:20:43 a. m.
+10:20:44 a. m.
+10:20:45 a. m.
+10:20:47 a. m.
+10:20:48 a. m.
+10:20:49 a. m.
+10:20:50 a. m.
+10:20:51 a. m.
+10:20:52 a. m
+10:20:53 a. m.
+10:20:54 a. m.
+10:20:55 a. m.
+10:20:56 a. m.
+10:20:57 a. m.
+10:20:58 a. m.
+10:20:59 a. m.
+10:21:00 a. m.
+10:21:01 a. m.
+Hora
+10:21:02 a. m.
+10:21:03 a. m.
+10:21:04 a. m.
+10:21:05 a. m.
+10:21:06 a. m.
+10:21:07 a. m.
+10:21:08 a. m.
+10:21:09 a. m.
+10:21:10 a. m.
+10:21:11 a. m.
+10:21:12 a. m.
+10:21:13 a. m.
+10:21:14 a. m.
+10:21:15 a. m.
+10:21:16 a. m.
+10:21:17 a. m.
+10:21:18 a. m.
+10:21:19 a. m.
+10:21:20 a. m.
+10:21:22 a. m.
+10:21:23 a. m.
+10:21:24 a. m.
+10:21:25 a. m.
+10:21:26 a. m.
+10:21:27 a. m.
+10:21:28 a. m.
+10:21:29 a. m.
+10:21:30 a. m.
+10:21:31 a. m.
+10:21:32 a. m.
+10:21:33 a. m.
+10:21:34 a. m.
+10:21:35 a. m.
+10:21:36 a. m.
+10:21:37 a. m.
+10:21:38 a. m.
+10:21:39 a. m.
+10:21:40 a. m.
+10:21:41 a. m.
+10:21:42 a. m.
+10:21:43 a. m.
+10:21:44 a. m
+10:21:45 a. m.
+10:21:46 a. m.
+10:21:47 a. m.
+10:21:48 a. m.
+10:21:49 a. m.
+10:21:50 a. m.
+10:21:51 a. m.
+10:21:52 a. m.
+10:21:54 a. m.
+10:21:55 a. m.
+Tiempo,
+Temperatura,
+[s]
+[°C]
+361.68
+89.81
+362.71
+90.06
+363.74
+90.25
+364.77
+90.44
+365.80
+90.62
+366.84
+90.81
+367.87
+91.00
+368.90
+91.25
+369.93
+91.50
+370.95
+91.69
+371.98
+91.87
+373.01
+92.06
+374.04
+92.31
+375.07
+92.56
+376.10
+377.14
+92.81
+93.06
+378.16
+93.25
+379.19
+93.50
+380.22
+93.69
+381.25
+93.94
+382.28
+94.19
+383.31
+94.37
+384.34
+94.56
+385.38
+94.87
+386.41
+95.12
+387.44
+95.31
+388.47
+95.56
+389.50
+95.75
+390.53
+95.94
+391.56
+96.19
+392.59
+96.37
+393.64
+96.56
+394.66
+96.81
+395.70
+97.00
+396.73
+97.19
+397.77
+97.37
+398.80
+97.56
+399.84
+97.69
+400.87
+97.87
+401.90
+98.06
+402.93
+98.19
+403.95
+98.31
+404.99
+98.50
+406.03
+98.56
+407.06
+98.69
+408.09
+98.81
+409.13
+98.87
+410.16
+98.94
+411.19
+99.00
+412.23
+99.12
+413.27
+99.12
+414.30
+99.19
+91
+
+Hora
+10:21:56 a. m.
+10:21:57 a. m.
+10:21:58 a. m.
+10:21:59 a. m.
+10:22:00 a. m.
+10:22:01 a. m.
+10:22:02 a. m.
+10:22:03 a. m.
+10:22:04 a. m.
+10:22:05 a. m.
+10:22:06 a. m.
+10:22:07 a. m.
+10:22:08 a. m.
+10:22:09 a. m.
+10:22:10 a. m.
+10:22:11 a. m.
+10:22:12 a. m.
+10:22:13 a. m.
+10:22:14 a. m.
+10:22:15 a. m.
+10:22:16 a. m.
+10:22:17 a. m.
+10:22:18 a. m.
+10:22:19 a. m.
+10:22:20 a. m.
+10:22:21 a. m.
+10:22:22 a. m.
+10:22:23 a. m.
+10:22:25 a. m.
+10:22:26 a. m.
+10:22:27 a. m.
+10:22:28 a. m
+10:22:29 a. m.
+10:22:30 a. m.
+10:22:31 a. m.
+10:22:32 a. m.
+10:22:33 a. m.
+10:22:34 a. m.
+10:22:35 a. m.
+10:22:36 a. m.
+10:22:37 a. m.
+10:22:38 a. m.
+Temperatura,
+[°C]
+99.25
+99.25
+99.31
+99.37
+99.37
+99.44
+99.44
+99.50
+99.50
+99.50
+99.56
+99.56
+99.56
+99.56
+99.56
+99.62
+99.62
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.62
+99.62
+99.62
+99.62
+99.62
+99.62
+99.62
+99.62
+99.62
+99.62
+99.62
+99.56
+99.56
+99.50
+99.50
+99.50
+Hora
+10:22:39 a. m.
+10:22:40 a. m.
+10:22:41 a. m.
+10:22:42 a. m.
+10:22:43 a. m.
+10:22:44 a. m.
+10:22:45 a. m.
+10:22:46 a. m.
+10:22:47 a. m.
+10:22:48 a. m.
+10:22:49 a. m.
+10:22:50 a. m.
+10:22:51 a. m.
+10:22:52 a. m.
+10:22:53 a. m.
+10:22:54 a. m.
+10:22:56 a. m.
+10:22:57 a. m.
+10:22:58 a. m.
+10:22:59 a. m.
+10:23:00 a. m.
+10:23:01 a. m.
+10:23:02 a. m.
+10:23:03 a. m.
+10:23:04 a. m.
+10:23:05 a. m.
+10:23:06 a. m.
+10:23:07 a. m.
+10:23:08 a. m.
+10:23:09 a. m.
+10:23:10 a. m.
+10:23:11 a. m.
+10:23:12 a. m.
+10:23:13 a. m.
+10:23:14 a. m.
+10:23:15 a. m.
+10:23:16 a. m.
+10:23:17 a. m.
+10:23:18 a. m.
+10:23:19 a. m.
+10:23:20 a. m.
+10:23:21 a. m.
+Temperatura,
+[°C]
+99.44
+99.44
+99.44
+99.37
+99.44
+99.37
+99.37
+99.37
+99.31
+99.31
+99.31
+99.31
+99.25
+99.25
+99.25
+99.25
+99.25
+99.25
+99.19
+99.19
+99.19
+99.19
+99.19
+99.12
+99.12
+99.12
+99.12
+99.06
+99.06
+99.06
+99.06
+99.06
+99.06
+99.06
+99.06
+99.06
+99.00
+99.00
+99.00
+99.00
+98.94
+98.94
+92
+
+Tabla B.4
+Cuarto grupo de datos experimentales de temperatura vs tiempo*
+Hora
+Tiempo,
+Temperatura,
+[s]
+Hora
+3:15:00 p.m.
+0.03
+19.37
+3:15:51 p.m.
+3:15:01 p.m.
+1.03
+19.37
+3:15:52 p.m.
+3:15:02 p. m.
+2.05
+3:15:03 p. m.
+3.06
+19.37
+3:15:53 p. m.
+3:15:04 p. m
+4.06
+19.37
+3:15:54 p. m.
+19.37
+3:15:55 p. m.
+3:15:05 p. m.
+5.08
+19.37
+3:15:56 p.m.
+3:15:06 p.m.
+3:15:07 p. m.
+6.09
+19.37
+3:15:57 p. m.
+7.09
+19.37
+3:15:58 p. m.
+3:15:08 p. m.
+8.11
+19.37
+3:15:59 p.m.
+3:15:09 p.m.
+9.11
+19.37
+3:16:00 p.m.
+3:15:10 p. m.
+10.12
+19.37
+3:16:01 p.m.
+3:15:11 p.m.
+11.14
+19.37
+3:16:02 p.m.
+3:15:12 p. m.
+12.14
+19.37
+3:16:03 p. m.
+3:15:13 p. m.
+13.15
+19.37
+3:16:04 p. m.
+3:15:14 p. m.
+14.15
+19.37
+3:16:05 p. m.
+3:15:15 p. m.
+15.16
+19.31
+3:16:06 p. m.
+3:15:16 p. m.
+16.18
+19.37
+3:16:07 p. m.
+3:15:17 p. m.
+17.18
+19.37
+3:16:08 p. m.
+3:15:18 p. m.
+18.20
+19.37
+3:16:09 p. m
+3:15:19 p. m.
+19.20
+19.37
+3:16:10 p. m.
+3:15:20 p. m.
+20.21
+19.37
+3:16:11 p. m.
+3:15:21 p. m.
+21.21
+19.37
+3:16:12 p. m.
+3:15:22 p. m.
+22.23
+19.37
+3:16:13 p. m.
+3:15:23 p. m.
+23.25
+19.37
+3:16:14 p. m.
+3:15:26 p. m.
+26.26
+19.69
+3:16:15 p. m.
+3:15:27 p. m.
+27.28
+19.87
+3:16:16 p. m.
+3:15:28 p. m.
+28.29
+20.06
+3:16:17 p. m.
+3:15:29 p. m.
+29.29
+20.25
+3:16:18 p. m.
+3:15:30 p. m
+30.30
+20.44
+3:16:19 p. m.
+3:15:31 p. m.
+31.32
+20.62
+3:16:20 p. m.
+3:15:33 p. m.
+32.32
+20.81
+3:16:21 p. m.
+3:15:34 p. m.
+33.33
+21.00
+3:16:22 p. m.
+3:15:35 p. m.
+34.35
+21.19
+3:16:23 p.m.
+3:15:36 p.m.
+35.35
+3:15:37 p.m.
+36.37
+21.37
+3:16:24 p. m.
+21.56
+3:16:25 p. m.
+3:15:38 p. m.
+37.37
+21.81
+3:16:26 p. m.
+3:15:39 p. m.
+38.38
+21.94
+3:16:27 p.m.
+3:15:40 p. m.
+39.38
+3:15:41 p. m.
+40.40
+22.19
+3:16:28 p. m.
+22.37
+3:16:29 p. m.
+3:15:42 p.m.
+41.40
+3:15:43 p. m.
+42.41
+22.56
+3:16:30 p. m.
+3:15:44 p.m.
+43.43
+22.81
+3:16:31 p.m.
+22.94
+3:16:32 p. m.
+3:15:45 p. m.
+44.44
+3:15:46 p. m.
+45.45
+23.19
+3:16:33 p. m.
+3:15:47 p. m.
+23.44
+3:16:34 p.m.
+46.45
+3:15:48 p. m.
+47.46
+23.62
+3:16:35 p. m.
+23.81
+3:16:36 p. m.
+3:15:49 p. m.
+48.46
+24.06
+3:16:37 p.m.
+3:15:50 p. m.
+49.48
+24.19
+ー
+3:16:38 p.m.
+Temperatura,
+24.44
+24.62
+24.81
+25.00
+25.19
+25.31
+25.56
+25.75
+26.00
+26.25
+26.50
+26.75
+26.94
+27.25
+27.50
+27.75
+28.00
+28.25
+28.44
+28.62
+28.87
+29.06
+29.25
+29.50
+29.75
+30.00
+30.25
+30.44
+30.62
+30.87
+31.06
+31.25
+31.50
+31.69
+31.87
+32.06
+32.31
+32.44
+32.63
+32.88
+33.06
+33.25
+33.44
+33.63
+33.88
+34.13
+34.31
+34.50
+93
+
+Tiempo, Temperatura,
+[s]
+98.96
+34.69
+99.98
+34.94
+100.98
+35.13
+102.00
+35.38
+103.01
+104.02
+35.56
+35.75
+105.02
+36.00
+106.04
+36.19
+107.05
+108.13
+36.44
+36.63
+109.07
+36.88
+110.09
+37.00
+111.10
+37.19
+112.57
+37.44
+113.12
+114.12
+37.63
+37.94
+115.14
+38.13
+116.15
+38.38
+117.15
+38.63
+118.17
+38.88
+119.18
+39.13
+120.20
+39.31
+121.20
+39.50
+122.21
+39.75
+123.23
+39.94
+124.25
+40.13
+125.25
+40.25
+126.27
+40.44
+127.27
+40.63
+128.29
+40.81
+129.30
+41.00
+130.30
+41.19
+131.32
+41.44
+132.33
+41.63
+133.35
+41.88
+134.35
+42.06
+135.38
+42.25
+136.39
+42.50
+137.40
+42.69
+138.41
+42.94
+139.43
+43.19
+140.44
+43.38
+141.50
+43.63
+142.46
+43.88
+143.48
+44.06
+144.48
+44.31
+145.50
+44.50
+146.51
+147.53
+44.75
+148.54
+44.94
+45.06
+149.54
+45.25
+150.56
+45.44
+Tiempo,
+Temperatura,
+[s]
+[°C]
+151.79
+152.59
+45.63
+45.88
+153.75
+46.13
+154.73
+46.38
+155.62
+46.56
+156.64
+46.75
+157.65
+46.94
+158.66
+47.13
+159.68
+47.31
+160.70
+47.56
+161.70
+47.75
+162.711
+47.94
+163.73
+48.13
+164.75
+48.38
+165.77
+166.77
+48.56
+48.81
+167.78
+49.06
+168.80
+49.25
+169.81
+49.44
+170.83
+49.63
+171.84
+49.81
+172.86
+50.00
+173.87
+50.19
+174.88
+50.44
+176.15
+50.63
+176.91
+50.81
+177.93
+51.06
+178.95
+179.95
+51.25
+51.44
+180.96
+51.63
+181.98
+51.81
+182.99
+52.00
+184.01
+52.25
+185.03
+186.05
+52.44
+52.63
+187.05
+52.81
+188.07
+53.06
+189.08
+53.31
+190.10
+53.56
+191.11
+53.75
+192.13
+54.00
+193.14
+54.25
+194.16
+54.44
+195.18
+54.69
+196.18
+54.88
+197.20
+55.13
+198.21
+199.23
+55.38
+55.63
+200.25
+55.81
+201.28
+56.00
+202.29
+56.25
+203.31
+56.44
+94
+
+Hora
+3:18:25 p. m.
+3:18:26 p. m.
+3:18:27 p. m.
+3:18:28 p. m.
+3:18:29 p. m.
+3:18:30 p. m.
+3:18:31 p. m.
+3:18:32 p. m.
+3:18:33 p. m.
+3:18:34 p. m.
+3:18:35 p. m.
+3:18:36 p. m.
+3:18:37 p. m.
+3:18:38 p. m.
+3:18:39 p. m.
+3:18:40 p. m.
+3:18:41 p. m.
+3:18:42 p. m.
+3:18:43 p. m.
+3:18:44 p. m.
+3:18:45 p. m.
+3:18:46 p. m.
+3:18:47 p. m.
+3:18:48 p. m.
+3:18:49 p. m.
+3:18:50 p. m.
+3:18:51 p. m.
+3:18:52 p. m.
+3:18:53 p. m.
+3:18:54 p. m.
+3:18:55 p. m.
+3:18:56 p. m.
+3:18:57 p. m.
+3:18:58 p. m.
+3:18:59 p. m.
+3:19:00 p. m.
+3:19:01 p. m.
+3:19:02 p. m.
+3:19:03 p. m.
+3:19:04 p. m.
+3:19:05 p. m.
+3:19:06 p. m.
+3:19:07 p. m.
+3:19:08 p. m.
+3:19:09 p. m.
+3:19:10 p. m.
+3:19:11 p. m.
+3:19:12 p. m.
+3:19:13 p. m.
+3:19:14 p. m.
+3:19:15 p. m.
+3:19:16 p. m.
+Tiempo,
+Temperatura,
+[s]
+[°C]
+204.32
+56.69
+205.34
+56.88
+206.35
+57.13
+207.37
+57.38
+208.39
+57.56
+209.41
+210.42
+57.75
+57.94
+211.43
+58.13
+212.45
+58.38
+213.45
+214.49
+58.56
+58.75
+215.50
+59.00
+216.51
+59.19
+217.54
+59.44
+218.66
+219.56
+59.63
+59.81
+220.59
+60.06
+221.59
+60.31
+222.62
+60.50
+223.63
+60.69
+224.65
+60.94
+225.66
+61.13
+226.68
+61.31
+227.70
+61.56
+228.71
+61.75
+229.75
+62.00
+230.75
+62.19
+231.77
+62.38
+232.79
+233.82
+62.56
+62.81
+234.83
+63.00
+235.85
+63.25
+236.86
+63.50
+237.88
+63.69
+238.89
+63.94
+239.92
+64.12
+240.93
+64.37
+241.95
+64.62
+242.96
+64.81
+244.00
+245.02
+65.00
+246.02
+65.19
+65.37
+247.05
+65.62
+248.06
+65.87
+249.08
+66.06
+250.11
+66.31
+251.13
+66.50
+252.14
+66.69
+253.16
+66.94
+254.17
+67.12
+255.21
+256.23
+67.31
+67.50
+Hora
+3:19:17 p. m.
+3:19:18 p. m.
+3:19:19 p. m.
+3:19:20 p. m.
+3:19:22 p. m.
+3:19:23 p. m.
+3:19:24 p. m.
+3:19:25 p. m.
+3:19:26 p. m.
+3:19:27 p. m.
+3:19:28 p. m.
+3:19:29 p. m.
+3:19:30 p. m.
+3:19:31 p. m.
+3:19:32 p. m.
+3:19:33 p. m.
+3:19:34 p. m.
+3:19:35 p. m.
+3:19:36 p. m.
+3:19:37 p. m.
+3:19:38 p. m.
+3:19:39 p. m.
+3:19:40 p. m
+3:19:41 p. m.
+3:19:42 p. m.
+3:19:43 p. m.
+3:19:44 p. m.
+3:19:45 p. m.
+3:19:46 p. m.
+3:19:47 p. m.
+3:19:48 p. m.
+3:19:49 p. m.
+3:19:50 p. m
+3:19:51 p. m.
+3:19:52 p. m.
+3:19:53 p. m.
+3:19:54 p. m.
+3:19:55 p. m.
+3:19:56 p. m.
+3:19:57 p. m.
+3:19:58 p. m.
+3:19:59 p. m.
+3:20:00 p. m.
+3:20:01 p.m.
+3:20:02 p. m.
+3:20:03 p. m.
+3:20:04 p. m.
+3:20:05 p. m.
+3:20:06 p. m.
+3:20:07 p. m.
+3:20:09 p. m.
+3:20:10 p. m.
+95
+Tiempo,
+Temperatura,
+[s]
+[°C]
+257.25
+67.75
+258.27
+67.94
+259.29
+68.12
+260.31
+68.31
+261.33
+68.56
+262.35
+68.81
+263.37
+69.00
+264.39
+69.19
+265.40
+69.44
+266.42
+69.69
+267.45
+69.87
+268.46
+70.12
+269.48
+70.31
+270.51
+271.53
+70.56
+272.54
+70.81
+71.00
+273.56
+71.19
+274.59
+71.37
+275.61
+71.56
+276.63
+71.81
+277.65
+72.06
+278.68
+72.25
+279.70
+72.50
+280.71
+72.75
+281.74
+72.94
+282.84
+73.12
+283.77
+73.31
+284.81
+73.50
+285.82
+73.75
+286.84
+73.94
+287.87
+74.12
+288.88
+74.37
+289.91
+74.56
+290.93
+74.75
+291.95
+75.00
+292.98
+75.19
+294.00
+75.44
+295.03
+296.04
+75.62
+75.81
+297.07
+76.06
+298.09
+299.12
+76.25
+76.44
+300.14
+76.69
+301.17
+76.94
+302.19
+77.12
+303.21
+77.37
+304.23
+77.56
+305.27
+77.75
+306.28
+78.00
+307.30
+78.19
+308.33
+78.44
+309.36
+78.62
+
+Hora
+3:20:11 p.m.
+3:20:12 p. m.
+3:20:13 p. m.
+3:20:14 p. m.
+3:20:15 p. m
+3:20:16 p. m.
+3:20:17 p. m.
+3:20:18 p. m.
+3:20:19 p. m.
+3:20:20 p. m
+3:20:21 p. m.
+3:20:22 p. m.
+3:20:23 p. m.
+3:20:24 p. m.
+3:20:25 p. m.
+3:20:26 p. m.
+3:20:27 p. m.
+3:20:28 p. m.
+3:20:29 p. m.
+3:20:30 p. m.
+3:20:31 p. m.
+3:20:32 p. m.
+3:20:33 p. m.
+3:20:34 p. m.
+3:20:35 p. m.
+3:20:36 p. m.
+3:20:37 p. m.
+3:20:38 p. m.
+3:20:39 p. m.
+3:20:40 p. m.
+3:20:41 p. m.
+3:20:42 p. m.
+3:20:43 p. m.
+3:20:44 p. m.
+3:20:45 p. m.
+3:20:46 p. m.
+3:20:47 p. m.
+3:20:49 p. m.
+3:20:50 p. m
+3:20:51 p. m.
+3:20:52 p. m.
+3:20:53 p.m.
+3:20:54 p.m.
+3:20:55 p. m.
+3:20:56 p. m.
+3:20:57 p. m.
+3:20:58 p. m.
+3:20:59 p. m.
+3:21:00 p. m.
+3:21:01 p. m.
+3:21:02 p.m.
+3:21:03 p. m.
+Tiempo, Temperatura,
+[s]
+[°C]
+310.38
+78.87
+311.41
+79.06
+312.43
+79.31
+313.46
+79.50
+314.47
+315.50
+79.75
+79.94
+316.52
+80.19
+317.57
+80.37
+318.58
+319.60
+80.56
+80.81
+320.63
+81.00
+321.66
+81.25
+322.67
+81.50
+323.70
+81.62
+324.73
+81.87
+325.75
+326.79
+82.12
+82.31
+327.80
+82.50
+328.83
+82.69
+329.85
+82.94
+330.88
+83.12
+331.91
+83.31
+332.93
+83.56
+333.96
+83.81
+334.99
+84.00
+336.02
+84.25
+337.04
+84.44
+338.07
+84.69
+339.09
+84.94
+340.13
+341.14
+85.12
+85.37
+342.17
+85.56
+343.21
+85.75
+344.22
+86.00
+345.25
+86.19
+346.29
+86.37
+347.32
+86.62
+348.35
+86.87
+349.38
+87.06
+350.39
+87.31
+351.42
+87.50
+352.45
+87.75
+353.48
+87.87
+354.50
+88.12
+355.53
+88.37
+356.56
+357.59
+88.62
+358.62
+88.87
+89.12
+359.64
+89.31
+360.67
+89.50
+361.71
+89.81
+362.74
+90.00
+Hora
+3:21:04 p. m.
+3:21:05 p. m.
+3:21:06 p. m.
+3:21:07 p. m.
+3:21:08 p. m.
+3:21:09 p. m.
+3:21:10 p. m.
+3:21:11 p. m.
+3:21:12 p. m.
+3:21:13 p. m.
+3:21:14 p. m.
+3:21:15 p. m.
+3:21:16 p. m.
+3:21:17 p.m.
+3:21:18 p. m.
+3:21:19 p.m.
+3:21:20 p. m.
+3:21:21 p. m.
+3:21:22 p. m.
+3:21:24 p. m.
+3:21:25 p. m.
+3:21:26 p. m.
+3:21:27 p. m
+3:21:28 p. m.
+3:21:29 p. m.
+3:21:30 p. m.
+3:21:31 p. m.
+3:21:32 p. m.
+3:21:33 p. m.
+3:21:34 p. m.
+3:21:35 p. m.
+3:21:36 p. m.
+3:21:37 p. m.
+3:21:38 p. m.
+3:21:39 p. m.
+3:21:40 p. m.
+3:21:41 p. m.
+3:21:42 p. m.
+3:21:43 p. m.
+3:21:44 p. m.
+3:21:45 p. m.
+3:21:46 p. m.
+3:21:47 p. m.
+3:21:48 p. m.
+3:21:49 p. m.
+3:21:50 p. m.
+3:21:51 p. m.
+3:21:52 p. m.
+3:21:53 p. m.
+3:21:55 p. m.
+3:21:56 p. m.
+3:21:57 p. m.
+96
+Tiempo,
+Temperatura,
+[s]
+[°C]
+363.75
+90.25
+364.79
+90.44
+365.82
+90.69
+366.84
+90.94
+367.88
+91.12
+368.91
+91.37
+369.94
+91.62
+370.97
+91.81
+372.00
+92.06
+373.03
+92.31
+374.06
+92.56
+375.09
+92.81
+376.12
+377.15
+93.00
+378.19
+93.25
+93.50
+379.22
+380.25
+93.75
+93.94
+381.28
+94.19
+382.31
+94.44
+383.34
+94.69
+384.37
+94.87
+385.41
+95.06
+386.42
+95.31
+387.46
+95.56
+388.50
+95.81
+389.54
+96.00
+390.57
+96.25
+391.60
+96.44
+392.63
+96.62
+393.66
+96.81
+394.69
+97.00
+395.72
+97.19
+396.76
+97.37
+397.79
+97.56
+398.82
+97.75
+399.85
+97.94
+400.89
+98.06
+401.93
+98.25
+402.95
+98.37
+403.99
+98.50
+405.02
+98.56
+406.05
+98.69
+407.08
+98.81
+408.11
+98.87
+409.16
+98.94
+410.19
+99.00
+411.21
+99.06
+412.25
+99.12
+413.29
+414.32
+99.12
+415.34
+99.19
+99.25
+416.39
+99.31
+
+Hora
+3:21:58 p.m.
+3:21:59 p. m.
+3:22:00 p. m.
+3:22:01 p. m.
+3:22:02 p. m
+3:22:03 p. m.
+3:22:04 p. m.
+3:22:05 p.m.
+3:22:06 p.m.
+3:22:07 p.m.
+3:22:08 p. m.
+3:22:09 p. m.
+3:22:10 p.m.
+3:22:11 p.m.
+3:22:12 p.m.
+3:22:13 p. m.
+3:22:14 p. m.
+3:22:15 p. m.
+3:22:16 p. m.
+3:22:17 p. m.
+3:22:18 p. m.
+3:22:19 p. m
+3:22:20 p. m.
+3:22:21 p. m.
+3:22:22 p. m.
+3:22:23 p. m.
+3:22:24 p. m.
+3:22:26 p. m.
+3:22:27 p. m.
+3:22:28 p. m.
+3:22:29 p. m.
+3:22:30 p. m.
+3:22:31 p. m.
+3:22:32 p. m.
+3:22:33 p. m.
+3:22:34 p. m.
+3:22:35 p. m.
+3:22:36 p. m.
+3:22:37 p. m.
+3:22:38 p. m.
+3:22:39 p.m.
+3:22:40 p. m.
+Hora
+3:22:41 p.m.
+3:22:42 p. m.
+3:22:43 p. m.
+3:22:44 p. m.
+3:22:45 p. m.
+3:22:46 p. m.
+3:22:47 p. m.
+3:22:48 p. m.
+3:22:49 p. m.
+3:22:50 p.m.
+3:22:51 p. m.
+3:22:52 p. m.
+3:22:53 p. m.
+3:22:54 p. m.
+3:22:55 p. m.
+3:22:57 p. m.
+3:22:58 p. m.
+3:22:59 p. m.
+3:23:00 p. m.
+3:23:01 p. m.
+3:23:02 p. m.
+3:23:03 p. m.
+3:23:04 p. m.
+3:23:05 p. m.
+3:23:06 p. m.
+3:23:07 p. m.
+3:23:08 p. m.
+3:23:09 p. m.
+3:23:10 p. m.
+3:23:11 p. m.
+3:23:12 p. m.
+3:23:13 p. m.
+3:23:14 p. m.
+3:23:15 p. m.
+3:23:16 p. m.
+3:23:17 p. m.
+3:23:18 p. m.
+3:23:19 p. m.
+3:23:20 p. m.
+3:23:21 p.m.
+3:23:22p.m.
+502.17
+98.94
+3:23:23 p.m.
+503.20
+99.00
+"Datos tomados el 25 de junio de 2021.
+97
+
+Tabla B.5
+Hora
+4:30:01 p.m.
+4:30:02 p. m.
+4:30:03 p. m.
+4:30:04 p. m.
+4:30:05 p. m.
+4:30:06 p. m.
+4:30:07 p. m.
+4:30:08 p.m.
+4:30:09 p.m.
+4:30:10 p.m.
+4:30:11 p. m.
+4:30:12 p. m.
+4:30:13 p.m.
+4:30:14 p. m.
+4:30:15 p. m.
+4:30:16 p. m.
+4:30:17 p. m.
+4:30:18 p. m.
+4:30:19 p. m.
+4:30:20 p. m.
+4:30:21 p. m.
+4:30:22 p. m.
+4:30:23 p. m.
+4:30:24 p. m.
+4:30:25 p. m.
+4:30:26 p. m.
+4:30:27 p. m.
+4:30:28 p. m.
+4:30:29 p. m
+4:30:30 p. m.
+4:30:31 p. m.
+4:30:32 p. m.
+4:30:33 p. m.
+4:30:34 p. m.
+4:30:35 p.m.
+4:30:36 p. m.
+4:30:37 p.m.
+4:30:38 p.m.
+4:30:39 p.m.
+4:30:40 p. m.
+4:30:41 p.m.
+4:30:42 p. m.
+4:30:43 p.m.
+4:30:44 p. m.
+4:30:45 p. m.
+4:30:46 p. m.
+4:30:47 p.m.
+4:30:48 p. m.
+Quinto grupo de datos experimentales de temperatura vs tiempo®
+Tiempo, Temperatura,
+Hora
+0.24
+4:30:49 p. m.
+1.24
+19.31
+4:30:50 p. m.
+2.25
+19.37
+4:30:51 p.m.
+3.25
+4.27
+19.37
+4:30:52 p. m.
+19.31
+4:30:53 p.m.
+5.28
+6.28
+19.31
+4:30:54 p. m.
+19.31
+4:30:55 p.m.
+7.30
+19.31
+4:30:56 p. m.
+8.30
+19.31
+4:30:57 p.m.
+9.31
+19.31
+4:30:58 p.m.
+10.32
+19.31
+4:30:59 p.m.
+11.33
+19.31
+4:31:00 p.m.
+12.34
+19.37
+4:31:01 p. m.
+13.34
+19.37
+4:31:02 p. m.
+14.36
+19.31
+4:31:03 p. m.
+15.37
+19.37
+4:31:04 p. m.
+16.38
+19.31
+4:31:05 p. m.
+17.38
+19.31
+4:31:06 p. m.
+18.41
+19.31
+4:31:07 p. m
+19.41
+19.37
+4:31:08 p. m.
+20.42
+19.37
+4:31:09 p. m.
+21.42
+19.37
+4:31:10 p. m.
+22.44
+19.31
+4:31:11 p. m.
+23.44
+19.37
+4:31:12 p. m.
+24.45
+19.44
+4:31:13 p. m.
+25.46
+19.56
+4:31:14 p. m.
+26.46
+19.69
+4:31:15 p. m.
+27.48
+19.87
+4:31:16 p. m.
+28.50
+20.00
+4:31:17 p. m.
+29.49
+20.19
+4:31:18 p. m.
+30.51
+20.31
+4:31:19 p. m.
+31.52
+20.50
+4:31:20 p. m.
+32.52
+33.54
+20.62
+4:31:21 p. m.
+34.54
+20.87
+4:31:22 p. m.
+21.12
+4:31:23 p. m.
+35.55
+36.57
+21.37
+21.56
+4:31:24 p. m.
+4:31:25 p.m.
+37.57
+21.81
+38.59
+4:31:26 p. m.
+22.06
+4:31:27 p.m.
+39.59
+40.60
+22.31
+4:31:28 p.m.
+41.62
+22.44
+4:31:29 p. m.
+42.62
+22.69
+4:31:30 p.m.
+22.94
+4:31:31 p.m.
+43.63
+23.19
+4:31:32 p. m.
+44.63
+23.44
+4:31:33 p. m.
+45.65
+23.69
+4:31:34 p.m.
+46.65
+23.87
+4:31:35 p.m.
+47.67
+24.06
+4:31:36 p.m.
+Temperatura,
+(°C]
+24.31
+24.56
+24.75
+24.94
+25.12
+25.37
+25.62
+25.87
+26.06
+26.25
+26.44
+26.62
+26.87
+27.12
+27.31
+27.50
+27.69
+27.87
+28.06
+28.25
+28.50
+28.75
+28.94
+29.19
+29.37
+29.62
+29.81
+30.00
+30.25
+30.44
+30.62
+30.87
+31.06
+31.25
+31.44
+31.69
+31.87
+32.06
+32.31
+32.50
+32.63
+32.81
+33.06
+33.25
+33.38
+33.63
+33.88
+34.06
+98
+
+Tiempo, Temperatura,
+[s]
+97.14
+34.25
+98.16
+34.44
+99.16
+34.63
+100.18
+34.88
+101.19
+35.06
+102.19
+35.25
+103.21
+35.44
+104.21
+35.63
+105.23
+35.81
+106.24
+36.00
+107.25
+36.31
+108.25
+36.50
+109.27
+110.28
+36.75
+37.00
+111.29
+37.25
+112.29
+37.38
+113.31
+37.63
+114.32
+37.81
+115.34
+38.00
+116.34
+38.25
+117.36
+38.44
+118.37
+38.63
+119.39
+38.88
+120.39
+39.06
+121.39
+39.25
+122.42
+39.44
+123.43
+39.69
+124.44
+39.88
+125.45
+40.13
+126.46
+40.31
+127.47
+40.56
+128.49
+40.75
+129.49
+41.00
+130.50
+41.19
+131.52
+41.38
+132.54
+41.63
+133.54
+41.81
+134.56
+42.00
+135.58
+42.25
+136.59
+42.44
+137.60
+42.69
+138.61
+42.88
+139.62
+43.06
+140.63
+43.25
+141.64
+43.50
+142.66
+43.69
+143.67
+43.94
+144.68
+145.70
+44.19
+44.38
+146.71
+44.56
+147.71
+44.75
+148.73
+44.94
+Hora
+4:32:30 p. m.
+4:32:31 p. m.
+4:32:32 p.m.
+4:32:33 p. m.
+4:32:34 p. m.
+4:32:35 p. m.
+4:32:36 p. m.
+4:32:37 p. m.
+4:32:38 p. m.
+4:32:39 p. m
+4:32:40 p. m
+4:32:41 p. m.
+4:32:42 p.m.
+4:32:43 p. m.
+4:32:44 p.m.
+4:32:45 p. m.
+4:32:46 p. m.
+4:32:47 p. m.
+4:32:48 p. m.
+4:32:49 p. m.
+4:32:50 p. m.
+4:32:51 p. m.
+4:32:52 p. m.
+4:32:53 p. m.
+4:32:54 p. m.
+4:32:55 p. m.
+4:32:56 p. m.
+4:32:57 p. m.
+4:32:58 p. m.
+4:32:59 p. m.
+4:33:00 p. m.
+4:33:01 p. m.
+4:33:02 p. m.
+4:33:03 p. m.
+4:33:04 p. m.
+4:33:05 p. m.
+4:33:07 p. m.
+4:33:08 p.m.
+4:33:09 p.m.
+4:33:10 p. m.
+4:33:11 p. m.
+4:33:12 p.m.
+4:33:13 p. m.
+4:33:14 p. m.
+4:33:15 p. m.
+4:33:16 p. m.
+4:33:17 p. m.
+4:33:18 p.m.
+4:33:19 p. m.
+4:33:20 p.m.
+4:33:21 p. m.
+4:33:22 p. m.
+99
+Tiempo,
+Temperatura,
+[s]
+[°C]
+149.74
+45.13
+150.76
+45.31
+151.77
+45.56
+152.77
+45.75
+153.79
+45.94
+154.80
+46.13
+155.82
+46.31
+156.82
+46.56
+157.84
+46.75
+158.86
+47.00
+159.88
+47.19
+160.88-
+47.44
+161.89
+162.91
+47.69
+47.88
+163.92
+48.06
+164.94
+48.31
+165.94
+48.50
+166.96
+48.75
+167.97
+48.94
+168.99
+49.13
+170.00
+49.31
+171.01
+49.50
+172.03
+49.75
+173.04
+50.00
+174.06
+50.19
+175.07
+176.09
+50.38
+50.56
+177.11
+50.75
+178.12
+50.94
+179.12
+51.13
+180.14
+51.38
+181.16
+51.56
+182.16
+51.81
+183.19
+52.00
+184.19
+52.25
+185.21
+52.38
+186.23
+52.63
+187.24
+52.81
+188.26
+53.00
+189.29
+53.25
+190.29
+53.44
+191.30
+53.69
+192.32
+193.34
+53.94
+54.19
+194.35
+54.44
+195.37
+54.69
+196.39
+54.88
+197.40
+198.41
+55.13
+55.31
+199.43
+55.56
+200.45
+55.75
+201.46
+56.00
+
+트토토트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트트토토토토 토토 티
+Tiempo,
+Temperatura,
+[s]
+202.48
+[°C]
+56.19
+203.49
+56.44
+204.51
+56.69
+205.53
+206.54
+56.94
+57.13
+207.55
+208.56
+57.31
+57.50
+209.58
+57.75
+210.60
+57.94
+211.62
+58.19
+212.63
+213.65
+58.38
+58.56
+214.67
+58.81
+215.68
+59.00
+216.70
+59.19
+217.71
+218.73
+59.38
+59.56
+219.75
+59.75
+220.76
+59.94
+221.78
+222.79
+60.19
+60.38
+223.81
+60.63
+224.83
+60.81
+225.85
+61.00
+226.87
+61.25
+227.88
+61.44
+228.90
+61.63
+229.91
+61.88
+230.93
+62.06
+231.95
+62.25
+232.96
+62.44
+234.00
+62.63
+235.01
+62.88
+236.03
+237.04
+63.13
+63.31
+238.06
+63.50
+239.07
+63.75
+240.09
+241.12
+64.00
+64.19
+242.13
+243.15
+64.44
+64.62
+244.16
+64.81
+245.19
+65.00
+246.20
+65.25
+247.22
+65.44
+248.25
+65.62
+249.27
+65.87
+250.28
+66.12
+251.30
+66.31
+252.31
+66.50
+253.34
+66.75
+254.36
+66.94
+Hora
+4:34:16 p. m.
+4:34:17 p. m.
+4:34:18 p. m.
+4:34:19 p. m.
+4:34:20 p. m.
+4:34:21 p. m.
+4:34:22 p. m.
+4:34:23 p. m.
+4:34:24 p. m.
+4:34:25 p. m.
+4:34:26 p. m.
+4:34:27 p. m.
+4:34:28 p. m.
+4:34:29 p. m.
+4:34:30 p. m.
+4:34:31 p. m.
+4:34:32 p. m.
+4:34:33 p. m.
+4:34:34 p. m.
+4:34:35 p. m.
+4:34:36 p. m.
+4:34:37 p. m.
+4:34:38 p. m.
+4:34:39 p. m.
+4:34:40 p. m.
+4:34:41 p. m.
+4:34:42 p. m.
+4:34:43 p. m.
+4:34:44 p. m.
+4:34:45 p. m.
+4:34:46 p. m.
+4:34:47 p. m.
+4:34:48 p. m.
+4:34:49 p. m.
+4:34:50 p. m.
+4:34:51 p. m.
+4:34:52 p. m.
+4:34:53 p. m.
+4:34:54 p. m.
+4:34:55 p. m.
+4:34:56 p. m.
+4:34:58 p. m.
+4:34:59 p. m.
+4:35:00 p. m.
+4:35:01 p. m.
+4:35:02 p. m.
+4:35:03 p. m.
+4:35:04 p. m
+4:35:05 p. m.
+4:35:06 p. m.
+4:35:07 p. m.
+4:35:08 p. m.
+100
+Tiempo,
+Temperatura,
+[s]
+(°C]
+255.39
+67.12
+256.40
+67.37
+257.42
+67.56
+258.45
+67.75
+259.46
+68.00
+260.48
+68.19
+261.50
+68.44
+262.52
+68.69
+263.54
+68.81
+264.56
+69.12
+265.58
+69.31
+266.59
+69.50
+267.63
+69.75
+268.64
+69.94
+269.66
+70.12
+270.69
+70.37
+271.70
+70.62
+272.71
+70.81
+273.74
+71.00
+274.75
+71.25
+275.79
+71.44
+276.80
+71.69
+277.82
+71.87
+278.85
+72.06
+279.86
+72.31
+280.88
+72.50
+281.91
+72.69
+282.93
+72.87
+283.96
+73.12
+284.97
+73.37
+286.00
+73.56
+287.01
+73.81
+288.04
+74.06
+289.06
+74.25
+290.07
+74.44
+291.11
+74.69
+292.14
+74.87
+293.15
+294.17
+75.06
+75.31
+295.20
+296.21
+75.44
+75.69
+297.25
+75.87
+298.27
+76.06
+299.28
+76.25
+300.31
+76.44
+301.34
+76.69
+302.35
+76.87
+303.38
+77.06
+304.41
+77.37
+305.43
+77.56
+306.46
+77.75
+307.47
+78.00
+
+Hora
+4:35:09 p. m.
+4:35:10 p. m.
+4:35:11 p. m.
+4:35:12 p. m.
+4:35:13 p. m.
+4:35:14 p. m.
+4:35:15 p. m.
+4:35:16 p. m.
+4:35:17 p. m.
+4:35:18 p. m.
+4:35:19 p. m.
+4:35:20 p. m.
+4:35:21 p. m.
+4:35:22 p. m.
+4:35:23 p. m.
+4:35:24 p. m.
+4:35:25 p. m.
+4:35:26 p. m.
+4:35:27 p. m.
+4:35:28 p. m.
+4:35:29 p. m.
+4:35:30 p. m.
+4:35:31 p. m.
+4:35:32 p. m.
+4:35:33 p. m.
+4:35:34 p. m.
+4:35:35 p. m.
+4:35:36 p. m.
+4:35:37 p. m.
+4:35:38 p. m.
+4:35:40 p. m.
+4:35:41 p. m.
+4:35:42 p. m.
+4:35:43 p. m.
+4:35:44 p. m.
+4:35:45 p. m.
+4:35:46 p. m.
+4:35:47 p. m.
+4:35:48 p. m.
+4:35:49 p. m.
+4:35:50 p. m.
+4:35:51 p. m.
+4:35:52 p. m.
+4:35:53 p. m.
+4:35:54 p. m.
+4:35:55 p. m.
+4:35:56 p. m.
+4:35:57 p. m.
+4:35:58 p. m.
+4:35:59 p. m.
+4:36:00 p. m.
+4:36:01 p. m.
+Tiempo,
+Temperatura,
+[s]
+[°C]
+308.49
+78.19
+309.52
+78.37
+310.55
+78.56
+311.57
+78.81
+312.60
+79.00
+313.61
+79.25
+314.65
+79.44
+315.67
+79.62
+316.70
+79.87
+317.73
+80.12
+318.75
+319.77
+80.37
+80.62
+320.80
+80.81
+321.82
+81.00
+322.85
+81.25
+323.88
+81.44
+324.90
+81.62
+325.92
+81.87
+326.95
+82.06
+327.96
+82.31
+329.00
+330.02
+82.50
+82.75
+331.04
+82.94
+332.07
+83.12
+333.10
+83.37
+334.12
+83.56
+335.15
+83.75
+336.17
+83.94
+337.20
+84.12
+338.23
+339.27
+84.37
+84.56
+340.28
+84.81
+341.31
+85.06
+342.33
+85.31
+343.36
+85.50
+344.39
+85.69
+345.42
+85.94
+346.44
+86.12
+347.46
+86.37
+348.50
+86.56
+349.53
+350.55
+86.81
+87.06
+351.58
+352.61
+87.25
+87.50
+353.64
+87.69
+354.66
+87.87
+355.69
+88.19
+356.72
+88.37
+357.75
+88.62
+358.78
+88.81
+359.81
+89.06
+360.84
+89.25
+Hora
+4:36:02 p. m.
+4:36:03 p. m.
+4:36:04 p. m.
+4:36:05 p. m.
+4:36:06 p. m.
+4:36:07 p. m.
+4:36:08 p. m.
+4:36:09 p. m.
+4:36:10 p. m.
+4:36:11 p. m
+4:36:12 p. m.
+4:36:13 p. m.
+4:36:14 p. m.
+4:36:16 p. m.
+4:36:17 p. m.
+4:36:18 p. m.
+4:36:19 p. m.
+4:36:20 p. m.
+4:36:21 p. m.
+4:36:22 p. m.
+4:36:23 p. m.
+4:36:24 p. m.
+4:36:25 p. m.
+4:36:26 p. m.
+4:36:27 p. m.
+4:36:28 p. m.
+4:36:29 p. m.
+4:36:30 p. m.
+4:36:31 p. m.
+4:36:32 p. m.
+4:36:33 p. m.
+4:36:34 p. m.
+4:36:35 p. m.
+4:36:36 p. m.
+4:36:37 p. m.
+4:36:38 p. m.
+4:36:39 p. m.
+4:36:40 p. m.
+4:36:41 p. m.
+4:36:42 p. m.
+4:36:43 p. m.
+4:36:44 p. m.
+4:36:45 p. m.
+4:36:46 p. m.
+4:36:48 p. m.
+4:36:49 p. m.
+4:36:50 p. m.
+4:36:51 p. m.
+4:36:52 p. m.
+4:36:53 p. m.
+4:36:54 p. m.
+4:36:55 p. m.
+101
+Tiempo,
+Temperatura,
+[s]
+361.87
+[°C]
+89.50
+362.90
+89.75
+363.91
+89.94
+364.95
+90.12
+365.98
+367.01
+90.37
+368.04
+90.56
+90.81
+369.07
+91.00
+370.10
+91.25
+371.13
+91.44
+372.15
+91.62
+373.18
+91.87
+374.21
+92.12
+375.25
+376.29
+92.31
+377.32
+92.56
+92.81
+378.34
+93.00
+379.38
+93.25
+380.41
+93.44
+381.44
+93.69
+382.47
+93.94
+383.50
+94.12
+384.53
+94.37
+385.56
+94.62
+386.60
+387.63
+94.81
+95.06
+388.66
+95.25
+389.69
+95.50
+390.72
+95.69
+391.74
+95.94
+392.77
+96.12
+393.81
+96.31
+394.85
+96.56
+395.88
+96.75
+396.91
+96.94
+397.95
+97.12
+398.98
+97.37
+400.00
+97.50
+401.03
+97.69
+402.06
+97.87
+403.11
+98.00
+404.13
+98.19
+405.16
+98.31
+406.20
+98.44
+407.23
+98.56
+408.27
+98.62
+409.30
+98.75
+410.33
+98.81
+411.36
+98.94
+412.41
+98.94
+413.45
+99.06
+414.48
+99.06
+
+Hora
+4:36:56 p. m.
+4:36:57 p. m.
+4:36:58 p. m.
+4:36:59 p. m.
+4:37:00 p. m.
+4:37:01 p. m.
+4:37:02 p. m.
+4:37:03 p. m.
+4:37:04 p. m.
+4:37:05 p. m.
+4:37:06 p. m.
+4:37:07 p. m.
+4:37:08 p. m.
+4:37:09 p. m.
+4:37:10 p. m.
+4:37:11 p. m.
+4:37:12 p. m.
+4:37:13 p. m.
+4:37:14 p. m.
+4:37:15 p. m.
+4:37:16 p. m.
+4:37:17 p. m.
+4:37:19 p. m.
+4:37:20 p. m.
+4:37:21 p. m.
+4:37:22 p. m.
+4:37:23 p. m.
+4:37:24 p. m.
+4:37:25 p. m.
+4:37:26 p. m.
+4:37:27 p. m.
+4:37:28 p. m.
+4:37:29 p. m.
+4:37:30 p. m.
+4:37:31 p. m.
+4:37:32 p. m.
+4:37:33 p. m.
+4:37:34 p. m.
+4:37:35 p. m.
+4:37:36 p. m.
+4:37:37 p.m.
+4:37:38 p. m.
+ura,
+Hora
+Tiempo,
+Temperatura,
+4:37:39 p. m.
+[s]
+[°C]
+458.92
+4:37:40 p. m.
+99.44
+459.95
+4:37:41 p. m.
+460.99
+99.44
+99.44
+4:37:42 p. m.
+462.02
+4:37:43 p. m.
+463.05
+99.44
+99.44
+4:37:44 p. m.
+464.09
+99.37
+4:37:45 p. m.
+465.12
+99.44
+4:37:47 p. m.
+466.94
+4:37:47 p.m.
+467.20
+99.44
+4:37:48 p. m.
+468.23
+99.37
+99.37
+4:37:50 p. m
+469.25
+99.37
+4:37:51 p. m.
+470.29
+4:37:52 p. m.
+471.32
+99.37
+99.37
+4:37:53 p. m.
+472.35
+99.37
+4:37:54 p. m.
+473.38
+99.31
+4:37:55 p. m.
+474.43
+99.31
+4:37:56 p. m.
+475.46
+99.31
+4:37:57 p. m.
+476.49
+4:37:58 p. m.
+477.52
+99.31
+99.31
+4:37:59 p. m.
+478.55
+99.31
+4:38:00 p. m.
+479.60
+99.31
+4:38:01 p. m.
+480.62
+4:38:02 p. m.
+481.66
+99.31
+99.31
+4:38:03 p. m.
+482.70
+99.25
+4:38:04 p. m.
+483.73
+99.25
+4:38:05 p. m.
+484.76
+99.25
+4:38:06 p. m.
+485.79
+99.25
+4:38:07 p. m.
+486.82
+99.25
+4:38:08 p. m.
+487.85
+99.19
+4:38:09 p. m.
+488.88
+99.19
+4:38:10 p. m.
+489.92
+99.19
+4:38:11 p. m.
+490.95
+99.19
+4:38:12 p. m.
+492.00
+99.19
+4:38:13 p. m.
+493.03
+99.19
+4:38:14 p. m.
+494.06
+4:38:15 p. m.
+495.10
+99.12
+99.12
+4:38:16 p. m.
+496.13
+99.12
+4:38:17 p.m.
+497.16
+99.12
+4:38:18 p.m.
+498.20
+4:38:20 p.m.
+499.23
+99.12
+99.06
+4:38:21 p. m.
+500.27
+99.06
+4:38:22 p. m.
+501.30
+99.06
+*Datos tomados el 25 de junio de 2021.
+102
+
+Tabla B.6
+Sexto grupo de datos experimentales de temperatura vs tiempo
+Hora
+11:15:00 a. m.
+11:15:01 a. m.
+11:15:02 a. m.
+11:15:03 a. m.
+11:15:04 a. m.
+11:15:05 a. m.
+11:15:06 a. m.
+11:15:07 a. m.
+11:15:08 a. m.
+11:15:09 a. m.
+11:15:10 a. m.
+11:15:11 a. m.
+11:15:12 a. m.
+11:15:13 a. m
+11:15:14 a. m.
+11:15:15 a. m.
+11:15:16 a. m.
+11:15:17 a. m.
+11:15:18 a. m
+11:15:19 a. m.
+11:15:20 a. m.
+11:15:21 a. m.
+11:15:22 a. m
+11:15:23 a. m.
+11:15:24 a. m.
+11:15:25 a. m.
+11:15:27 a. m.
+11:15:28 a. m.
+11:15:29 a. m.
+11:15:30 a. m.
+11:15:31 a. m.
+11:15:32 a. m.
+11:15:33 a. m.
+11:15:34 a. m.
+11:15:35 a. m.
+11:15:36 a. m.
+11:15:37 a. m.
+11:15:38 a. m
+11:15:39 a. m.
+11:15:40 a. m.
+11:15:41 a. m.
+11:15:42 a. m.
+11:15:43 a. m.
+11:15:44 a. m.
+11:15:45 a. m.
+11:15:46 a. m.
+11:15:47 a. m.
+11:15:48 a. m.
+Tiempo,
+Temperatura,
+[s]
+0.03
+19.12
+1.03
+19.19
+2.05
+19.19
+3.06
+4.07
+19.19
+19.12
+5.08
+19.19
+6.08
+19.12
+7.10
+8.11
+19.19
+9.11
+19.12
+10.13
+19.12
+19.12
+11.13
+19.12
+12.14
+19.12
+13.15
+19.12
+14.17
+19.12
+15.17
+19.12
+16.18
+19.19
+17.18
+19.12
+18.20
+19.12
+19.21
+19.12
+20.21
+19.12
+21.23
+19.12
+22.23
+19.12
+23.25
+19.19
+24.27
+19.19
+25.27
+19.31
+26.27
+19.44
+27.28
+19.56
+28.28
+19.69
+29.30
+19.87
+30.30
+20.00
+31.32
+20.25
+32.32
+20.44
+33.34
+20.62
+34.35
+20.81
+35.36
+21.00
+36.36
+21.19
+37.38
+21.37
+38.38
+21.62
+39.39
+21.94
+40.41
+22.19
+41.41
+22.44
+42.42
+22.69
+43.43
+22.87
+44.43
+23.06
+45.45
+23.25
+46.45
+23.44
+47.46
+23.62
+Hora
+11:15:49 a. m.
+11:15:50 a. m.
+11:15:51 a. m.
+11:15:52 a. m.
+11:15:53 a. m.
+11:15:54 a. m.
+11:15:55 a. m.
+11:15:56 a. m.
+11:15:57 a. m.
+11:15:58 a. m.
+11:15:59 a. m.
+11:16:00 a. m.
+11:16:01 a. m
+11:16:02 a. m.
+11:16:03 a. m.
+11:16:04 a. m.
+11:16:05 a. m.
+11:16:06 a. m.
+11:16:07 a. m
+11:16:08 a. m.
+11:16:09 a. m.
+11:16:10 a. m.
+11:16:11 a. m.
+11:16:12 a. m.
+11:16:13 a. m.
+11:16:14 a. m.
+11:16:15 a. m.
+11:16:16 a. m.
+11:16:17 a. m.
+11:16:18 a. m.
+11:16:19 a. m.
+11:16:20 a. m.
+11:16:21 a. m.
+11:16:22 a. m.
+11:16:23 a. m.
+11:16:24 a. m.
+11:16:25 a. m.
+11:16:26 a. m.
+11:16:27 a. m.
+11:16:28 a. m.
+11:16:29 a. m.
+11:16:30 a. m.
+11:16:31 a. m.
+11:16:32 a. m.
+11:16:33 a. m.
+11:16:34 a. m.
+11:16:35 a. m.
+11:16:36 a. m.
+Tiempo,
+[s]
+48.48
+49.48
+50.50
+51.50
+52.51
+53.53
+54.54
+55.54
+56.54
+57.56
+58.56
+59.58
+60.60
+61.59
+62.61
+63.62
+64.62
+65.63
+66.78
+67.66
+68.66
+69.67
+70.69
+71.69
+72.72
+73.72
+74.72
+75.73
+76.73
+77.77
+78.77
+79.77
+80.78
+81.791
+82.80
+83.80
+84.82
+85.83
+86.84
+87.85
+88.85
+89.87
+90.88
+91.88
+92.90
+93.91
+94.91
+95.93
+Temperatura,
+IºC]
+23.75
+23.94
+24.12
+24.37
+24.50
+24.75
+25.00
+25.19
+25.37
+25.56
+25.81
+26.06
+26.25
+26.50
+26.69
+26.87
+27.00
+27.25
+27.44
+27.75
+28.00
+28.44
+28.69
+28.87
+29.31
+29.56
+29.94
+30.19
+30.31
+30.56
+30.75
+30.94
+31.12
+31.37
+31.56
+31.75
+32.00
+32.31
+32.50
+32.69
+32.94
+33.13
+33.31
+33.56
+33.75
+103
+
+Hora
+11:16:37 a. m.
+11:16:38 a. m.
+11:16:39 a. m.
+11:16:40 a. m.
+11:16:41 a. m.
+11:16:42 a. m.
+11:16:43 a. m.
+11:16:44 a. m.
+11:16:45 a. m.
+11:16:46 a. m.
+11:16:47 a. m.
+11:16:48 a. m.
+11:16:49 a. m.
+11:16:50 a. m.
+11:16:51 a. m.
+11:16:52 a. m.
+11:16:53 a. m.
+11:16:54 a. m.
+11:16:55 a. m
+11:16:56 a. m.
+11:16:57 a. m.
+11:16:58 a. m.
+11:16:59 a. m.
+11:17:00 a. m.
+11:17:01 a. m.
+11:17:02 a. m.
+11:17:03 a. m.
+11:17:04 a. m.
+11:17:05 a. m.
+11:17:06 a. m.
+11:17:08 a. m.
+11:17:09 a. m.
+11:17:10 a. m.
+11:17:11 a. m.
+11:17:12 a. m.
+11:17:13 a. m.
+11:17:14 a. m.
+11:17:15 a. m.
+11:17:16 a. m.
+11:17:17 a. m.
+11:17:18 a. m.
+11:17:19 a. m
+11:17:20 a. m.
+11:17:21 a. m.
+11:17:22 a. m.
+11:17:23 a. m.
+11:17:24 a. m.
+11:17:25 a. m.
+11:17:26 a. m.
+11:17:27 a. m
+11:17:28 a. m.
+11:17:29 a. m.
+Tiempo, Temperatura,
+[s]
+96.95
+[°C]
+34.00
+97.95
+98.97
+34.13
+34.38
+99.97
+34.56
+100.98
+34.75
+101.99
+35.00
+103.00
+35.19
+104.02
+35.38
+105.03
+35.56
+106.03
+35.75
+107.05
+36.00
+108.06
+36.19
+109.06
+36.44
+110.08
+36.63
+111.09
+36.88
+112.11
+37.06
+113.12
+37.25
+114.12
+37.44
+115.13
+37.63
+116.15
+37.88
+117.15
+38.06
+118.16
+38.25
+119.18
+38.44
+120.20
+38.63
+121.20
+38.81
+122.21
+39.00
+123.23
+39.25
+124.25
+39.44
+125.25
+39.63
+126.26
+39.94
+127.27
+40.19
+128.28
+40.38
+129.30
+40.56
+130.30
+40.81
+131.31
+41.06
+132.34
+41.25
+133.34
+41.44
+134.35
+41.63
+135.37
+41.75
+136.38
+42.00
+137.38
+42.25
+138.40
+42.44
+139.41
+42.63
+140.43
+42.81
+141.45
+43.00
+142.45
+43.19
+143.46
+43.44
+144.48
+43.63
+145.49
+43.88
+146.50
+44.06
+147.52
+44.25
+148.53
+44.44
+Hora
+11:17:30 a. m.
+11:17:31 a. m.
+11:17:32 a. m.
+11:17:33 a. m.
+11:17:34 a. m.
+11:17:35 a. m.
+11:17:36 a. m.
+11:17:37 a. m.
+11:17:38 a. m.
+11:17:39 a. m.
+11:17:40 a. m.
+11:17:41 a. m.
+11:17:42 a. m.
+11:17:43 a. m.
+11:17:44 a. m.
+11:17:45 a. m.
+11:17:46 a. m.
+11:17:47 a. m.
+11:17:48 a. m.
+11:17:49 a. m.
+11:17:50 a. m.
+11:17:51 a. m.
+11:17:52 a. m.
+11:17:53 a. m.
+11:17:54 a. m.
+11:17:55 a. m.
+11:17:56 a. m.
+11:17:57 a. m.
+11:17:58 a. m
+11:17:59 a. m.
+11:18:00 a. m.
+11:18:01 a. m.
+11:18:02 a. m.
+11:18:03 a. m.
+11:18:04 a. m.
+11:18:05 a. m.
+11:18:06 a. m.
+11:18:07 a. m.
+11:18:08 a. m.
+11:18:09 a. m.
+11:18:10 a. m.
+11:18:11 a. m.
+11:18:12 a. m.
+11:18:13 a. m.
+11:18:14 a. m.
+11:18:15 a. m.
+11:18:16 a. m.
+11:18:17 a. m.
+11:18:18 a. m.
+11:18:19 a. m.
+11:18:20 a. m.
+11:18:21 a. m.
+104
+Tiempo,
+Temperatura,
+[s]
+(°C]
+149.54
+44.63
+150.55
+44.81
+151.55
+45.00
+152.57
+45.25
+153.59
+45.50
+154.60
+45.69
+155.62
+45.94
+156.63
+46.13
+157.64
+46.38
+158.66
+46.56
+159.67
+160.69
+46.75
+46.94
+161.69
+47.06
+162.70
+47.25
+163.72
+47.44
+164.74
+47.63
+165.75
+47.88
+166.75
+48.06
+167.78
+48.31
+168.79
+48.50
+169.80
+48.75
+170.82
+49.00
+171.83
+49.25
+172.85
+49.44
+173.86
+49.69
+174.88
+49.94
+175.88
+50.19
+176.89
+50.44
+177.92
+50.56
+178.93
+50.75
+179.95
+50.94
+180.96
+51.13
+181.97
+51.38
+182.99
+51.56
+184.00
+51.75
+185.01
+51.94
+186.03
+52.13
+187.04
+52.31
+188.06
+52.56
+189.08
+52.75
+190.08
+52.94
+191.10
+53.19
+192.13
+53.44
+193.13
+53.63
+194.15
+53.81
+195.16
+54.06
+196.18
+54.25
+197.20
+54.50
+198.21
+54.69
+199.23
+54.94
+200.24
+55.19
+201.26
+55.44
+
+Hora
+11:18:22 a. m.
+11:18:24 a. m.
+11:18:25 a. m.
+11:18:26 a. m.
+11:18:27 a. m.
+11:18:28 a. m.
+11:18:29 a. m.
+11:18:30 a. m.
+11:18:31 a. m.
+11:18:32 a. m.
+11:18:33 a. m.
+11:18:34 a. m.
+11:18:35 a. m.
+11:18:36 a. m.
+11:18:37 a. m.
+11:18:38 a. m.
+11:18:39 a. m.
+11:18:40 a. m.
+11:18:41 a. m.
+11:18:42 a. m.
+11:18:43 a. m.
+11:18:44 a. m.
+11:18:45 a. m.
+11:18:46 a. m.
+11:18:47 a. m.
+11:18:48 a. m.
+11:18:49 a. m.
+11:18:50 a. m.
+11:18:51 a. m.
+11:18:52 a. m.
+11:18:53 a. m.
+11:18:54 a. m.
+11:18:55 a. m.
+11:18:56 a. m.
+11:18:57 a. m.
+11:18:58 a. m.
+11:18:59 a. m.
+11:19:00 a. m.
+11:19:01 a. m.
+11:19:02 a. m.
+11:19:03 a. m.
+11:19:04 a. m.
+11:19:05 a. m.
+11:19:06 a. m.
+11:19:07 a. m.
+11:19:08 a. m.
+11:19:09 a. m.
+11:19:10 a. m.
+11:19:11 a. m.
+11:19:12 a. m.
+11:19:13 a. m.
+11:19:14 a. m.
+Tiempo, Temperatura,
+[s]
+[°C]
+202.27
+55.69
+203.28
+55.88
+204.29
+56.06
+205.31
+56.31
+206.33
+56.50
+207.34
+56.75
+208.36
+56.94
+209.38
+57.13
+210.39
+57.38
+211.41
+57.56
+212.44
+57.81
+213.44
+58.00
+214.47
+58.19
+215.48
+58.38
+216.50
+58.56
+217.50
+58.81
+218.52
+59.00
+219.55
+59.19
+220.56
+59.38
+221.57
+59.56
+222.59
+59.81
+223.61
+60.00
+224.62
+60.19
+225.65
+60.44
+226.67
+60.69
+227.68
+60.94
+228.70
+61.13
+229.71
+61.38
+230.73
+61.56
+231.75
+61.81
+232.76
+62.06
+233.78
+62.25
+234.81
+62.50
+235.82
+62.69
+236.84
+62.88
+237.86
+63.13
+238.87
+63.31
+239.89
+63.56
+240.91
+63.81
+241.93
+243.16
+64.00
+64.19
+243.97
+64.44
+244.98
+64.62
+246.00
+247.03
+64.87
+65.12
+248.04
+65.31
+249.06
+65.50
+250.07
+65.69
+251.10
+65.87
+252.11
+66.12
+253.14
+66.37
+254.16
+66.56
+Hora
+11:19:15 a. m.
+11:19:16 a. m.
+11:19:17 a. m.
+11:19:18 a. m.
+11:19:19 a. m.
+11:19:21 a. m.
+11:19:22 a. m.
+11:19:23 a. m.
+11:19:24 a. m.
+11:19:25 a. m.
+11:19:26 a. m.
+11:19:27 a. m.
+11:19:28 a. m.
+11:19:29 a. m.
+11:19:30 a. m.
+11:19:31 a. m.
+11:19:32 a. m.
+11:19:33 a. m.
+11:19:34 a. m.
+11:19:35 a. m.
+11:19:36 a. m.
+11:19:37 a. m.
+11:19:38 a. m.
+11:19:39 a. m.
+11:19:40 a. m.
+11:19:41 a. m.
+11:19:42 a. m.
+11:19:43 a. m.
+11:19:44 a. m.
+11:19:45 a. m.
+11:19:46 a. m.
+11:19:47 a. m.
+11:19:48 a. m.
+11:19:49 a. m.
+11:19:50 a. m.
+11:19:51 a. m.
+11:19:52 a. m.
+11:19:53 a. m.
+11:19:54 a. m.
+11:19:55 a. m.
+11:19:56 a. m.
+11:19:57 a. m.
+11:19:58 a. m.
+11:19:59 a. m.
+11:20:00 a. m.
+11:20:01 a. m.
+11:20:02 a. m.
+11:20:03 a. m.
+11:20:04 a. m.
+11:20:05 a. m.
+11:20:06 a. m.
+11:20:08 a. m.
+105
+Tiempo,
+Temperatura,
+[s]
+(°C]
+255.17
+66.75
+256.20
+257.21
+66.94
+67.12
+258.23
+67.37
+259.25
+67.56
+260.27
+67.69
+261.29
+67.94
+262.31
+68.19
+263.33
+68.44
+264.34
+68.69
+265.38
+68.94
+266.39
+69.12
+267.41
+69.31
+268.44
+69.50
+269.44
+69.75
+270.47
+69.94
+271.49
+70.12
+272.52
+70.37
+273.53
+70.50
+274.55
+70.69
+275.58
+70.87
+276.59
+71.12
+277.63
+71.31
+278.64
+71.50
+279.66
+71.81
+280.69
+72.06
+281.71
+72.25
+282.72
+72.56
+283.74
+72.75
+284.77
+73.00
+285.79
+73.19
+286.80
+73.44
+287.84
+73.62
+288.85
+73.81
+289.88
+74.00
+290.90
+74.19
+291.91
+74.37
+292.95
+293.96
+74.62
+74.81
+294.99
+75.06
+296.01
+75.31
+297.04
+75.50
+298.05
+75.75
+299.09
+75.94
+300.10
+76.19
+301.13
+76.37
+302.14
+303.17
+76.62
+76.87
+304.20
+77.00
+305.22
+77.25
+306.23
+77.44
+307.27
+77.62
+
+Hora
+11:20:09 a. m.
+11:20:10 a. m.
+11:20:11 a. m.
+11:20:12 a. m.
+11:20:13 a. m.
+11:20:14 a. m.
+11:20:15 a. m.
+11:20:16 a. m.
+11:20:17 a. m.
+11:20:18 a. m.
+11:20:19 a. m.
+11:20:20 a. m.
+11:20:21 a. m.
+11:20:22 a. m.
+11:20:23 a. m.
+11:20:24 a. m.
+11:20:25 a. m.
+11:20:26 a. m.
+11:20:27 a. m.
+11:20:28 a. m.
+11:20:29 a. m.
+11:20:30 a. m.
+11:20:31 a. m.
+11:20:32 a. m.
+11:20:33 a. m.
+11:20:34 a. m.
+11:20:35 a. m.
+11:20:36 a. m.
+11:20:37 a. m.
+11:20:38 a. m.
+11:20:39 a. m.
+11:20:40 a. m.
+11:20:41 a. m.
+11:20:42 a. m.
+11:20:43 a. m.
+11:20:44 a. m.
+11:20:45 a. m.
+11:20:46 a. m.
+11:20:47 a. m.
+11:20:49 a. m.
+11:20:50 a. m.
+11:20:51 a. m.
+11:20:52 a. m.
+11:20:53 a. m.
+11:20:54 a. m.
+11:20:55 a. m.
+11:20:56 a. m.
+11:20:57 a. m.
+11:20:58 a. m.
+11:20:59 a. m.
+11:21:00 a. m.
+11:21:01 a. m.
+Tiempo,
+Temperatura,
+[s]
+[°C]
+308.30
+309.31
+77.81
+78.06
+310.34
+78.31
+311.36
+78.44
+312.63
+78.69
+313.41
+78.94
+314.44
+79.12
+315.45
+79.37
+316.48
+79.56
+317.52
+79.81
+318.53
+80.06
+319.56
+80.31
+320.59
+80.50
+321.60
+322.63
+80.69
+323.66
+80.87
+81.06
+324.67
+81.31
+325.70
+81.50
+326.73
+81.75
+327.75
+82.00
+328.78
+82.25
+329.81
+82.44
+330.83
+82.62
+331.86
+82.87
+332.89
+83.06
+333.91
+83.25
+334.94
+83.50
+335.95
+83.75
+336.98
+83.94
+338.02
+84.19
+339.05
+84.37
+340.06
+84.62
+341.09
+84.81
+342.13
+85.00
+343.14
+85.25
+344.17
+85.44
+345.20
+85.69
+346.23
+347.26
+85.87
+86.06
+348.28
+86.31
+349.31
+86.56
+350.34
+351.37
+86.69
+86.94
+352.39
+87.12
+353.42
+87.31
+354.45
+87.56
+355.48
+87.81
+356.51
+88.00
+357.53
+88.19
+358.56
+359.59
+88.44
+88.69
+360.62
+88.87
+Hora
+11:21:02 a. m.
+11:21:03 a. m.
+11:21:04 a. m.
+11:21:05 a. m.
+11:21:06 a. m.
+11:21:07 a. m.
+11:21:08 a. m.
+11:21:09 a. m.
+11:21:10 a. m.
+11:21:11 a. m.
+11:21:12 a. m.
+11:21:13 a. m.
+11:21:14 a. m.
+11:21:15 a. m.
+11:21:16 a. m.
+11:21:17 a. m.
+11:21:18 a. m.
+11:21:19 a. m.
+11:21:20 a. m.
+11:21:21 a. m.
+11:21:22 a. m.
+11:21:24 a. m.
+11:21:25 a. m.
+11:21:26 a. m.
+11:21:27 a. m.
+11:21:28 a. m.
+11:21:29 a. m
+11:21:30 a. m.
+11:21:31 a. m.
+11:21:32 a. m.
+11:21:33 a. m.
+11:21:34 a. m.
+11:21:35 a. m.
+11:21:36 a. m.
+11:21:37 a. m.
+11:21:38 a. m.
+11:21:39 a. m.
+11:21:40 a. m.
+11:21:41 a. m.
+11:21:42 a. m.
+11:21:43 a. m.
+11:21:44 a. m
+11:21:45 a. m.
+11:21:46 a. m.
+11:21:47 a. m.
+11:21:48 a. m.
+11:21:49 a. m.
+11:21:50 a. m.
+11:21:51 a. m.
+11:21:52 a. m.
+11:21:53 a. m.
+11:21:54 a. m.
+Tiempo,
+Temperatura,
+[s]
+[°C]
+361.65
+362.67
+89.06
+89.31
+363.71
+364.73
+89.50
+89.75
+365.76
+89.94
+366.79
+90.12
+367.82
+368.86
+90.31
+90.56
+369.89
+90.81
+370.90
+91.00
+371.93
+91.25
+372.96
+91.44
+374.00
+91.69
+375.03
+91.94
+376.06
+92.19
+377.09
+92.37
+378.13
+92.56
+379.16
+92.81
+380.19
+93.06
+381.22
+93.31
+382.23
+93.50
+383.27
+93.75
+384.30
+94.00
+385.34
+94.25
+386.37
+94.44
+387.40
+94.69
+388.43
+94.94
+389.45
+95.19
+390.48
+95.37
+391.52
+95.62
+392.56
+95.81
+393.59
+96.00
+394.62
+96.25
+395.66
+96.44
+396.69
+96.69
+397.72
+96.87
+398.75
+399.78
+97.06
+97.25
+400.81
+97.44
+401.84
+97.62
+402.88
+97.81
+403.91
+98.00
+404.94
+98.12
+405.97
+98.31
+407.02
+98.44
+408.05
+98.56
+409.08
+98.69
+410.10
+98.75
+411.15
+98.81
+412.18
+98.94
+413.21
+99.00
+414.24
+99.06
+106
+
+Hora
+11:21:56 a. m.
+11:21:57 a. m.
+11:21:58 a. m.
+11:21:59 a. m
+11:22:00 a. m.
+11:22:01 a. m.
+11:22:02 a. m.
+11:22:03 a. m.
+11:22:04 a. m.
+11:22:05 a. m.
+11:22:06 a. m.
+11:22:07 a. m.
+11:22:08 a. m.
+11:22:09 a. m.
+11:22:10 a. m.
+11:22:11 a. m.
+11:22:12 a. m.
+11:22:13 a. m.
+11:22:14 a. m
+11:22:15 a. m.
+11:22:16 a. m.
+11:22:17 a. m.
+11:22:18 a. m.
+11:22:19 a. m.
+11:22:20 a. m.
+11:22:21 a. m.
+11:22:22 a. m.
+11:22:23 a. m.
+11:22:24 a. m.
+11:22:25 a. m.
+11:22:27 a. m.
+11:22:28 a. m
+11:22:29 a. m.
+11:22:30 a. m.
+11:22:31 a. m.
+11:22:32 a. m.
+11:22:33 a. m.
+11:22:34 a. m.
+11:22:35 a. m.
+11:22:36 a. m.
+11:22:37 a.m.
+11:22:38 a. m.
+Temperatura,
+[°C]
+99.12
+99.19
+99.19
+99.25
+99.31
+99.31
+99.31
+99.37
+99.44
+99.44
+99.44
+99.50
+99.50
+99.56
+99.56
+99.56
+99.62
+99.62
+99.62
+99.62
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.75
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.69
+99.62
+Hora
+11:22:39 a. m.
+11:22:40 a. m.
+11:22:41 a. m.
+11:22:42 a. m.
+11:22:43 a. m.
+11:22:44 a. m.
+11:22:45 a. m.
+11:22:46 a. m.
+11:22:47 a. m.
+11:22:48 a. m.
+11:22:49 a. m.
+11:22:50 a. m.
+11:22:51 a. m.
+11:22:53 a. m.
+11:22:53 a. m.
+11:22:54 a. m.
+11:22:55 a. m.
+11:22:56 a. m.
+11:22:58 a. m.
+11:22:59 a. m.
+11:23:00 a. m.
+11:23:01 a. m.
+11:23:02 a. m.
+11:23:03 a. m.
+11:23:04 a. m.
+11:23:05 a. m.
+11:23:06 a. m.
+11:23:07 a. m.
+11:23:08 a. m.
+11:23:09 a. m.
+11:23:10 a. m.
+11:23:11 a. m.
+11:23:12 a. m.
+Tiempo,
+[s]
+458.68
+459.73
+460.75
+461.79
+462.83
+463.86
+464.89
+465.93
+466.96
+467.99
+469.02
+470.07
+471.10
+472.33
+473.17
+474.19
+475.22
+476.27
+477.30
+478.34
+479.37
+480.40
+481.43
+482.46
+483.49
+484.53
+485.56
+486.59
+487.64
+488.67
+489.70
+490.73
+491.76
+11:23:13 a. m.
+11:23:14 a. m.
+11:23:15 a. m.
+11:23:16 a.m.
+11:23:17 a.m.
+494.86
+496.94
+11:23:18 a. m.
+11:23:19 a. m.
+11:23:20 a. m.
+500.03
+11:23:21 a. m.
+501.06
+'Datos tomados el 27 de junio de 2021.
+107
+
+Anexo R.R. N° 384-2018/UNT Pág. 3 de 5
+RECTORADO
+N°
+UNIVERSIDAD NACIONAL DE TRUJILLO
+UNT
+UNIVERSIDAD NACIONAL DE TRUJILLO
+CARTA DE AUTORIZACION DE PUBLICACION DE TRABAJO DE INVESTIGACION EN REPOSITORIO DIGITAL RENATI - SUNEDU
+Trujillo, 29 de noviembre de 2021
+Los AUTORES suscritos del INFORME FINAL DE INVESTIGACION CIENTIFICA
+Titulado: Modelado y simulación de un calentador de agua eléctrico de temperatura variable basado en
+un controlador proporcional integral derivativo.
+AUTORIZAMOS SU PUBLICACION EN EL REPOSITORIO DIGITAL INSTITUCIONAL, REPOSITORIO RENATI -
+SUNEDU, ALICIA - CONCYTEC, CON EL SIGUIENTE TIPO DE ACCESO:
+A. Acceso abierto
+B. Acceso restringido (datos del autor y resumen del trabajo)
+C. No autorizo su Publicación [
+Si
+eligió la opción restringida
+No autoriza
+su
+publicación
+sirvase
+justificar
+ESTUDIANTES DE PREGRADO: TRABAJO DE INVESTIGACION
+ESTUDIANTES DE POSTGRADO: TESIS MAESTRIA
+DOCENTES: INFORME DE INVESTIGACION
+Equipo investigador integrado por:
+TESIS
+TESIS DOCTORADO
+OTROS
+APELLIDOS Y NOMBRES
+FACULTAD
+1
+Uceda Pérez, Juan Manuel
+CONDICION (NOMBRADO,
+CONTRATADO, EMERITO,
+estudiante, OTROS)
+Estudiante (Bachiller)
+CODIGO DOCENTE
+Número Matrícula del
+Estudiante
+1451600116
+Autor
+Coautor
+Asesor
+Autor
+2
+Loyola Carranza, Wilber Alamiro
+Ing.
+Química
+Ing.
+Química
+Nombrado
+2636
+Asesor
+FIRMA
+DNI: 74041732
+FIRMA
+DNI: 17805579
+FIRMA
+DNI:
+FIRMA
+DNI:
+Este formato debe ser llenado, firmado, adjuntado en el informe de tesis y/o trabajo de investigación.
+Jr. Diego de Almagro # 344 - T. 051 - 044 - 205513/ Mesa de Partes 044 - 209020
+E-mail: rectorado@unitru.edu.pe
+www.unitru.edu.pe
+
+1
+2
+Anexo R.R. N° 384-2018/UNT Pág. 3 de 5
+RECTORADO
+UNIVERSIDAD NACIONAL DE TRUJILLO
+UNT
+UNIVERSIDAD NACIONAL DE TRUJILLO
+DECLARACION JURADA
+LOs AUTORES suscritos en el presente documento DECLARAMOS BAJO JURAMENTO que somos los
+responsables legales de la calidad y originalidad del contenido del Proyecto de Investigación Científica, así
+como del informe de la Investigación Científica realizado.
+TITULO: Modelado y simulación de un calentador de agua eléctrico de temperatura variable basado en un
+controlador proporcional integral derivativo.
+PROYECTO DE INVESTIGACION CIENTIFICA
+DE TRABAJO DE INVESTIGACIÓN
+(PREGRADO)
+PROYECTO DE TESIS PREGRADO
+PROYECTO DE TESIS MAESTRIA
+PROYECTO DE TESIS DOCTORADO
+( )
+()
+INFORME FINAL DE INVESTIGACIÓN CIENTÍFICA PROY.
+TRABAJO DE INVESTIGACIÓN (PREGRADO)
+TESIS DE PREGRADO
+TESIS MAESTRIA
+TESIS DOCTORADO
+Equipo investigador integrado por:
+()
+(X )
+( )
+)
+APELLIDOS Y NOMBRES
+FACULTAD
+DEP.
+ACADEMICO
+CATEGORÍA
+DOCENTE
+Asesor
+CODIGO
+DOCENTE asesor
+Número
+Matrícula del
+Estudiante
+Autor
+Coautor
+Asesor
+Uceda Pérez, Juan Manuel
+Loyola Carranza, Wilber Alamiro
+Ing.
+Química
+Ing.
+Química
+Ing. Química
+1451600116
+Autor
+Ing. Química
+Principal D.E.
+2636
+Asesor
+Trujillo, 29 de noviembre del 2021.
+FIRMA
+FIRMA
+DNI: 74041732
+DNI: 17805579
+Este formato debe ser llenado, firmado, adjuntado al final del documento del PIC, del informe de tesis.
+Jr. Diego de Almagro # 344 - T. 051 - 044 - 205513/ Mesa de Partes 044 - 209020
+E-mail: rectorado@unitru.edu.pe
+www.unitru.edu.pe

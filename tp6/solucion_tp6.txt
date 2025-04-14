@@ -1,0 +1,88 @@
+TP6: x segundos después de iniciar el experimento y durante "y" segundos llega un frente frío
+que hace descender la temperatura externa z grados. Rehacer el gráfico de temperaturas.
+La probabilidad de que llegue este frente frío durante la realización del experimento en cada tick
+es de 1/300.
+En la siguiente curva podemos observar como se eleva la temperatura cuando entran distintos
+tipos de frentes fríos, que hacen que se ralentice el calentamiento del agua.
+Curva de calentamiento del agua con pérdidas de calor y caídas de temperatura
+- Temperatura del agua (°C)
+--- Temperatura ambiente
+40 -
+35 -
+Temperatura (°C)
+30
+25 -
+20 -
+15
+100
+200
+Tiempo (5)
+300
+400
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy. integrate import odeint
+# Constantes
+R = 0.138 # En Ohms
+V = 12
+P = (V*V) /R
+m = 1500
+# Potencia suministrada
+# Masa de agua (g)
+(W)
+
+= 4.18
+# Capacidad calorífica del agua (J/g°C)
+k_ambiente = 1.053
+# Coeficiente de transferencia de calor (W/K)
+Ta = 15
+# Temperatura ambiente (°C)
+TO = 15
+# Temperatura inicial del agua (°C)
+tiempo_ final = 420 # segundos
+# Variables para la caída de temperatura
+probabilidad_ caida = 3 / 100
+duracion_caida = 5
+caida_temperatura = 20
+# Definir la ecuación diferencial para el cambio de temperatura del agua
+def dIdt (T, t, Ta_actual):
+k = k _ambiente * (I - Ta_actual)
+dTdt = P/ (m*c) - (k* (T - Ta_actual)) / (m*c)
+if T >= 1000:
+didt = 0
+# Detener el calentamiento si se alcanza la temperatura
+máxima
+return didt
+# Generar valores de tiempo
+t_values = np.arange (0, tiempo_final + 1, 1)
+# Inicializar la temperatura
+T_values = [T0]
+
+Ta_actual = Ta
+tiempo_caida = 0
+# Simular la dinámica de la temperatura
+for t in t_ values [1:]:
+# Verificar si se debe iniciar una caída de temperatura
+if np. random. rand () < probabilidad_caida and tiempo_caida == 0:
+tiempo_caida = duracion_caida
+Ta _actual -= caida_temperatura
+# Actualizar la temperatura ambiente si la caída está en efecto
+if tiempo_caida › 0:
+tiempo_caida -= 1
+if tiempo_caida == 0:
+Ta_actual = Ta
+# Restaurar la temperatura ambiente original
+# Resolver la ecuación diferencial para el siguiente paso
+T = odeint (dIdt, T_values [-1], [t-1, t], args=(Ta_actual, )) [-1, 01
+T_values. append (T)
+# Graficar la curva de calentamiento
+plt.plot(t_values, T_values, label='Temperatura del agua (°C) ')
+plt. xlabel ('Tiempo (s) ')
+plt. ylabel ( 'Temperatura (°C) ')
+
+plt.title ('Curva de calentamiento del agua con pérdidas de calor y caídas
+de temperatura')
+plt.axhline (Ta, color='r', linestyle='--', label='Temperatura ambiente')
+plt. legend ()
+plt. grid (True)
+plt. show ()

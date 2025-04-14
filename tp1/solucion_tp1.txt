@@ -1,0 +1,80 @@
+TP1: Consiste en que cada uno de Ustedes establezca los parámetros requeridos para simular
+un calentador de agua eléctrico, de acuerdo a sus preferencias.
+La idea que tenía para el calentador de agua es que sea un termito que pueda enchufar en el
+auto y calentar agua para los mates en los viajes, debido a esto los parámetros que tendré
+serán:
+1. Material (aislante) a emplear: fibra de vidrio
+2. Forma y capacidad del recipiente: cilíndrica (con un diámetro de 9 cm y 23,5 cm de alto), 1,5
+litros.
+3. Propósito del calentador: agua para el mate.
+4. Fluido a calentar: agua.
+5. Tiempo en el que se desea alcanzar esa temperatura: 7 minutos
+6. Tensión de alimentación del dispositivo: 12 Volts.
+7. Para este diseño, qué valor de Resistencia Eléctrica debemos emplear? 0, 138 ohms
+Para calcular la resistencia hicimos:
+Primero, calculemos la cantidad de calor requerida:
+0 = тсДТ
+Donde:
+m = 1,5 kg (la masa de agua, equivalente a 1,5 litros).
+c es el calor específico del agua, que es aproximadamente 4180 J/kg°C.
+ДТ = 85 - 15 = 70°C (la diferencia de temperatura deseada).
+Sustituyendo los valores conocidos:
+0 = 1,5 x 4180 x 70
+0 = 439830]
+Ahora, calculemos la potencia necesaria:
+Donde t = 7 min = 420 segundos
+P = 439830
+420
+P = 1047,93 vatios
+Finalmente, calculemos la resistencia eléctrica necesaria usando la ley de Ohm:
+R =-
+P
+Donde V = 12 V (tensión de alimentación).
+R =-
+1047.93
+R ~ 0,138 S
+8. Cuál será la temperatura inicial del fluido al conectarlo al calentador? 15°C
+9. Cuál será la temperatura ambiente al iniciar el proceso? 15°C
+10. Calcular el aumento de temperatura del fluido luego de 1 segundo de conectar la
+alimentación, suponiendo que no existe pérdida de calor. 15, 1664°C
+Para calcularlo hacemos:
+Primero, calculamos la potencia suministrada al calentador usando la ley de Ohm:
+P =V
+Donde: V=12 V (tensión de alimentación)
+R=0.138 ohmios (resistencia eléctrica)
+Entonces,
+
+P =122
+0,138
+P ~ 1047,93 vatios
+La cantidad de calor (Q) transferida al agua en 1 segundo sería igual a la potencia suministrada,
+ya que la potencia es la energía transferida por unidad de tiempo:
+Q = Pxt = 1043,48 x 1
+Q = 1043,48J
+Ahora, para encontrar el cambio en la temperatura del agua, usamos la fórmula del calor
+específico:
+Q = mcAT
+Donde:
+m = 1,5 kg (la masa de agua)
+c = 4180J/kg°C (calor específico del agua)
+AT es el cambio en la temperatura.
+Sustituyendo los valores conocidos:
+1043, 48 = 1,5 х 1000 х 4, 18 х ДТ
+Resolviendo para
+1043.48
+ДТ = 1,5 x 1000 × 4,18
+1043,48
+6270
+ДТ ~ 0,1664°С
+Entonces, la temperatura del agua después de 1 segundo de ser conectada a la tensión sería
+aproximadamente 15°C + 0,1664°C, que es aproximadamente igual a 15, 1664°C.
+La idea que tenía para el calentador de agua es que sea un termito que pueda enchufar en el
+auto y calentar agua para los mates en los viajes. Debido a que lo voy a usar en el auto el
+recipiente va a tener un diámetro de 9 cm y una altura de 23,5 cm, para poder apoyarlo en el
+apoya vasos del auto, y el material va hacer fibra de carbono, debido a su alta resistencia. Con
+una capacidad de 1,5 litros que es la medida de agua de la mayoría de los termos. Va a
+funcionar a una tensión de 12V, siendo esta la tensión de la batería del auto. El termo tiene que
+calentar el agua de 15°C a 85°C en 7 minutos, para poder lograrlo necesita una resistencia de
+0,1385, luego de 1 segundo de enchufada a la alimentación su temperatura, sin pérdidas de
+calor, será 15, 1664°C, podemos ver en el gráfico como aumenta la temperatura sin pérdidas de
+calor.

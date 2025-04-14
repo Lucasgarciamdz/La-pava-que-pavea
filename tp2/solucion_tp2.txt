@@ -1,0 +1,58 @@
+80 -
+70 -
+560 -
+atura
+50 -
+40 -
+30 -
+20 -
+0
+TP2: Graficar la temperatura en función del tiempo sin pérdidas de calor.
+Con una separación de 5 segundos
+Calentamiento del Agua para el Mate
+Calentamiento del Agua para el Mate
+80-
+70 -
+060-
+Temperatura
+50 -
+40 -
+30 -
+20-
+100
+200
+Tiempo (segundos)
+300
+400
+100
+Tempo (segundos)
+300
+400
+El código, en python, para lograr el gráfico es el siguiente:
+import matplotlib.pyplot as plt
+# Parámetros iniciales
+temperatura _inicial = 15 # Temperatura inicial del agua en °C
+temperatura_ambiente = 15 # Temperatura ambiente en °C
+potencia = 1043.48 # Potencia del calentador en Watts
+resistencia = 0.138 # Resistencia del calentador en ohmios
+capacidad _calorifica = 4.186 # Capacidad calorífica del agua en J/g°C
+masa_agua = 1500 # Masa del agua en gramos (1.5 litro de agua)
+tiempo_total = 420 # Tiempo total en segundos
+# Lista para almacenar las temperaturas
+temperaturas = [temperatura_inicial]
+# Bucle para calcular la temperatura en cada segundo
+for segundo in range(5, tiempo_total + 1, 5):
+delta_T = potencia / (masa_agua * capacidad_calorifica)
+
+nueva_temperatura = temperaturas[-1] + delta_T * 5 # Multiplicamos delta_T por 5 para tener
+el cambio en 5 segundos
+temperaturas.append(nueva_temperatura)
+# Imprimir las temperaturas
+for i, temp in enumerate(temperaturas):
+print(f"Segundo {i * 5}: {temp: 2f}°C")
+# Crear la gráfica de dispersión
+pit.scatter (range(0, tiempo_total + 1, 5), temperaturas, marker= o')
+plt.xlabel('Tiempo (segundos)')
+plt. ylabel('Temperatura (°C)')
+plt.title('Calentamiento del Agua para el Mate')
+plt.show()

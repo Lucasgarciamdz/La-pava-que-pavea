@@ -1,0 +1,13 @@
+ТР3: Calcular la pérdida de calor de nuestro dispositivo, según las especificaciones de diseño. A
+modo de referencia, les comenté que un dispositivo de telgopor, de 1 litro de capacidad, y de
+espesor 1mm, suele presentar pérdidas aproximadas de 2,1 Watts/grado Kelvin.
+Pérdida de calor = CT x Sup
+Superficie lateral: 2mrh
+Superficie de las caras: Tr
+Sup = 2torh + 2mr
+= 2т x 4,5 ст x 23,5 ст + 2пx (4,5 ст)? = 791,68 ст' = 0,079 m'
+Coeficiente Térmico de la fibra de vidrio CT: 0,04 W
+Espesor: 3 mm = 0,003 m
+0,04 W
+Pérdida de calor = CT x Sup = .
+鉴x009m2- 1,053兴
