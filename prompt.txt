@@ -1,0 +1,244 @@
+El archivo calentador_electrico_tesis.txt contiene mucha informacion valiosa para basarse en el. ya alguien evaluo todos los casos posibles y creo el mejor. asi que utilizalo la mayoria de veces
+Estoy intentando crear una solución para calentar el agua, por ejemplo, que se llama NICROM, por Nickel y Chromium. Y bueno, quiero que completes el trabajo práctico en formato Mardom, y luego me des una pequeña simulación en Python, que me permita demostrar lo que acabo de hacer, o sea, que tengan las ecuaciones y las cuentas básicas. La función es calentar, llegar a una temperatura buscada, que puede ser, no sé, 80 grados para el mate, la capacidad, no sé, capacidad para 750 litros de agua, no, perdón, 750 mili... medio litro, por ahí, o tres cuartos de litro. Hay que elegir un material, hay que calcular el tiempo en el que quiero que se caliente, la resistencia, la entrada preferiblemente de 12 volts, la temperatura inicial del fluido, y la temperatura ambiente, también la intensidad, y bueno, todo eso. Además, te envío un paper donde ya se evaluó la cuestión, y alguien ya ha creado un calentador de agua eficiente. El mío tendría que estar basado en eso, pero ser más o menos nuevo, no tiene que ser uno a uno, pero si podés basarte en lo que dice el paper, como para buscar información, estaría buenísimo. Así que dame el Mardom con las respuestas del trabajo práctico, y la simulación en Python para hacer este ejercicio. 
+
+La idea es sencilla, es resolver el trabajo práctico. El trabajo práctico va a tener nueve partes, existen nueve carpetas para cada una de las partes, y la idea es que sea incremental, es decir, cada carpeta contiene un pdf y una solución del tp1. Ese pdf, esa solución, es una aproximación que hizo otra persona, en la que te podés basar si querés para resolver el tp1. Y después está la consigna, que tiene el texto de lo que hay que hacer, y hay un archivo que se llama resolución.md. Todo esto se repite en todas las carpetas. En el archivo resolución.md deberá escribir el markdown que resuelve realmente el trabajo práctico, es decir, los títulos, el código necesario, la información, la tabla resumida, lo que sea que pida en la consigna, debe estar bien escrito en el markdown de resolución, basándote, si quieres, en el pdf o en el txt, que se llaman solución tp1.txt y tp1.pdf. Si no puedes leer el pdf, no hay problema, usa el txt. Solo que el pdf tiene imágenes y cosas que por ahí no se tradujeron en el txt. Entonces, hay que ir haciendo eso por cada una de las carpetas. Además, existe un archivo de Jupyter Notebook que se llama simulación. En ese, si la consigna lo requiere, se deben hacer las simulaciones necesarias para la entrega de ese trabajo práctico. La idea es ir escribiendo todo eso, que se vaya iterando. Es decir, si en el tp1 hice tal cosa, en el tp2 tengo que hacer la simulación del tp1, simularlo en el trabajo práctico 1 y el tp2 que contenga lo del trabajo práctico 1 o que haga referencia y continúe con esas simulaciones. La idea es que sea lo más ordenado posible. Esto es intentar hacer una paga eléctrica o algo que caliente agua. Es una investigación o un desarrollo estocástico. A medida que vamos avanzando, se van a tener que cambiar variables, crear más curvas, crear más gráficos. Pero debería ser todo sobre el mismo código Python, bien ordenado. Tienes que ir creando. Leer la consigna, basarte en la solución tp1.txt y tp1.pdf, escribir la resolución y realizar las simulaciones necesarias para la entrega. Y si no las pide, si no tiene una simulación en concreto, está bueno, aunque sea dejar plasmado lo que se hizo en la resolución en un Jupyter Notebook con algún gráfico o algo en Python que se vea como que realice un trabajo.
+
+aqui tienes una primera aproximacion:
+Okay, ¡vamos a diseñar y simular tu calentador de agua! Basándonos en tus requisitos y preferencias, prepararemos el Trabajo Práctico 1 en formato Markdown y luego una simulación simple en Python.
+
+Trabajo Práctico 1: Diseño de Calentador de Agua Eléctrico
+
+Objetivo: Establecer los parámetros de diseño y realizar cálculos básicos para un calentador de agua eléctrico según las preferencias del usuario.
+
+1. Parámetros de Diseño Seleccionados:
+
+Material (Aislante y Recipiente):
+
+Recipiente: Acero inoxidable (común en hervidores, buena durabilidad).
+
+Aislante: Para los cálculos iniciales (especialmente el de 1 segundo), supondremos un aislamiento perfecto (sin pérdida de calor). En un diseño real, se buscaría un doble pared con vacío o un buen aislante térmico como espuma de poliuretano para minimizar pérdidas.
+
+Forma y Capacidad del Recipiente:
+
+Forma: Cilíndrica (forma común y simple).
+
+Capacidad: 750 cc (0.75 Litros). Dentro del rango sugerido y práctico para un termo o mate.
+
+Propósito del Calentador:
+
+Calentar agua para mate.
+
+Temperatura objetivo (T<sub>final</sub>): 85 °C.
+
+Fluido a Calentar:
+
+Agua.
+
+Tiempo Deseado (Referencia):
+
+Aunque no es estrictamente necesario para el cálculo de 1 segundo, apuntaremos a un tiempo razonable como referencia, por ejemplo, 3 minutos (180 segundos). Nota: La elección de 12V limitará la potencia y extenderá este tiempo, como veremos en los cálculos.
+
+Tensión de Alimentación (V):
+
+12 Volts DC. Preferencia indicada por el usuario, común para aplicaciones portátiles o de bajo voltaje.
+
+Temperatura Inicial del Fluido (T<sub>inicial</sub>):
+
+20 °C. Temperatura ambiente típica para el agua.
+
+Temperatura Ambiente (T<sub>ambiente</sub>):
+
+20 °C. Relevante para cálculos de pérdida de calor (que ignoraremos inicialmente).
+
+2. Cálculos:
+
+a) Cálculo de la Resistencia Eléctrica (R):
+
+Necesitamos definir una potencia (P) razonable para 12V. Una corriente alta (ej. 10A) da P = V * I = 12V * 10A = 120W. Esto parece un punto de partida razonable para 12V, aunque bajo para calentar rápido 0.75L.
+
+Usando la fórmula P = V² / R, podemos calcular R:
+
+R = V² / P = (12 V)² / 120 W = 144 V² / 120 W = 1.2 Ω
+
+Verificación de corriente (I): I = V / R = 12 V / 1.2 Ω = 10 A.
+
+b) Cálculo de Masa del Agua (m):
+
+Densidad del agua (ρ) ≈ 1 kg/L .
+
+Volumen (Vol) = 0.75 L.
+
+Masa (m) = ρ * Vol = 1 kg/L * 0.75 L = 0.75 kg.
+
+c) Cálculo de Energía Suministrada en 1 segundo (Q<sub>1s</sub>):
+
+Potencia (P) = 120 W (Joules/segundo).
+
+Tiempo (t) = 1 s.
+
+Q<sub>1s</sub> = P * t = 120 W * 1 s = 120 Joules.
+
+d) Cálculo del Aumento de Temperatura en 1 segundo (ΔT<sub>1s</sub>):
+
+Usamos la fórmula Q = m * c * ΔT, donde 'c' es el calor específico del agua.
+
+Calor específico del agua (c) ≈ 4186 J/(kg·°C).
+
+ΔT<sub>1s</sub> = Q<sub>1s</sub> / (m * c)
+
+ΔT<sub>1s</sub> = 120 J / (0.75 kg * 4186 J/(kg·°C))
+
+ΔT<sub>1s</sub> = 120 J / 3139.5 J/°C
+
+ΔT<sub>1s</sub> ≈ 0.0382 °C
+
+3. Resumen de Parámetros Calculados:
+
+Resistencia Eléctrica (R): 1.2 Ω
+
+Corriente (I): 10 A
+
+Potencia (P): 120 W
+
+Aumento de Temperatura en 1 segundo (sin pérdidas): ≈ 0.0382 °C
+
+4. Notas Adicionales:
+
+La potencia de 120W es relativamente baja para calentar 0.75L de agua a 85°C rápidamente. El tiempo real será significativamente mayor a los 3 minutos de referencia iniciales si solo se dispone de 12V y se limita la corriente a 10A.
+
+Para calentar más rápido a 12V, se necesitaría una resistencia menor para aumentar la potencia (y la corriente, lo que puede ser un desafío para la fuente de alimentación).
+
+Los cálculos asumen 100% de eficiencia en la transferencia de calor de la resistencia al agua y 0% de pérdida de calor al ambiente, lo cual es una idealización.
+
+Simulación en Python
+
+Esta simulación básica mostrará cómo aumenta la temperatura del agua con el tiempo, usando los parámetros definidos y asumiendo un aislamiento perfecto.
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# --- Parámetros Definidos ---
+VOLTAJE = 12.0  # Volts (V)
+RESISTENCIA = 1.2  # Ohms (Ω) - Calculada para P=120W
+VOLUMEN_AGUA = 0.75  # Litros (L)
+DENSIDAD_AGUA = 1.0  # kg/L
+CALOR_ESPECIFICO_AGUA = 4186  # J/(kg*°C)
+TEMP_INICIAL = 20.0  # °C
+TEMP_AMBIENTE = 20.0  # °C (No usada en esta simulación sin pérdidas)
+TEMP_OBJETIVO = 85.0  # °C (Para el mate)
+
+# --- Cálculos Derivados ---
+POTENCIA = VOLTAJE**2 / RESISTENCIA  # Watts (W) o Joules/segundo (J/s)
+MASA_AGUA = VOLUMEN_AGUA * DENSIDAD_AGUA  # kg
+ENERGIA_TOTAL_NECESARIA = MASA_AGUA * CALOR_ESPECIFICO_AGUA * (TEMP_OBJETIVO - TEMP_INICIAL) # Joules
+
+# --- Parámetros de Simulación ---
+tiempo_total_simulacion = 30 * 60 # Segundos (ej. 30 minutos para asegurar que llegue)
+dt = 1.0  # Paso de tiempo en segundos (s) - Pequeño para mejor precisión
+numero_pasos = int(tiempo_total_simulacion / dt)
+
+# --- Inicialización ---
+tiempo = np.zeros(numero_pasos + 1)
+temperatura = np.zeros(numero_pasos + 1)
+temperatura[0] = TEMP_INICIAL
+
+# --- Simulación (Asumiendo sin pérdidas de calor) ---
+energia_suministrada_total = 0.0
+tiempo_objetivo_alcanzado = -1 # Para registrar cuándo se alcanza la T objetivo
+
+for i in range(numero_pasos):
+    # Calcular energía añadida en este paso de tiempo
+    energia_paso = POTENCIA * dt
+
+    # Calcular aumento de temperatura
+    delta_T = energia_paso / (MASA_AGUA * CALOR_ESPECIFICO_AGUA)
+
+    # Actualizar temperatura y tiempo
+    temperatura[i+1] = temperatura[i] + delta_T
+    tiempo[i+1] = tiempo[i] + dt
+    energia_suministrada_total += energia_paso
+
+    # Detener si se alcanza o supera la temperatura objetivo
+    if temperatura[i+1] >= TEMP_OBJETIVO and tiempo_objetivo_alcanzado < 0:
+        tiempo_objetivo_alcanzado = tiempo[i+1]
+        # Opcional: recortar arrays si quieres detener la simulación aquí
+        # tiempo = tiempo[:i+2]
+        # temperatura = temperatura[:i+2]
+        # break # Descomentar para detener la simulación al alcanzar T objetivo
+
+    # Detener si la temperatura se dispara (error check)
+    if temperatura[i+1] > 150:
+      print(f"Advertencia: Temperatura > 150°C en t={tiempo[i+1]:.1f}s. Deteniendo.")
+      tiempo = tiempo[:i+2]
+      temperatura = temperatura[:i+2]
+      break
+
+
+# --- Resultados ---
+print(f"--- Parámetros del Calentador ---")
+print(f"Voltaje: {VOLTAJE} V")
+print(f"Resistencia: {RESISTENCIA} Ω")
+print(f"Potencia Calculada: {POTENCIA:.2f} W")
+print(f"Corriente (I = V/R): {VOLTAJE/RESISTENCIA:.2f} A")
+print(f"Volumen de Agua: {VOLUMEN_AGUA} L ({MASA_AGUA} kg)")
+print(f"Temperatura Inicial: {TEMP_INICIAL} °C")
+print(f"Temperatura Objetivo: {TEMP_OBJETIVO} °C")
+print(f"\n--- Resultados de la Simulación (Ideal sin pérdidas) ---")
+delta_T_1s = POTENCIA * 1.0 / (MASA_AGUA * CALOR_ESPECIFICO_AGUA)
+print(f"Aumento de Temperatura en el primer segundo: {delta_T_1s:.4f} °C")
+
+if tiempo_objetivo_alcanzado > 0:
+     print(f"Tiempo estimado para alcanzar {TEMP_OBJETIVO}°C: {tiempo_objetivo_alcanzado:.1f} s (~{tiempo_objetivo_alcanzado/60:.1f} minutos)")
+     # Verificar energía
+     energia_calculada_sim = MASA_AGUA * CALOR_ESPECIFICO_AGUA * (temperatura[tiempo == tiempo_objetivo_alcanzado][0] - TEMP_INICIAL)
+     energia_suministrada_sim = POTENCIA * tiempo_objetivo_alcanzado
+     print(f"Energía necesaria teórica: {ENERGIA_TOTAL_NECESARIA:.0f} J")
+     print(f"Energía suministrada en simulación hasta T objetivo: {energia_suministrada_sim:.0f} J")
+
+else:
+     print(f"La temperatura objetivo de {TEMP_OBJETIVO}°C no se alcanzó en {tiempo_total_simulacion/60:.1f} minutos.")
+     print(f"Temperatura máxima alcanzada: {np.max(temperatura):.2f} °C")
+
+# --- Gráfico ---
+plt.figure(figsize=(10, 6))
+plt.plot(tiempo / 60, temperatura, label='Temperatura del Agua') # Tiempo en minutos
+plt.axhline(y=TEMP_OBJETIVO, color='r', linestyle='--', label=f'Objetivo ({TEMP_OBJETIVO}°C)')
+plt.xlabel('Tiempo (minutos)')
+plt.ylabel('Temperatura (°C)')
+plt.title('Simulación de Calentamiento de Agua (Ideal)')
+plt.legend()
+plt.grid(True)
+# Ajustar límites si es necesario
+if tiempo_objetivo_alcanzado > 0 :
+  plt.xlim(0, (tiempo_objetivo_alcanzado*1.1)/60) # Mostrar un poco más allá del objetivo
+else:
+  plt.xlim(0, tiempo_total_simulacion/60)
+plt.ylim(TEMP_INICIAL - 5, TEMP_OBJETIVO + 10)
+plt.show()
+
+
+Explicación de la Simulación:
+
+Parámetros: Define todas las constantes que establecimos en el TP1.
+
+Cálculos: Calcula la potencia y la masa del agua.
+
+Simulación:
+
+Crea arrays para almacenar el tiempo y la temperatura a lo largo de la simulación.
+
+Itera en pequeños pasos de tiempo (dt).
+
+En cada paso, calcula cuánta energía (POTENCIA * dt) se añade al agua.
+
+Convierte esa energía en un aumento de temperatura (delta_T) usando la masa y el calor específico.
+
+Actualiza la temperatura y el tiempo actual.
+
+Registra cuándo se alcanza la temperatura objetivo.
+
+Resultados: Imprime los parámetros clave y el tiempo estimado para alcanzar la temperatura deseada. Como se anticipó, con 120W, calentar 0.75L de 20°C a 85°C toma bastante tiempo (alrededor de 28 minutos en condiciones ideales).
+
+Gráfico: Muestra visualmente cómo la temperatura aumenta con el tiempo hasta alcanzar el objetivo.
+
+Este conjunto te da el documento Markdown con el diseño y los cálculos básicos, y una simulación en Python para visualizar el proceso de calentamiento idealizado.

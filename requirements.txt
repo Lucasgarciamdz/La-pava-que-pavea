@@ -2,3 +2,5 @@ numpy
 matplotlib
 jupytext
 notebook
+nbconvert
+scipy
